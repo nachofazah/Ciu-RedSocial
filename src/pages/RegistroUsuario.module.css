@@ -80,8 +80,10 @@ input:focus{
   animation: inputGlow 100ms ease;
 }
 
-.input-error{
-  border-color: #D32F2F;
+.inputError{
+  color: #D32F2F;
+  text-align: left;
+  margin-top: -12px;
   /* Antes: 420ms -> Ahora más lento */
   animation: shake 600ms cubic-bezier(.36,.07,.19,.97);
 }
