@@ -1,35 +1,41 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import HomePage from './pages/HomePage'; 
+//import LoginPage from './pages/LoginPage'; 
+import CreatePostPage from './pages/CreatePostPage'; 
+import ProtectedRoute from './components/ProtectedRoute';
 
-function App() {
-  const [count, setCount] = useState(0)
+const App: React.FC = () => {
+    return (
+        // 1. El BrowserRouter envuelve toda la aplicación
+        <BrowserRouter>
+            {/* 2. Routes define las diferentes rutas */}
+            <Routes>
+                
+                {/* Ruta Pública: Inicio */}
+                <Route path="/" element={<HomePage />} />
+                
+                {/* Ruta Pública: Login */}
+                {/* <Route path="/login" element={<LoginPage />} /> */}
+                
+                {/* Ruta Protegida: Creación de Publicación 
+                  Depende del componente ProtectedRoute para verificar la sesión.
+                */}
+                <Route 
+                    path="/create-post" 
+                    element={<ProtectedRoute element={CreatePostPage} />} 
+                />
+                
+                {/* Ruta 404 (Wildcard) */}
+                <Route path="*" element={
+                    <div style={{ padding: '50px', textAlign: 'center' }}>
+                        <h1>404 | Página No Encontrada</h1>
+                        <p>El recurso que buscas no existe.</p>
+                    </div>
+                } />
+                
+            </Routes>
+        </BrowserRouter>
+    );
+};
 
-  return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
-}
-
-export default App
+export default App;

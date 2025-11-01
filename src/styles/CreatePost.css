@@ -1,0 +1,191 @@
+/* Paleta de Colores UNAHUR (Variables) */
+:root {
+    --unahur-verde: #559A33; /* Color Primario */
+    --unahur-azul: #33A3A9; /* Color Secundario/Acento */
+    --unahur-error: #D32F2F; /* Color de Error */
+    --gris-texto: #4D4D4D; /* Gris Oscuro para Texto */
+    --fondo-claro: #F8F8F8; /* Fondo de la app (Base) */
+    --fondo-tarjeta: #FFFFFF; /* Fondo de tarjetas o contenedores */
+    --borde-neutro: #CCCCCC;
+}
+
+/* 1. Contenedor Principal (FormWrapper) */
+.form-wrapper {
+    padding: 30px;
+    max-width: 650px;
+    margin: 30px auto;
+    background-color: var(--fondo-tarjeta);
+    border-radius: 12px;
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+    font-family: Arial, sans-serif;
+}
+
+.post-form h2 {
+    color: var(--gris-texto);
+    margin-top: 0;
+    margin-bottom: 30px;
+    border-bottom: 3px solid var(--unahur-verde);
+    padding-bottom: 10px;
+    font-size: 1.8em;
+}
+
+/* 2. Formularios y Entradas */
+.form-group {
+    margin-bottom: 25px;
+}
+
+.label-bold {
+    font-weight: 700;
+    display: block;
+    margin-bottom: 8px;
+    color: var(--gris-texto);
+    font-size: 1.05em;
+}
+
+.form-input, .form-input-image {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid var(--borde-neutro);
+    border-radius: 6px;
+    box-sizing: border-box; 
+    transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+.form-input:focus, .form-input-image:focus {
+    border-color: var(--unahur-azul); /* Acento al hacer foco */
+    box-shadow: 0 0 5px rgba(51, 163, 169, 0.5);
+    outline: none;
+}
+
+/* 3. Sección de Imágenes */
+.form-images-group {
+    border: 1px dashed var(--unahur-azul);
+    padding: 20px;
+    border-radius: 8px;
+    margin-bottom: 25px;
+    background-color: #f7feff; /* Fondo muy claro para destacar */
+}
+
+.section-title {
+    margin-top: 0;
+    color: var(--unahur-azul);
+    font-size: 1.2em;
+}
+
+.image-input-container {
+    display: flex;
+    margin-bottom: 10px;
+    align-items: center;
+    gap: 10px;
+}
+
+.btn-add-image {
+    padding: 8px 15px;
+    background-color: var(--unahur-verde);
+    color: white;
+    border: none;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: background-color 0.3s;
+}
+
+.btn-add-image:hover {
+    background-color: #447a2a;
+}
+
+.btn-remove-image {
+    padding: 8px 12px;
+    background-color: var(--unahur-error);
+    color: white;
+    border: none;
+    cursor: pointer;
+    border-radius: 4px;
+    font-weight: bold;
+    line-height: 1; /* Para centrar la X */
+}
+
+/* 4. Etiquetas (Tags) */
+.tags-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    padding: 10px;
+    border: 1px solid var(--borde-neutro);
+    border-radius: 6px;
+    background-color: var(--fondo-tarjeta);
+}
+
+.tag-label {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    background-color: #EEEEEE; /* Gris claro neutro */
+    color: var(--gris-texto);
+    padding: 6px 15px;
+    border-radius: 20px;
+    transition: background-color 0.2s, color 0.2s;
+}
+
+.tag-label:hover {
+    background-color: #DDDDDD;
+}
+
+.tag-selected {
+    background-color: var(--unahur-azul); /* Color de acento de UNAHUR */
+    color: white;
+    font-weight: 600;
+}
+
+.tag-selected:hover {
+    background-color: #2a8187;
+}
+
+.tag-checkbox {
+    display: none; /* Oculta el checkbox nativo */
+}
+
+/* 5. Botón Principal de Envío */
+.btn-primary {
+    width: 100%;
+    padding: 14px;
+    background-color: var(--unahur-verde); /* Verde principal de UNAHUR */
+    color: white;
+    border: none;
+    margin-top: 30px;
+    cursor: pointer;
+    border-radius: 8px;
+    font-weight: bold;
+    font-size: 1.1em;
+    transition: background-color 0.3s, transform 0.1s;
+}
+
+.btn-primary:hover:not(:disabled) {
+    background-color: #447a2a;
+    transform: translateY(-1px);
+}
+
+.btn-disabled {
+    background-color: #A0A0A0; /* Gris para deshabilitado */
+    cursor: not-allowed;
+    opacity: 0.8;
+}
+
+/* 6. Mensajes de Feedback */
+.error-message, .success-message {
+    font-weight: bold;
+    padding: 10px;
+    border-radius: 4px;
+    margin-top: 15px;
+}
+
+.error-message {
+    color: var(--unahur-error);
+    background-color: #fee;
+    border: 1px solid var(--unahur-error);
+}
+
+.success-message {
+    color: var(--unahur-verde);
+    background-color: #eef;
+    border: 1px solid var(--unahur-verde);
+}
