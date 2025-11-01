@@ -1,9 +1,19 @@
 import { useEffect, useRef, useState } from "react";
 import style from "./RegistroUsuario.module.css";
+import Notificacion from "../components/Notificacion";
 
 export default function RegistroUsuario() {
   const timeoutRef = useRef<number | null>(null);
-
+  const [formData, setFormData] = useState<FormValues>({
+    nickName: "",
+    email: "",
+  });
+  const [errorApi, setErrorApi] = useState<string | null>(null);
+  const [errors, setErrors] = useState<{ nickName?: string; email?: string }>(
+    {}
+  );
+  const [notifMessage, setNotifMessage] = useState<string | null>("");
+  
   // limpiar timeout al desmontar el componente
   useEffect(() => {
     return () => {
@@ -20,21 +30,18 @@ export default function RegistroUsuario() {
     }
   };
 
+  const iniciarTimeout = (time: number) => {
+    timeoutRef.current = window.setTimeout(() => {
+      setErrors({});
+      setErrorApi(null);
+      timeoutRef.current = null;
+    }, time);
+  };
+
   interface FormValues {
     nickName: string;
     email: string;
   }
-
-  const [formData, setFormData] = useState<FormValues>({
-    nickName: "",
-    email: "",
-  });
-
-  const [error, setError] = useState<string | null>(null);
-  const [errors, setErrors] = useState<{ nickName?: string; email?: string }>(
-    {}
-  );
-  const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
 
   const validateEmail = (email: string) => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/; //formato básico de email
@@ -57,9 +64,8 @@ export default function RegistroUsuario() {
     });
   };
 
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    if (isSubmitting) return; // prevenir envíos múltiples
 
     reiniciarTimeout();
 
@@ -77,46 +83,52 @@ export default function RegistroUsuario() {
 
     if (Object.keys(newErrors).length > 0) {
       // limpiar errores después de 3 segundos
-      timeoutRef.current = window.setTimeout(() => {
-        setErrors({});
-        timeoutRef.current = null;
-      }, 3000);
-
+      iniciarTimeout(3000);
       return;
     }
 
-    setIsSubmitting(true);
-    fetch("http://localhost:3001/users", {
+    const res = await fetch("http://localhost:3001/users", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify(formData),
-    })
-      .then((res) => {
-        if (!res.ok) {
-          setError("Error al crear el usuario, el nombre de usuario ya existe.");
-          setTimeout(() => {
-            setError(null);
-          }, 3000);
-        }
-        return res.json();
-      })
-      .then((data) => {
-        console.log("Usuario creado:", data);
-        setFormData({ nickName: "", email: "" });
-      })
-      .catch((error) => {
-        setError("Error en la solicitud: " + error.message);
-      })
-      .finally(() => setIsSubmitting(false));
+    });
+
+    const data = await res.json();
+
+    if (!res.ok) {
+      iniciarTimeout(3000);
+      setErrorApi(data?.error || "Error desconocido del servidor.");
+      return;
+    }
+
+    // Reiniciar el formulario y errores al enviar con éxito
+    console.log("Usuario registrado con éxito:", data);
+    setErrorApi(null);
+    setFormData({ nickName: "", email: "" });
+
+    // mostrar notificación de éxito
+    setNotifMessage("Usuario registrado con éxito.");
   };
 
   return (
     <div>
       <h1 id={style.titulo}>Registro de Usuario</h1>
+
+      {notifMessage && (
+        <Notificacion
+          message={notifMessage}
+          onClose={() => setNotifMessage(null)}
+        />
+      )}
+
       <form id={style.formulario} onSubmit={handleSubmit}>
-        {error && <p className={style.inputError}>{error}</p>}
+        {errorApi && (
+          <p className={style.apiError}>
+            {errorApi}
+          </p>
+        )}
         <label htmlFor="nickName">Nombre de usuario:</label>
         <input
           type="text"
@@ -141,7 +153,7 @@ export default function RegistroUsuario() {
           required
         />
         {errors.email && <p className={style.inputError}>{errors.email}</p>}
-        <button type="submit" id="botonRegistro" disabled={isSubmitting}>
+        <button type="submit" id="botonRegistro">
           Registrarse
         </button>
       </form>

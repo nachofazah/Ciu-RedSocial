@@ -206,3 +206,11 @@ button:hover, input[type="submit"]:hover{
     to   { opacity: 1; transform: translateX(0); }
   }
 }
+
+.apiError{
+  color: #D32F2F;
+  font-weight: bold;
+  text-align: center;
+  margin-bottom: 12px;
+  animation: shake 600ms cubic-bezier(.36,.07,.19,.97);
+}
