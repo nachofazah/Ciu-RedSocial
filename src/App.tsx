@@ -1,35 +1,44 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import React, { useContext } from "react";
+import { Routes, Route, Navigate } from "react-router-dom";
+import { AuthContext } from "./context/AuthContext";
+import { LoginPage } from "./pages/LoginPage";
 
-function App() {
-  const [count, setCount] = useState(0)
+export const App: React.FC = () => {
+  const { user, logout } = useContext(AuthContext);
 
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
-}
+    <Routes>
+      {/*ruta de login*/}
+      <Route path="/login" element={<LoginPage />} />
 
-export default App
+      {/*ruta de registro*/}
+      <Route
+        path="/register"
+        element={<h1 className="text-center mt-10">Registro próximamente...</h1>}
+      />
+
+      {/*ruta principal*/}
+      <Route
+        path="/"
+        element={
+          user ? (
+            <div className="text-center mt-10">
+              <h1 className="text-2xl font-bold mb-4">
+                Bienvenido/a {user.nickName}
+              </h1>
+              <button
+                onClick={logout}
+                className="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700"
+              >
+                Cerrar sesión
+              </button>
+            </div>
+          ) : (
+            <Navigate to="/login" replace />
+          )
+        }
+      />
+      
+    </Routes>
+  );
+};
