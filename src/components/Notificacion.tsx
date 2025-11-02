@@ -1,14 +1,9 @@
-import React, { useState } from "react";
-
 interface Props {
   message: string;
-  onClose?: () => void;
+  onClose: () => void;
 }
 
 export default function Notificacion({ message, onClose }: Props) {
-  const [visible, setVisible] = useState(true);
-
-  if (!visible) return null;
 
   const overlayStyle: React.CSSProperties = {
     position: "fixed",
@@ -49,8 +44,7 @@ export default function Notificacion({ message, onClose }: Props) {
   };
 
   const handleClose = () => {
-    setVisible(false);
-    if (onClose) onClose();
+    onClose();
   };
 
   return (

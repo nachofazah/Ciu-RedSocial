@@ -1,8 +1,11 @@
 import { useEffect, useRef, useState } from "react";
 import style from "./RegistroUsuario.module.css";
-import Notificacion from "../components/Notificacion";
 
-export default function RegistroUsuario() {
+interface Props {
+  showNotification: (message: string, onCloseDo?: () => void) => void;
+}
+
+export default function RegistroUsuario({showNotification}: Props) {
   const timeoutRef = useRef<number | null>(null);
   const [formData, setFormData] = useState<FormValues>({
     nickName: "",
@@ -12,7 +15,6 @@ export default function RegistroUsuario() {
   const [errors, setErrors] = useState<{ nickName?: string; email?: string }>(
     {}
   );
-  const [notifMessage, setNotifMessage] = useState<string | null>("");
   
   // limpiar timeout al desmontar el componente
   useEffect(() => {
@@ -108,21 +110,12 @@ export default function RegistroUsuario() {
     setErrorApi(null);
     setFormData({ nickName: "", email: "" });
 
-    // mostrar notificación de éxito
-    setNotifMessage("Usuario registrado con éxito.");
+    showNotification("Usuario registrado con éxito.");
   };
 
   return (
     <div>
       <h1 id={style.titulo}>Registro de Usuario</h1>
-
-      {notifMessage && (
-        <Notificacion
-          message={notifMessage}
-          onClose={() => setNotifMessage(null)}
-        />
-      )}
-
       <form id={style.formulario} onSubmit={handleSubmit}>
         {errorApi && (
           <p className={style.apiError}>
