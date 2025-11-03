@@ -1,44 +1,86 @@
 import { Container, Row, Col, Card, Button, ListGroup } from "react-bootstrap";
+import { useEffect, useState } from "react";
+import type { Post } from "../types/Post";
 
 const Home = () => {
+  const [posts, setPosts] = useState<Post[]>([]);
+
+    useEffect(() => {
+      // Traemos las publicaciones desde el backend
+      fetch("http://localhost:3001/posts") // ajustá la URL si tu backend usa otro puerto
+        .then((res) => res.json())
+        .then((data) => setPosts(data))
+        .catch((err) => console.error("Error al cargar posts:", err));
+    }, []);
+    
   return (
     <Container fluid className="mt-0">
       <Row>
         {/* Izquierda: inicio y perfil */}
         <Col md={3} className="bg-light border-end vh-100 overflow-auto">
-          <div className="pt-3 p-3">
-            <button className="btn btn-outline-primary w-100 mb-2 text-start">
+          <div className="d-flex flex-column gap-2 pt-3 p-3">
+            <Button variant="secondary" size="lg" className="w-100 text-start">
               🏠 Inicio
-            </button>
-            <button className="btn btn-outline-secondary w-100 mb-2 text-start">
+            </Button>
+
+            <Button variant="secondary" size="lg" className="w-100 text-start">
               👤 Perfil
-            </button>
-            <button className="btn btn-outline-secondary w-100 mb-2 text-start">
-              👤 Amigos
-            </button>
+            </Button>
+
+            <Button variant="secondary" size="lg" className="w-100 text-start">
+              👥 Amigos
+            </Button>
           </div>
         </Col>
 
         {/* Centro: publicaciones */}
         <Col md={6} className="vh-100 overflow-auto">
-          <div className="pt-3 p-3">
-            <h5>¿Que queres compartir?</h5>
-            <Button variant="primary" type="submit" className="w-100">
+          <div className="p-3">
+            <h5>¿Qué querés compartir?</h5>
+            <Button variant="primary" className="w-100 mb-3">
               Crear nueva publicación
             </Button>
           </div>
+
           <div className="p-3">
             <h4>Publicaciones de amigos</h4>
-            {[1, 2, 3, 4, 5, 6, 7].map((n) => (
-              <Card key={n} className="mb-3">
-                <Card.Body>
-                  <Card.Title>Publicación #{n}</Card.Title>
-                  <Card.Text>
-                    Este es un ejemplo de contenido. Podés reemplazarlo con tus datos.
-                  </Card.Text>
-                </Card.Body>
-              </Card>
-            ))}
+            {posts.length === 0 ? (
+              <p>No hay publicaciones todavía.</p>
+            ) : (
+              posts.map((post) => (
+                <Card key={post.id} className="mb-3">
+                  <Card.Body>
+                    <Card.Title>Post #{post.id}</Card.Title>
+                    <Card.Text>{post.description}</Card.Text>
+                    {/* Podés mapear imágenes, tags, cantidad de comentarios */}
+                    {post.images &&
+                      post.images.map((img, idx) => (
+                        <img
+                          key={idx}
+                          src={img}
+                          alt="Post"
+                          className="img-fluid mb-2"
+                        />
+                      ))}
+                    {post.tags && (
+                      <div>
+                        {post.tags.map((tag, idx) => (
+                          <span
+                            key={idx}
+                            className="badge bg-secondary me-1"
+                          >
+                            {tag}
+                          </span>
+                        ))}
+                      </div>
+                    )}
+                    {post.commentsCount !== undefined && (
+                      <p>{post.commentsCount} comentarios</p>
+                    )}
+                  </Card.Body>
+                </Card>
+              ))
+            )}
           </div>
         </Col>
 
