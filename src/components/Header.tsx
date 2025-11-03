@@ -6,10 +6,10 @@ function Header() {
     return (
         <Navbar className="navbar" data-bs-theme="dark">
             <Container fluid className="px-3">
-                <Navbar.Brand href="/">Logo</Navbar.Brand>
+                <Navbar.Brand href="/">Asocial</Navbar.Brand>
                 <Nav>
-                    <Nav.Link href="/">Iniciar Sesión</Nav.Link>
-                    <Nav.Link href="/">Registrarse</Nav.Link>
+                    <Nav.Link className="navbar-link" href="/">Iniciar Sesión</Nav.Link>
+                    <Nav.Link className="navbar-link" href="/">Registrarse</Nav.Link>
                 </Nav>
             </Container>
         </Navbar>

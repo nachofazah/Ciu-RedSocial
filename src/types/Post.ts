@@ -16,6 +16,6 @@ export type Post = {
     createdAt: string;
     updatedAt: string;
   };
-  Tags: Tag[]; // <-- antes tenías tags: string[]
+  Tags: Tag[];
 };
 
