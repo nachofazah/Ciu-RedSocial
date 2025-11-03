@@ -1,8 +1,21 @@
-export interface Post {
+export type Tag = {
   id: number;
-  userId: number;
+  name: string;
+};
+
+export type Post = {
+  id: number;
   description: string;
-  images?: string[];
-  tags?: string[];
-  commentsCount?: number;
-}
+  createdAt: string;
+  updatedAt: string;
+  UserId: number;
+  User: {
+    id: number;
+    nickName: string;
+    email: string;
+    createdAt: string;
+    updatedAt: string;
+  };
+  Tags: Tag[]; // <-- antes tenías tags: string[]
+};
+
