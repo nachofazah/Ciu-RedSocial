@@ -1,35 +1,34 @@
-import { Container, Row, Col, Card, Form, Button, ListGroup } from "react-bootstrap";
+import { Container, Row, Col, Card, Button, ListGroup } from "react-bootstrap";
 
 const Home = () => {
   return (
-    <Container fluid className="mt-4">
+    <Container fluid className="mt-0">
       <Row>
-        {/* Izquierda: nueva publicación */}
+        {/* Izquierda: inicio y perfil */}
         <Col md={3} className="bg-light border-end vh-100 overflow-auto">
-          <div className="p-3">
-            <h5>Crear nueva publicación</h5>
-            <Form>
-              <Form.Group className="mb-3" controlId="titulo">
-                <Form.Label>Título</Form.Label>
-                <Form.Control type="text" placeholder="Escribí un título" />
-              </Form.Group>
-
-              <Form.Group className="mb-3" controlId="contenido">
-                <Form.Label>Contenido</Form.Label>
-                <Form.Control as="textarea" rows={3} placeholder="¿Qué querés compartir?" />
-              </Form.Group>
-
-              <Button variant="primary" type="submit" className="w-100">
-                Publicar
-              </Button>
-            </Form>
+          <div className="pt-3 p-3">
+            <button className="btn btn-outline-primary w-100 mb-2 text-start">
+              🏠 Inicio
+            </button>
+            <button className="btn btn-outline-secondary w-100 mb-2 text-start">
+              👤 Perfil
+            </button>
+            <button className="btn btn-outline-secondary w-100 mb-2 text-start">
+              👤 Amigos
+            </button>
           </div>
         </Col>
 
         {/* Centro: publicaciones */}
         <Col md={6} className="vh-100 overflow-auto">
+          <div className="pt-3 p-3">
+            <h5>¿Que queres compartir?</h5>
+            <Button variant="primary" type="submit" className="w-100">
+              Crear nueva publicación
+            </Button>
+          </div>
           <div className="p-3">
-            <h4>Publicaciones</h4>
+            <h4>Publicaciones de amigos</h4>
             {[1, 2, 3, 4, 5, 6, 7].map((n) => (
               <Card key={n} className="mb-3">
                 <Card.Body>
@@ -45,12 +44,19 @@ const Home = () => {
 
         {/* Derecha: usuarios */}
         <Col md={3} className="bg-light border-start vh-100 overflow-auto">
-          <div className="p-3">
-            <h5>Amigos</h5>
+          <div className="pt-3 p-3">
+            <h5>Actividad reciente</h5>
             <ListGroup className="mb-3">
-              {["Juan", "María", "Pedro"].map((user, idx) => (
-                <ListGroup.Item key={idx}>{user}</ListGroup.Item>
+              {[
+                "Juan comentó en tu publicación",
+                "María subió una foto",
+                "Pedro le dio like a tu publicación",
+                "Luis comenzó a seguirte",
+              ].map((act, idx) => (
+                <ListGroup.Item key={idx}>{act}</ListGroup.Item>
               ))}
+            </ListGroup>
+            <ListGroup className="mb-3">
             </ListGroup>
 
             <h5>Otros usuarios</h5>
