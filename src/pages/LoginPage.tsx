@@ -5,6 +5,7 @@ import "../styles/LoginPage.css";
 import logoUNAHUR from "../assets/logo-unahur.png";
 
 export const LoginPage: React.FC = () => {
+  const API_URL ="http://localhost:3001";
   const { setUser } = useContext(AuthContext);
   const [nickName, setNickName] = useState("");
   const [password, setPassword] = useState("");
@@ -29,7 +30,7 @@ export const LoginPage: React.FC = () => {
     }
 
     try {
-      const res = await fetch("http://localhost:3000/users");
+      const res = await fetch(`${API_URL}/users`);
       const users = await res.json();
       const foundUser = users.find((u: any) => u.nickName === nickName);
 
