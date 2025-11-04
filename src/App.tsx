@@ -1,10 +1,10 @@
-import React from 'react';
-import { Routes, Route, BrowserRouter } from 'react-router-dom';
-import PrivateRoute from './routes/privateRoutes'
-import HomePage from './pages/Home';
-import LoginPage from './pages/Login';
-import { AuthProvider } from './context/authProvider';
-import Profile from './pages/Profile';
+import React, { useContext } from "react";
+import { Routes, Route, Navigate } from "react-router-dom";
+import { AuthContext } from "./context/AuthContext";
+import { LoginPage } from "./pages/LoginPage";
+
+export const App: React.FC = () => {
+  const { user, logout } = useContext(AuthContext);
 
 const App: React.FC = () => {
   return (
