@@ -39,7 +39,7 @@ const Profile = () => {
         <Container>
           <Navbar.Brand href="/">
             <img
-              alt=""
+              alt="logo"
               src="/antiSocial_Logo.png"
               width="40"
               height="40"
