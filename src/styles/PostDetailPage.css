@@ -1,0 +1,228 @@
+/* ================================================= */
+/* 0. Variables Globales */
+/* ================================================= */
+:root {
+    --unahur-verde: #559A33; 
+    --unahur-azul: #33A3A9; 
+    --unahur-error: #D32F2F; 
+    --gris-texto: #4D4D4D; 
+    --fondo-claro: #F8F8F8;
+    --fondo-tarjeta: #FFFFFF; 
+    --borde-neutro: #CCCCCC;
+}
+
+/* ================================================= */
+/* 1. Contenedor Principal y Estructura */
+/* ================================================= */
+
+.detail-page-wrapper {
+    max-width: 800px;
+    margin: 30px auto;
+    padding: 30px;
+    background-color: var(--fondo-tarjeta);
+    border-radius: 12px;
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+    font-family: Arial, sans-serif;
+}
+
+.back-button {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--unahur-azul);
+    font-weight: bold;
+    margin-bottom: 20px;
+    text-decoration: none;
+    transition: color 0.2s;
+}
+
+.back-button:hover {
+    color: #2a8187; 
+}
+
+.message-box {
+    padding: 20px;
+    border-radius: 8px;
+    text-align: center;
+    font-weight: bold;
+}
+
+.error-box {
+    background-color: #fee;
+    color: var(--unahur-error);
+    border: 1px solid var(--unahur-error);
+}
+
+/* ================================================= */
+/* 2. Sección de Publicación (Detalles) */
+/* ================================================= */
+
+.post-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #EEEEEE;
+}
+
+.user-avatar {
+    height: 48px;
+    width: 48px;
+    background-color: var(--unahur-verde);
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    font-size: 1.2em;
+    margin-right: 15px;
+}
+
+.post-title {
+    font-size: 1.5em;
+    font-weight: bold;
+    color: var(--gris-texto);
+    margin: 0;
+}
+
+.post-meta {
+    font-size: 0.85em;
+    color: #888;
+}
+
+.post-description {
+    font-size: 1.1em;
+    line-height: 1.6;
+    color: var(--gris-texto);
+    margin-bottom: 20px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid var(--borde-neutro);
+    white-space: pre-wrap; 
+}
+
+.post-images-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 15px;
+    margin-bottom: 25px;
+}
+
+.post-image {
+    width: 100%;
+    max-height: 400px;
+    object-fit: cover;
+    border-radius: 8px;
+    border: 1px solid #EEE;
+    transition: transform 0.3s;
+}
+
+.post-tags span {
+    display: inline-block;
+    background-color: var(--unahur-azul);
+    color: white;
+    font-size: 0.85em;
+    font-weight: 600;
+    padding: 5px 12px;
+    border-radius: 15px;
+    margin-right: 8px;
+    margin-bottom: 8px;
+}
+
+/* ================================================= */
+/* 3. Sección de Comentarios */
+/* ================================================= */
+
+.comments-section-title {
+    font-size: 1.4em;
+    font-weight: bold;
+    color: var(--gris-texto);
+    margin-top: 30px;
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid var(--unahur-verde);
+}
+
+.comment-list {
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.comment-item {
+    padding: 15px;
+    background-color: #F9F9F9;
+    border-radius: 8px;
+    border-left: 4px solid var(--unahur-azul);
+}
+
+.comment-header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 5px;
+    font-size: 0.9em;
+}
+
+.comment-author {
+    font-weight: bold;
+    color: var(--unahur-verde);
+}
+
+.comment-time {
+    color: #888;
+}
+
+.comment-text {
+    color: var(--gris-texto);
+    line-height: 1.5;
+}
+
+/* ================================================= */
+/* 4. Formulario de Nuevo Comentario */
+/* ================================================= */
+
+.comment-form-wrapper {
+    margin-top: 20px;
+    padding: 20px;
+    border: 1px solid var(--unahur-verde);
+    border-radius: 8px;
+    background-color: #f6fff2; 
+}
+
+.comment-form-textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid var(--borde-neutro);
+    border-radius: 6px;
+    resize: vertical;
+    min-height: 80px;
+    transition: border-color 0.3s;
+}
+
+.comment-form-textarea:focus {
+    border-color: var(--unahur-azul);
+    box-shadow: 0 0 5px rgba(51, 163, 169, 0.3);
+    outline: none;
+}
+
+.btn-comment-submit {
+    padding: 10px 20px;
+    background-color: var(--unahur-verde);
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: bold;
+    margin-top: 10px;
+    transition: background-color 0.3s;
+}
+
+.btn-comment-submit:hover:not(:disabled) {
+    background-color: #447a2a;
+}
+
+.btn-comment-submit:disabled {
+    background-color: #A0A0A0;
+    cursor: not-allowed;
+}
