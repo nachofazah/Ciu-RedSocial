@@ -1,0 +1,224 @@
+/* --- Paleta de Colores --- */
+:root {
+    --unahur-verde: #559A33;
+    --unahur-azul: #33A3A9;
+    --texto-fondo-oscuro: #4D4D4D;
+    --fondo-claro-base: #F8F8F8;
+    --acento-error: #D32F2F;
+}
+
+/* --- Contenedor Principal (Flex para 2 columnas) --- */
+.registrationWrapper {
+    display: flex;
+    align-items: center; 
+    justify-content: center;
+    min-height: 100vh;
+    background-color: var(--fondo-claro-base);
+    padding: 2rem; 
+}
+
+/* --- Panel del Formulario (Columna Izquierda) --- */
+.registrationFormPanel {
+    background: #ffffff;
+    padding: 3rem 4rem;
+    border-radius: 15px 0 0 15px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-width: 450px;
+    max-width: 500px;
+    position: relative;
+    z-index: 1;
+    min-height: unset;
+}
+
+.logo {
+    width: 80px;
+    height: auto;
+}
+
+.formTitle {
+    color: var(--texto-fondo-oscuro);
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 2rem;
+    text-align: center;
+}
+
+/* --- Formulario --- */
+.formulario {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+/* --- Etiquetas --- */
+.formulario label {
+    margin-top: 1rem;
+    margin-bottom: 0.4rem;
+    font-weight: 600;
+    color: var(--texto-fondo-oscuro);
+    font-size: 0.9rem;
+}
+
+/* --- Campos de Entrada --- */
+.formulario input[type="text"],
+.formulario input[type="email"] {
+    padding: 0.9rem 1.2rem;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    font-size: 1rem;
+    transition: border-color 0.3s, box-shadow 0.3s;
+    background-color: #f8f8f8;
+}
+
+.formulario input + #botonRegistro {
+    margin-top: 2.5rem !important;
+}
+
+.formulario input:focus {
+    border-color: var(--unahur-azul);
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(51, 163, 169, 0.2);
+}
+
+/* --- Botón de Registro --- */
+.buttonWrapper {
+    margin-top: 2.5rem; 
+    width: 100%;
+}
+
+.botonSubmit {
+    width: 100%; 
+    background-color: var(--unahur-verde); 
+    padding: 1rem 1.5rem; 
+    font-size: 1.1rem; 
+    font-weight: 700;
+    color: white; 
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    box-shadow: 0 4px 15px rgba(51, 163, 169, 0.3);
+}
+
+.botonSubmit:hover {
+    background-color: #447a2a;
+}
+
+/* --- Prompt de Login --- */
+.loginPrompt {
+    margin-top: 2rem;
+    text-align: center;
+    margin-top: 2rem; 
+    font-size: 0.95rem;
+    color: #718096;
+}
+
+.loginPrompt a {
+    color: var(--unahur-azul);
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.loginPrompt a:hover {
+    text-decoration: underline;
+}
+
+/* --- Mensajes de Error y API --- */
+.inputError {
+    color: var(--acento-error);
+    font-size: 0.85rem;
+    margin-top: 0.2rem;
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+}
+
+.apiError {
+    text-align: center;
+    padding: 1rem;
+    background-color: rgba(211, 47, 47, 0.1);
+    color: var(--acento-error);
+    border: 1px solid var(--acento-error);
+    border-radius: 8px;
+    margin-bottom: 1.5rem;
+    font-weight: 600;
+}
+
+/* --- Panel de Imagen (Columna Derecha) --- */
+.registrationImagePanel {
+    position: relative;
+    width: 50%;
+    max-width: 550px;
+    height: 600px; 
+    border-radius: 0 15px 15px 0;
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+}
+
+.panelImage {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: brightness(0.7);
+}
+
+.panelTextOverlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 2.5rem;
+    color: white;
+    background: linear-gradient(to top, rgba(0,0,0,0.8), rgba(0,0,0,0));
+}
+
+.panelTextOverlay h3 {
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+}
+
+.panelTextOverlay p {
+    font-size: 0.95rem;
+    line-height: 1.5;
+    opacity: 0.9;
+}
+
+
+/* --- Media Queries para Responsividad --- */
+@media (max-width: 992px) {
+    .registrationWrapper {
+        padding: 1rem;
+    }
+    .registrationFormPanel {
+        min-width: unset;
+        width: 100%;
+        max-width: 500px;
+        border-radius: 15px;
+        padding: 2.5rem;
+    }
+    .registrationImagePanel {
+        display: none;
+    }
+}
+
+@media (max-width: 576px) {
+    .registrationFormPanel {
+        padding: 1.5rem;
+    }
+    .formTitle {
+        font-size: 1.6rem;
+    }
+    .logo {
+        width: 60px;
+    }
+    .formulario input {
+        padding: 0.7rem 1rem;
+    }
+    #botonRegistro {
+        padding: 0.8rem 1.2rem;
+        font-size: 1rem;
+    }
+}
