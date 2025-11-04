@@ -1,41 +1,44 @@
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import HomePage from './pages/HomePage'; 
-//import LoginPage from './pages/LoginPage'; 
-import CreatePostPage from './pages/CreatePostPage'; 
-import ProtectedRoute from './components/ProtectedRoute';
+import React, { useContext } from "react";
+import { Routes, Route, Navigate } from "react-router-dom";
+import { AuthContext } from "./context/AuthContext";
+import { LoginPage } from "./pages/LoginPage";
 
-const App: React.FC = () => {
-    return (
-        // 1. El BrowserRouter envuelve toda la aplicación
-        <BrowserRouter>
-            {/* 2. Routes define las diferentes rutas */}
-            <Routes>
-                
-                {/* Ruta Pública: Inicio */}
-                <Route path="/" element={<HomePage />} />
-                
-                {/* Ruta Pública: Login */}
-                {/* <Route path="/login" element={<LoginPage />} /> */}
-                
-                {/* Ruta Protegida: Creación de Publicación 
-                  Depende del componente ProtectedRoute para verificar la sesión.
-                */}
-                <Route 
-                    path="/create-post" 
-                    element={<ProtectedRoute element={CreatePostPage} />} 
-                />
-                
-                {/* Ruta 404 (Wildcard) */}
-                <Route path="*" element={
-                    <div style={{ padding: '50px', textAlign: 'center' }}>
-                        <h1>404 | Página No Encontrada</h1>
-                        <p>El recurso que buscas no existe.</p>
-                    </div>
-                } />
-                
-            </Routes>
-        </BrowserRouter>
-    );
+export const App: React.FC = () => {
+  const { user, logout } = useContext(AuthContext);
+
+  return (
+    <div style={{ minHeight: "100vh" }}>
+      <Routes>
+        <Route path="/login" element={<LoginPage />} />
+
+        <Route
+          path="/register"
+          element={
+            <h1 className="text-center mt-10">acá va el registro.</h1>
+          }
+        />
+
+        <Route
+          path="/"
+          element={
+            user ? (
+              <div className="text-center mt-10">
+                <h1 className="text-2xl font-bold mb-4">
+                  Bienvenido/a {user.nickName}
+                </h1>
+                <button
+                  onClick={logout}
+                  className="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700"
+                >
+                  Cerrar sesión
+                </button>
+              </div>
+            ) : (
+              <Navigate to="/login" replace />
+            )
+          }
+        />
+      </Routes>
+    </div>
+  );
 };
-
-export default App;
