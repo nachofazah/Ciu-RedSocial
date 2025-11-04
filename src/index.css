@@ -1,0 +1,51 @@
+:root {
+    --unahur-verde: #559A33; /* Color Primario */
+    --unahur-azul: #33A3A9; /* Color Secundario/Acento */
+    --unahur-error: #D32F2F; /* Color de Error */
+    --gris-texto: #4D4D4D; /* Gris Oscuro para Texto */
+    --fondo-claro: #F8F8F8; /* Fondo de la app (Base) */
+    --fondo-tarjeta: #FFFFFF; /* Fondo de tarjetas o contenedores */
+    --borde-neutro: #CCCCCC;
+}
+
+.navbar {
+  background-color: #000;
+}
+
+.navbar-link:hover{
+  color: #33A3A9 !important;
+}
+
+.bg-dark{
+ transition: background-color 0.6s ease, color 0.4s ease;
+}
+
+.bg-light{
+ transition: background-color 0.6s ease, color 0.4s ease;
+}
+
+.banner {
+  background-color: black;
+  color: white;
+  font-size: 1.8rem;
+  font-weight: bold;
+  margin: 0px;
+  }
+
+.bg-publicaciones {
+  background-color: #6c757d !important; /* o el color que quieras */
+}
+
+.bg-botones {
+  background-color: var(--unahur-verde) !important;
+  border: var(--unahur-verde) !important;
+}
+
+.bg-botones:hover {
+  background-color: #33A3A9 !important;
+  border-color: #33A3A9 !important;
+  cursor: pointer; /* opcional, muestra que se puede clickear */
+}
+
+
+
