@@ -1,49 +1,80 @@
 import React, { useState, useContext, type FormEvent, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext";
+import { fetchUsers } from '../api/postService';
+import type { User } from "../types/User";
 import "../styles/LoginPage.css";
 import logoUNAHUR from "../assets/logo-unahur.png";
 
+const PASSWORD_FIJA = "123456";
+
 export const LoginPage: React.FC = () => {
-  const API_URL ="http://localhost:3001";
-  const { setUser } = useContext(AuthContext);
+  const { user, login } = useContext(AuthContext);
+
   const [nickName, setNickName] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+
   const [darkMode, setDarkMode] = useState<boolean>(() => {
     return localStorage.getItem("theme") === "dark";
   });
 
   const navigate = useNavigate();
 
+  // Manejo del tema (modo claro/oscuro)
   useEffect(() => {
     document.body.classList.toggle("dark-mode", darkMode);
     localStorage.setItem("theme", darkMode ? "dark" : "light");
   }, [darkMode]);
 
+  // Redirección si el usuario ya está logueado
+  useEffect(() => {
+    if (user) {
+      navigate('/profile', { replace: true }); 
+    }
+  }, [user, navigate]);
+
+  // Lógica de Login
   const handleLogin = async (e: FormEvent) => {
     e.preventDefault();
+    setError("");
+    setIsLoading(true);
 
-    if (password !== "123456") {
+    if (!nickName || !password) {
+      setError("Por favor, ingrese usuario y contraseña.");
+      setIsLoading(false);
+      return;
+    }
+
+    if (password !== PASSWORD_FIJA) {
       setError("Contraseña incorrecta");
+      setIsLoading(false);
       return;
     }
 
     try {
-      const res = await fetch(`${API_URL}/users`);
-      const users = await res.json();
-      const foundUser = users.find((u: any) => u.nickName === nickName);
+      // Obtener todos los usuarios de la API (GET /users) usando el servicio
+      const users: User[] = await fetchUsers();
+      // Buscar usuario por nickName
+      const foundUser = users.find(
+        (u: User) => u.nickName.toLowerCase() === nickName.toLowerCase()
+      );
 
       if (!foundUser) {
         setError("Usuario no encontrado");
+        setIsLoading(false);
         return;
       }
 
-      setUser(foundUser);
-      setError("");
-      navigate("/", { replace: true });
-    } catch {
-      setError("Error al conectar con el servidor");
+      // Login exitoso: Llama a la función 'login' del contexto
+      login(foundUser);
+
+      } catch (err) {
+      // Usa err.message si la API lanza un Error con mensaje
+      setError((err as Error).message || "Error al conectar con el servidor.");
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -86,8 +117,8 @@ export const LoginPage: React.FC = () => {
 
         {error && <p className="error-message">{error}</p>}
 
-        <button type="submit" className="btn-login">
-          Entrar
+        <button type="submit" className="btn-login" disabled={isLoading}>
+          {isLoading ? "Verificando..." : "Entrar"}
         </button>
 
         <p className="register-link">

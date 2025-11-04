@@ -1,14 +1,15 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useAuth } from '../context/AuthContext';
-import type { Tag } from '../types/Tag'; 
+import { AuthContext } from '../context/AuthContext'; 
+import { fetchTags, createPost, associatePostImage } from '../api/postService';
+import type { Tag } from '../types/Tag';
 import '../styles/CreatePost.css'; 
 
 const MAX_IMAGES = 3; 
 
 const CreatePostPage: React.FC = () => {
     // Hooks y Contexto
-    const { user, fetchTags, createPost } = useAuth();
+    const { user } = useContext(AuthContext); 
     const navigate = useNavigate();
 
     // Estados del Formulario
@@ -37,9 +38,7 @@ const CreatePostPage: React.FC = () => {
             }
         };
         loadTags();
-    }, [fetchTags]);
-
-    // Manejadores de Cambio
+    }, []); 
 
     const handleTagChange = (tagId: number) => {
         setSelectedTags(prev => {
@@ -68,18 +67,28 @@ const CreatePostPage: React.FC = () => {
         }
 
         setIsSubmitting(true);
+        const validImageUrls = imageUrls.filter(url => url.trim() !== '');
 
         try {
-            await createPost({
+            // CREAR EL POST
+            const { postId } = await createPost({ 
                 description: description.trim(),
+                userId: user.id, 
                 tags: selectedTags,
-                imageUrls: imageUrls,
             });
 
-            navigate('/profile'); 
+            // ASOCIAR IMÁGENES
+            if (validImageUrls.length > 0) {
+                const imagePromises = validImageUrls.map(url => 
+                    associatePostImage(url, postId)
+                );
+                await Promise.all(imagePromises); 
+            }
+            
+            navigate(`/profile`); 
 
         } catch (e) {
-            console.error("Error al crear post:", e);
+            console.error("Error al crear post o asociar imágenes:", e);
             setError((e as Error).message || "Ocurrió un error al intentar crear la publicación.");
         } finally {
             setIsSubmitting(false);
@@ -90,14 +99,14 @@ const CreatePostPage: React.FC = () => {
         return <div className="error-message">Debes estar logueado para ver esta página.</div>;
     }
 
-    // Renderizado
+    // Renderizado (Mantenemos la estructura original)
     return (
         <div className="form-wrapper post-form"> 
             
             <h2>Crear Nueva Publicación</h2>
 
             <p className="section-title" style={{ marginBottom: '20px' }}>
-                ¡Comparte algo interesante, {user.nickName}!
+                ¡Comparte algo interesante, **{user.nickName}**!
             </p>
 
             <form onSubmit={handleSubmit}>
@@ -128,7 +137,7 @@ const CreatePostPage: React.FC = () => {
                         {availableTags.map(tag => (
                             <label
                                 key={tag.id}
-                                className={`tag-label ${selectedTags.includes(tag.id) ? 'tag-selected' : ''}`} // 🛑 Usa tus clases
+                                className={`tag-label ${selectedTags.includes(tag.id) ? 'tag-selected' : ''}`}
                             >
                                 <input
                                     type="checkbox"
@@ -174,7 +183,7 @@ const CreatePostPage: React.FC = () => {
                 
                 <button
                     type="submit"
-                    className={`btn-primary ${isSubmitting || !description.trim() ? 'btn-disabled' : ''}`} // 🛑 Usa tus clases
+                    className={`btn-primary ${isSubmitting || !description.trim() ? 'btn-disabled' : ''}`}
                     disabled={isSubmitting || !description.trim()}
                 >
                     {isSubmitting ? 'Publicando...' : 'Publicar'}
