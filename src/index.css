@@ -16,6 +16,14 @@
   color: #33A3A9 !important;
 }
 
+.banner {
+  background-color: black;
+  color: white;
+  font-size: 1.8rem;
+  font-weight: bold;
+  margin: 0px;
+  }
+
 .bg-publicaciones {
   background-color: #6c757d !important; /* o el color que quieras */
 }
