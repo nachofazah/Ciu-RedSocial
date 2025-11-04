@@ -83,7 +83,7 @@ const Home = () => {
           </Col>
 
           {/* Centro: publicaciones */}
-          <Col md={6} className={`border-end overflow-auto ${
+          <Col md={6} className={`border-end vh-100 overflow-auto ${
               darkMode ? "bg-dark text-light" : "bg-light text-dark"
             }`}
           >
