@@ -1,7 +1,3 @@
-export type User = {
-    id: number;
-    nickName: string;
-  
 export interface User {
     id: number;
     nickName: string;
