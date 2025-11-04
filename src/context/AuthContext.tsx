@@ -15,10 +15,10 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 // ** NOTA IMPORTANTE: Esta es una implementación SIMULADA **
 const FAKE_USER: User = { 
     id: 101, // ¡Este ID será usado por tu CreatePostPage!
-    nickName: 'LautaroTest',
-    firstName: 'Lautaro',
-    lastName: 'Jimenez',
-    email: 'lautaro@unahur.edu.ar'
+    nickName: 'MayraGG',
+    firstName: 'Mayra',
+    lastName: 'Garcia',
+    email: 'mayra@unahur.edu.ar'
 };
 
 // 2. Crear el Proveedor del Contexto

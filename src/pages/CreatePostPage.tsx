@@ -1,43 +1,55 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate, Navigate } from 'react-router-dom';
-import { useAuth } from '../context/AuthContext.tsx';
-import type { Tag } from '../types/Tag';
-import { fetchTags, createPost, associatePostImage } from '../api/postService';
-import '../styles/CreatePost.css';
+import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext';
+import type { Tag } from '../types/Tag'; 
+import '../styles/CreatePost.css'; 
+
+const MAX_IMAGES = 3; 
 
 const CreatePostPage: React.FC = () => {
-    const { user, isAuthenticated } = useAuth();
+    // Hooks y Contexto
+    const { user, fetchTags, createPost } = useAuth();
     const navigate = useNavigate();
-    
-    //Estados del Formulario
+
+    // Estados del Formulario
     const [description, setDescription] = useState('');
-    const [imageUrls, setImageUrls] = useState<string[]>(['']); 
-    
-    //Estados para Etiquetas
+    const [selectedTags, setSelectedTags] = useState<number[]>([]); 
+    const [imageUrls, setImageUrls] = useState<string[]>(['', '', '']); 
     const [availableTags, setAvailableTags] = useState<Tag[]>([]);
-    const [selectedTagIds, setSelectedTagIds] = useState<number[]>([]);
-    
-    //Estados de UI
-    const [isLoading, setIsLoading] = useState(false);
-    const [error, setError] = useState('');
-    const [success, setSuccess] = useState('');
 
-    if (!isAuthenticated) {
-        return <Navigate to="/login" replace />;
-    }
+    // Estados de Control de UI
+    const [loadingTags, setLoadingTags] = useState(true);
+    const [isSubmitting, setIsSubmitting] = useState(false);
+    const [error, setError] = useState<string | null>(null);
 
-    //Carga de Etiquetas al montar el componente (GET /tags)
+    // Efecto: Cargar Etiquetas Disponibles (GET /tags)
     useEffect(() => {
         const loadTags = async () => {
+            setLoadingTags(true);
             try {
-                const tags = await fetchTags();
+                const tags = await fetchTags(); 
                 setAvailableTags(tags);
-            } catch (err: any) {
-                setError(err.message || 'Error al cargar las etiquetas.');
+            } catch (e) {
+                console.error("Error fetching tags:", e);
+                setError("No se pudieron cargar las etiquetas. Inténtalo de nuevo.");
+            } finally {
+                setLoadingTags(false);
             }
         };
         loadTags();
-    }, []);
+    }, [fetchTags]);
+
+    // Manejadores de Cambio
+
+    const handleTagChange = (tagId: number) => {
+        setSelectedTags(prev => {
+            if (prev.includes(tagId)) {
+                return prev.filter(id => id !== tagId);
+            } else {
+                return [...prev, tagId];
+            }
+        });
+    };
 
     const handleImageUrlChange = (index: number, value: string) => {
         const newUrls = [...imageUrls];
@@ -45,144 +57,127 @@ const CreatePostPage: React.FC = () => {
         setImageUrls(newUrls);
     };
 
-    const handleAddImageUrl = () => {
-        if (imageUrls[imageUrls.length - 1].trim()) {
-            setImageUrls([...imageUrls, '']);
-        }
-    };
-
-    const handleRemoveImageUrl = (index: number) => {
-        const newUrls = imageUrls.filter((_, i) => i !== index);
-        setImageUrls(newUrls.length > 0 ? newUrls : ['']);
-    };
-
-    const handleTagChange = (tagId: number) => {
-        setSelectedTagIds(prev =>
-            prev.includes(tagId) 
-                ? prev.filter(id => id !== tagId) 
-                : [...prev, tagId]
-        );
-    };
-
+    // Manejador de Envío
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        setError('');
-        setSuccess('');
-        
-        if (!description.trim()) {
-            return setError('La descripción es obligatoria.');
+        setError(null);
+
+        if (!user || !description.trim()) {
+            setError("Debes completar la descripción y estar logueado.");
+            return;
         }
 
-        if (!user) {
-            return setError('Error de sesión. Por favor, inicia sesión de nuevo.');
-        }
-
-        setIsLoading(true);
+        setIsSubmitting(true);
 
         try {
-            //Crear Publicación (POST /posts)
-            const postData = {
-                description,
-                userId: user.id,
-                tags: selectedTagIds,
-            };
+            await createPost({
+                description: description.trim(),
+                tags: selectedTags,
+                imageUrls: imageUrls,
+            });
 
-            const newPostResponse = await createPost(postData);
-            const postId = newPostResponse.postId;
-            
-            //Asociar Imágenes (POST /postimages)
-            const validImageUrls = imageUrls.filter(url => url.trim());
-            if (validImageUrls.length > 0) {
-                await Promise.all(
-                    validImageUrls.map(url => associatePostImage(url, postId))
-                );
-            }
+            navigate('/profile'); 
 
-            //Finalizar
-            setSuccess('Publicación creada con éxito. Redirigiendo...');
-            setTimeout(() => {
-                navigate(`/post/${postId}`); 
-            }, 1500);
-
-        } catch (err: any) {
-            setError(err.message || 'Error desconocido al crear la publicación. Intenta de nuevo.');
+        } catch (e) {
+            console.error("Error al crear post:", e);
+            setError((e as Error).message || "Ocurrió un error al intentar crear la publicación.");
         } finally {
-            setIsLoading(false);
+            setIsSubmitting(false);
         }
     };
 
+    if (!user) {
+        return <div className="error-message">Debes estar logueado para ver esta página.</div>;
+    }
+
+    // Renderizado
     return (
-        <div className="form-wrapper">
-            <h2>✏️ Crear Nueva Publicación</h2>
+        <div className="form-wrapper post-form"> 
             
-            <form onSubmit={handleSubmit} className="post-form">
-                {/* 1. Descripción */}
+            <h2>Crear Nueva Publicación</h2>
+
+            <p className="section-title" style={{ marginBottom: '20px' }}>
+                ¡Comparte algo interesante, {user.nickName}!
+            </p>
+
+            <form onSubmit={handleSubmit}>
+                
+                {/* Campo de Descripción */}
                 <div className="form-group">
-                    <label htmlFor="description" className="label-bold">Descripción (Obligatoria):</label>
+                    <label htmlFor="description" className="label-bold">
+                        Descripción de tu publicación *
+                    </label>
                     <textarea
                         id="description"
                         value={description}
                         onChange={(e) => setDescription(e.target.value)}
+                        placeholder="¿Qué tienes en mente? (Máx. 500 caracteres)"
                         rows={4}
+                        maxLength={500}
+                        className="form-input" 
                         required
-                        className="form-input"
                     />
                 </div>
 
-                {/* 2. URLs de Imágenes */}
-                <div className="form-images-group">
-                    <h4 className="section-title">🖼️ URLs de Imágenes (Opcionales)</h4>
-                    {imageUrls.map((url, index) => (
-                        <div key={index} className="image-input-container">
-                            <input
-                                type="url"
-                                placeholder={`URL de Imagen ${index + 1}`}
-                                value={url}
-                                onChange={(e) => handleImageUrlChange(index, e.target.value)}
-                                className="form-input-image"
-                            />
-                            {imageUrls.length > 1 && (
-                                <button type="button" onClick={() => handleRemoveImageUrl(index)} className="btn-remove-image">
-                                    X
-                                </button>
-                            )}
-                        </div>
-                    ))}
-                    <button type="button" onClick={handleAddImageUrl} className="btn-add-image">
-                        + Añadir Imagen
-                    </button>
-                </div>
-
-                {/* 3. Selección de Etiquetas */}
+                {/* Sección de Etiquetas */}
                 <div className="form-group">
-                    <label className="label-bold">🏷️ Etiquetas:</label>
-                    <div className="tags-container">
-                        {availableTags.length === 0 ? (
-                            <p>Cargando etiquetas...</p>
-                        ) : (
-                            availableTags.map(tag => (
-                                <label key={tag.id} className={selectedTagIds.includes(tag.id) ? 'tag-label tag-selected' : 'tag-label'}>
-                                    <input
-                                        type="checkbox"
-                                        value={tag.id}
-                                        checked={selectedTagIds.includes(tag.id)}
-                                        onChange={() => handleTagChange(tag.id)}
-                                        className="tag-checkbox" 
-                                    />
-                                    {tag.name}
-                                </label>
-                            ))
-                        )}
+                    <label className="label-bold">Etiquetas (Temas)</label>
+                    {loadingTags && <p style={{ color: 'var(--gris-texto)' }}>Cargando etiquetas...</p>}
+                    
+                    <div className="tags-container"> 
+                        {availableTags.map(tag => (
+                            <label
+                                key={tag.id}
+                                className={`tag-label ${selectedTags.includes(tag.id) ? 'tag-selected' : ''}`} // 🛑 Usa tus clases
+                            >
+                                <input
+                                    type="checkbox"
+                                    className="tag-checkbox" 
+                                    checked={selectedTags.includes(tag.id)}
+                                    onChange={() => handleTagChange(tag.id)}
+                                />
+                                #{tag.name}
+                            </label>
+                        ))}
                     </div>
                 </div>
-                
-                {/* Mensajes de Estado */}
-                {error && <p className="error-message">⚠️ {error}</p>}
-                {success && <p className="success-message">✅ {success}</p>}
 
-                {/* Botón de Envío */}
-                <button type="submit" disabled={isLoading} className={`btn-primary ${isLoading ? 'btn-disabled' : ''}`}>
-                    {isLoading ? '🚀 Publicando...' : 'Crear Post'}
+                {/* Sección de Imágenes */}
+                <div className="form-images-group"> 
+                    <h3 className="section-title">Imágenes (Máximo {MAX_IMAGES})</h3>
+                    <p className="text-small" style={{ fontSize: '0.9em', color: 'var(--gris-texto)', marginBottom: '15px' }}>
+                        Introduce URLs directas a las imágenes (e.g., de un servicio de hosting).
+                    </p>
+                    {[...Array(MAX_IMAGES)].map((_, index) => (
+                        <div key={index} className="form-group">
+                            <label htmlFor={`image-url-${index}`} className="label-bold" style={{ fontSize: '0.9em' }}>
+                                URL de Imagen {index + 1} (opcional)
+                            </label>
+                            <input
+                                id={`image-url-${index}`}
+                                type="url"
+                                value={imageUrls[index]}
+                                onChange={(e) => handleImageUrlChange(index, e.target.value)}
+                                placeholder={`URL de Imagen ${index + 1}`}
+                                className="form-input-image" 
+                            />
+                        </div>
+                    ))}
+                </div>
+
+                {/* Mensajes y Botón de Envío */}
+                {error && (
+                    <div className="error-message">
+                        {error}
+                    </div>
+                )}
+                
+                <button
+                    type="submit"
+                    className={`btn-primary ${isSubmitting || !description.trim() ? 'btn-disabled' : ''}`} // 🛑 Usa tus clases
+                    disabled={isSubmitting || !description.trim()}
+                >
+                    {isSubmitting ? 'Publicando...' : 'Publicar'}
                 </button>
             </form>
         </div>
