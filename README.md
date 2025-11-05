@@ -4,7 +4,7 @@
 
 ## Estructura
 
-
+```
 Ciu-RedSocial/
 │
 ├── src/                  # Código fuente de la aplicación
@@ -24,13 +24,13 @@ Ciu-RedSocial/
 ├── package-lock.json     # Control de versiones de dependencias
 ├── vite.config.js        # Configuración de Vite
 └── README.md             # Documentación del proyecto
-
+```
 
 ## Requisitos
 
-- ![Node.js](./src/assets/node_icon.png) Node.js (versión recomendada: 18.x o superior)
-- ![npm](src/assets/npm_icon.png) npm (gestor de paquetes de Node.js)
-- ![Git](./src/assets/git_icon.png) Git (solo necesario si se clona el repositorio)
+- Node.js (versión recomendada: 18.x o superior)
+- npm (gestor de paquetes de Node.js)
+- Git (solo necesario si se clona el repositorio)
 
 ## Backend
 
