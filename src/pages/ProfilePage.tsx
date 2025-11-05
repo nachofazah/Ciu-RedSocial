@@ -93,7 +93,7 @@ const ProfilePage: React.FC = () => {
     const profileData: UserProfileData = {
         id: user.id,
         nickName: user.nickName,
-        email: user.email ?? '',
+        email: user.email, // no hace falta verificar si tiene email porque es necesario para el registro
         profileCompletion: 80,
     };
 

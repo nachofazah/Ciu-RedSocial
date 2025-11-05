@@ -1,7 +1,7 @@
 import React, { createContext, useState, useEffect, type ReactNode } from "react";
 
 export interface User {
-  email: ReactNode;
+  email: string;
   id: number;
   nickName: string;
 }
