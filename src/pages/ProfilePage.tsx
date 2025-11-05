@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState, useCallback } from 'react';
 import { AuthContext } from '../context/AuthContext'; 
 import { fetchPostsByUserId } from '../api/postService'; 
-import { Link, useNavigate } from 'react-router-dom';
+import { href, Link, useNavigate } from 'react-router-dom';
 import type { Post } from '../types/Post'; 
 //import '../styles/ProfilePage.css'; 
 
@@ -13,6 +13,7 @@ const ProfilePage: React.FC = () => {
     // Estados para manejar los posts y la carga
     const [userPosts, setUserPosts] = useState<Post[]>([]);
     const [isLoading, setIsLoading] = useState(true);
+    const [commentsNum, setCommentsNum] = useState<{ [key: number]: number }>({});
     const [error, setError] = useState<string | null>(null);
 
     // Redirigir si no hay usuario logueado
@@ -47,6 +48,16 @@ const ProfilePage: React.FC = () => {
         loadUserPosts();
     }, [loadUserPosts]);
 
+    useEffect(() => {
+    userPosts.forEach(post => {
+      fetch(`http://localhost:3001/comments/post/${post.id}`)
+        .then(res => res.json())
+        .then(data => {
+          setCommentsNum(prev => ({ ...prev, [post.id]: data.length }));
+        })
+        .catch(err => console.error("Se produjo un error al cargar los comentarios", err));
+      });
+        }, [userPosts]);
 
     const handleLogout = () => {
         logout(); 
@@ -116,6 +127,9 @@ const ProfilePage: React.FC = () => {
                                         {new Date(post.createdAt).toLocaleDateString()}
                                     </span>
                                 </div>
+                                <h6>{commentsNum[post.id] ?? 0} 🗨️</h6>
+                                <button onClick={ () => {
+                                    navigate(`/post/${post.id}`)}}>Ver más 👁️</button>
                             </Link>
                         </div>
                     ))
