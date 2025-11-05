@@ -175,7 +175,7 @@ export const fetchAllPostsData = async (): Promise<PostData> => {
 
     const promises = posts.flatMap(post => [
         // 1. Fetch de comentarios (para contar)
-        fetch(`${BASE_URL}/posts/${post.id}/comments`).then(res => res.json()),
+        fetch(`${BASE_URL}/comments/post/${post.id}`).then(res => res.json()),
         // 2. Fetch de imágenes
         fetch(`${BASE_URL}/postimages/post/${post.id}`).then(res => res.json() as Promise<PostImage[]>)
     ]);
