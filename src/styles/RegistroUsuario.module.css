@@ -1,10 +1,35 @@
-/* --- Paleta de Colores --- */
-:root {
-    --unahur-verde: #559A33;
-    --unahur-azul: #33A3A9;
-    --texto-fondo-oscuro: #4D4D4D;
-    --fondo-claro-base: #F8F8F8;
-    --acento-error: #D32F2F;
+/* ------------------------------------------------ */
+/* 🌙 Botón Flotante en la Esquina Superior Derecha */
+/* ------------------------------------------------ */
+.themeToggleFixed {
+    position: fixed;
+    top: 20px; 
+    right: 20px;
+    z-index: 100; 
+
+    /* Estilos de apariencia */
+    background-color: var(--color-background-primary);
+    border: 1px solid var(--color-border);
+    color: var(--color-text-primary);
+    
+    /* Pequeño para ser discreto */
+    width: 40px; 
+    height: 40px;
+    padding: 0; 
+    border-radius: 50%; 
+    font-size: 1.2rem;
+    line-height: 1; 
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+    transition: all 0.3s ease;
+}
+
+.themeToggleFixed:hover {
+    background-color: var(--color-background-secondary);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
 }
 
 /* --- Contenedor Principal (Flex para 2 columnas) --- */
@@ -13,13 +38,13 @@
     align-items: center; 
     justify-content: center;
     min-height: 100vh;
-    background-color: var(--fondo-claro-base);
+    background-color: var(--color-background-primary);
     padding: 2rem; 
 }
 
 /* --- Panel del Formulario (Columna Izquierda) --- */
 .registrationFormPanel {
-    background: #ffffff;
+    background: var(--color-background-primary);
     padding: 3rem 4rem;
     border-radius: 15px 0 0 15px;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
@@ -39,7 +64,7 @@
 }
 
 .formTitle {
-    color: var(--texto-fondo-oscuro);
+    color: var(--color-text-primary);
     font-size: 2rem;
     font-weight: 700;
     margin-bottom: 2rem;
@@ -58,7 +83,7 @@
     margin-top: 1rem;
     margin-bottom: 0.4rem;
     font-weight: 600;
-    color: var(--texto-fondo-oscuro);
+    color: var(--color-text-secondary);
     font-size: 0.9rem;
 }
 
@@ -70,7 +95,7 @@
     border-radius: 8px;
     font-size: 1rem;
     transition: border-color 0.3s, box-shadow 0.3s;
-    background-color: #f8f8f8;
+    background-color: var(--color-background-secondary);
 }
 
 .formulario input + #botonRegistro {
@@ -105,6 +130,7 @@
 
 .botonSubmit:hover {
     background-color: #447a2a;
+    transform: translateY(-1px);
 }
 
 /* --- Prompt de Login --- */
@@ -113,7 +139,7 @@
     text-align: center;
     margin-top: 2rem; 
     font-size: 0.95rem;
-    color: #718096;
+    color: var(--color-text-secondary);
 }
 
 .loginPrompt a {
