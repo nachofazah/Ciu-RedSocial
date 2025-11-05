@@ -67,7 +67,7 @@ const Home = () => {
 
     return (
         <>
-            <div className="banner text-center">
+            <div className="text-center mb-5">
                 ¡Bienvenido a Asocial!
             </div>
             
@@ -92,7 +92,8 @@ const Home = () => {
                             
                             {/* Botones de Navegación */}
                             <Nav.Link as={Link} to="/" className={style.navLink}>
-                                <Button size="lg" className={style.navButton}>
+                                <Button size="lg" className={style.navButton}
+                                    onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}>
                                     🏠 Inicio
                                 </Button>
                             </Nav.Link>
