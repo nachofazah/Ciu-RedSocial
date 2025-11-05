@@ -1,191 +1,179 @@
-/* Paleta de Colores UNAHUR (Variables) */
-:root {
-    --unahur-verde: #559A33; /* Color Primario */
-    --unahur-azul: #33A3A9; /* Color Secundario/Acento */
-    --unahur-error: #D32F2F; /* Color de Error */
-    --gris-texto: #4D4D4D; /* Gris Oscuro para Texto */
-    --fondo-claro: #F8F8F8; /* Fondo de la app (Base) */
-    --fondo-tarjeta: #FFFFFF; /* Fondo de tarjetas o contenedores */
-    --borde-neutro: #CCCCCC;
-}
+/* ===================================== */
+/* ESTRUCTURA GENERAL (Card Centrada) */
+/* ===================================== */
 
-/* 1. Contenedor Principal (FormWrapper) */
-.form-wrapper {
-    padding: 30px;
-    max-width: 650px;
-    margin: 30px auto;
-    background-color: var(--fondo-tarjeta);
+.form-wrapper.post-form {
+    max-width: 700px;
+    margin: 20px auto; 
+    padding: 2rem;
+    
+    background-color: var(--color-background-secondary); 
     border-radius: 12px;
-    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
-    font-family: Arial, sans-serif;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    color: var(--color-text-primary);
+    transition: background-color 0.3s, color 0.3s, box-shadow 0.3s;
 }
 
-.post-form h2 {
-    color: var(--gris-texto);
-    margin-top: 0;
-    margin-bottom: 30px;
-    border-bottom: 3px solid var(--unahur-verde);
-    padding-bottom: 10px;
+.form-wrapper.post-form h2 {
+    color: var(--unahur-azul);
     font-size: 1.8em;
+    font-weight: 600;
+    margin-bottom: 1.5rem;
+    border-bottom: 2px solid var(--color-border);
+    padding-bottom: 10px;
 }
 
-/* 2. Formularios y Entradas */
-.form-group {
+/* ------------------------------------ */
+/* GRUPOS DE FORMULARIO Y ETIQUETAS */
+/* ------------------------------------ */
+
+.form-group, .form-images-group {
     margin-bottom: 25px;
 }
 
 .label-bold {
-    font-weight: 700;
     display: block;
     margin-bottom: 8px;
-    color: var(--gris-texto);
-    font-size: 1.05em;
+    font-weight: bold;
+    color: var(--color-text-primary);
 }
+
+.section-title {
+    font-size: 1.2em;
+    font-weight: 600;
+    color: var(--color-text-primary);
+}
+
+.text-small {
+    color: var(--gris-texto); 
+}
+
+/* ------------------------------------ */
+/* INPUTS (Textarea y URL de Imagen) */
+/* ------------------------------------ */
 
 .form-input, .form-input-image {
     width: 100%;
     padding: 12px;
-    border: 1px solid var(--borde-neutro);
+    border: 1px solid var(--color-border);
     border-radius: 6px;
+    font-size: 1em;
+    
+    background-color: var(--color-background-primary);
+    color: var(--color-text-primary);
+    transition: all 0.3s ease;
     box-sizing: border-box; 
-    transition: border-color 0.3s, box-shadow 0.3s;
 }
 
 .form-input:focus, .form-input-image:focus {
-    border-color: var(--unahur-azul); /* Acento al hacer foco */
-    box-shadow: 0 0 5px rgba(51, 163, 169, 0.5);
     outline: none;
+    border-color: var(--unahur-azul);
+    box-shadow: 0 0 0 3px rgba(0, 128, 128, 0.3);
 }
 
-/* 3. Sección de Imágenes */
-.form-images-group {
-    border: 1px dashed var(--unahur-azul);
-    padding: 20px;
-    border-radius: 8px;
-    margin-bottom: 25px;
-    background-color: #f7feff; /* Fondo muy claro para destacar */
+/* Textarea específico */
+#description {
+    resize: vertical;
+    min-height: 100px;
 }
 
-.section-title {
-    margin-top: 0;
-    color: var(--unahur-azul);
-    font-size: 1.2em;
-}
+/* ------------------------------------ */
+/* CONTENEDOR DE ETIQUETAS (Tags) */
+/* ------------------------------------ */
 
-.image-input-container {
-    display: flex;
-    margin-bottom: 10px;
-    align-items: center;
-    gap: 10px;
-}
-
-.btn-add-image {
-    padding: 8px 15px;
-    background-color: var(--unahur-verde);
-    color: white;
-    border: none;
-    cursor: pointer;
-    border-radius: 4px;
-    transition: background-color 0.3s;
-}
-
-.btn-add-image:hover {
-    background-color: #447a2a;
-}
-
-.btn-remove-image {
-    padding: 8px 12px;
-    background-color: var(--unahur-error);
-    color: white;
-    border: none;
-    cursor: pointer;
-    border-radius: 4px;
-    font-weight: bold;
-    line-height: 1; /* Para centrar la X */
-}
-
-/* 4. Etiquetas (Tags) */
 .tags-container {
     display: flex;
     flex-wrap: wrap;
-    gap: 10px;
-    padding: 10px;
-    border: 1px solid var(--borde-neutro);
-    border-radius: 6px;
-    background-color: var(--fondo-tarjeta);
+    gap: 8px;
+    margin-top: 10px;
 }
 
 .tag-label {
-    display: flex;
-    align-items: center;
     cursor: pointer;
-    background-color: #EEEEEE; /* Gris claro neutro */
-    color: var(--gris-texto);
-    padding: 6px 15px;
+    padding: 6px 12px;
     border-radius: 20px;
-    transition: background-color 0.2s, color 0.2s;
+    border: 1px solid var(--color-border);
+    background-color: var(--color-background-primary);
+    color: var(--color-text-secondary);
+    font-size: 0.9em;
+    transition: all 0.2s ease;
 }
 
 .tag-label:hover {
-    background-color: #DDDDDD;
+    background-color: var(--color-border);
 }
 
 .tag-selected {
-    background-color: var(--unahur-azul); /* Color de acento de UNAHUR */
-    color: white;
+    background-color: var(--unahur-azul); 
+    color: white !important;
+    border-color: var(--unahur-azul);
     font-weight: 600;
 }
 
-.tag-selected:hover {
-    background-color: #2a8187;
-}
-
 .tag-checkbox {
-    display: none; /* Oculta el checkbox nativo */
+    display: none; 
 }
 
-/* 5. Botón Principal de Envío */
+/* ------------------------------------ */
+/* CONTROLES Y BOTONES (Publicar y Cancelar) */
+/* ------------------------------------ */
+
+.form-submit-controls {
+    display: flex;
+    justify-content: flex-end; 
+    gap: 15px; 
+    margin-top: 25px;
+}
+
 .btn-primary {
-    width: 100%;
-    padding: 14px;
-    background-color: var(--unahur-verde); /* Verde principal de UNAHUR */
-    color: white;
-    border: none;
-    margin-top: 30px;
-    cursor: pointer;
-    border-radius: 8px;
-    font-weight: bold;
+    /* Botón principal (Publicar) */
+    width: auto;
+    padding: 12px 20px;
     font-size: 1.1em;
-    transition: background-color 0.3s, transform 0.1s;
+    font-weight: bold;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    
+    background-color: var(--unahur-verde); 
+    color: white;
+    transition: background-color 0.2s;
 }
 
-.btn-primary:hover:not(:disabled) {
-    background-color: #447a2a;
-    transform: translateY(-1px);
+.btn-primary:hover:not(.btn-disabled) {
+    background-color: color-mix(in srgb, var(--unahur-verde) 90%, black); 
 }
 
 .btn-disabled {
-    background-color: #A0A0A0; /* Gris para deshabilitado */
+    background-color: var(--color-border);
     cursor: not-allowed;
-    opacity: 0.8;
+    color: var(--gris-texto);
 }
 
-/* 6. Mensajes de Feedback */
-.error-message, .success-message {
+/* --- Estilo del botón Secundario (Cancelar) --- */
+.btn-secondary.btn-cancel {
+    padding: 12px 20px;
+    font-size: 1.1em;
     font-weight: bold;
-    padding: 10px;
-    border-radius: 4px;
-    margin-top: 15px;
+    border: 1px solid var(--color-border); 
+    border-radius: 6px;
+    cursor: pointer;
+    
+    background-color: transparent; 
+    color: var(--color-text-secondary);
+    transition: all 0.2s;
+}
+
+.btn-secondary.btn-cancel:hover {
+    background-color: var(--color-background-primary); 
+    color: var(--unahur-azul);
 }
 
 .error-message {
-    color: var(--unahur-error);
-    background-color: #fee;
-    border: 1px solid var(--unahur-error);
-}
-
-.success-message {
-    color: var(--unahur-verde);
-    background-color: #eef;
-    border: 1px solid var(--unahur-verde);
+    color: #ff4d4f; 
+    background-color: color-mix(in srgb, #ff4d4f 10%, transparent);
+    border: 1px solid #ff4d4f;
+    padding: 10px;
+    border-radius: 4px;
+    margin-bottom: 20px;
 }
