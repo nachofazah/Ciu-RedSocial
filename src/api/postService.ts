@@ -115,8 +115,8 @@ export const fetchPostDetail = async (postId: string): Promise<PostDetailRespons
     // Formatear comentarios
     const comments: Comment[] = commentsData.map(c => ({
         id: c.id,
-        nickName: c.User?.nickName || 'Usuario Desconocido',
-        text: c.text,
+        nickName: c.User.nickName || 'Usuario Desconocido',
+        text: c.content,
         timestamp: new Date(c.createdAt).getTime(),
     })).sort((a, b) => a.timestamp - b.timestamp); // Ordenar por tiempo de creación
 

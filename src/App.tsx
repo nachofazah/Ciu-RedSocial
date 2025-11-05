@@ -12,7 +12,7 @@ import CreatePostPage from "./pages/CreatePostPage";
 import PostDetailPage from "./pages/PostDetailPage";
 import Notificacion from './components/Notificacion';
 import { ThemeProvider } from './context/ThemeContext';
-import Header from './components/Header';
+
 
 // Definición de tipos para el estado de la notificación
 interface NotificationState {
