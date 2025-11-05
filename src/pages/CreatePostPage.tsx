@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { AuthContext } from '../context/AuthContext'; 
+import { useTheme } from '../context/ThemeContext'; // Asumo que usas useTheme para el modo oscuro
 import { fetchTags, createPost, associatePostImage } from '../api/postService';
 import type { Tag } from '../types/Tag';
 import '../styles/CreatePost.css'; 
@@ -10,6 +11,7 @@ const MAX_IMAGES = 3;
 const CreatePostPage: React.FC = () => {
     // Hooks y Contexto
     const { user } = useContext(AuthContext); 
+    const { theme } = useTheme(); 
     const navigate = useNavigate();
 
     // Estados del Formulario
@@ -23,7 +25,7 @@ const CreatePostPage: React.FC = () => {
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [error, setError] = useState<string | null>(null);
 
-    // Efecto: Cargar Etiquetas Disponibles (GET /tags)
+    // Cargar Etiquetas Disponibles (GET /tags)
     useEffect(() => {
         const loadTags = async () => {
             setLoadingTags(true);
@@ -55,6 +57,11 @@ const CreatePostPage: React.FC = () => {
         newUrls[index] = value;
         setImageUrls(newUrls);
     };
+    
+    const handleCancel = () => {
+        navigate('/profile'); // Navegar a la página de perfil (o '/')
+    };
+
 
     // Manejador de Envío
     const handleSubmit = async (e: React.FormEvent) => {
@@ -99,9 +106,9 @@ const CreatePostPage: React.FC = () => {
         return <div className="error-message">Debes estar logueado para ver esta página.</div>;
     }
 
-    // Renderizado (Mantenemos la estructura original)
+    // Renderizado 
     return (
-        <div className="form-wrapper post-form"> 
+        <div className={`form-wrapper post-form ${theme}-mode`}> 
             
             <h2>Crear Nueva Publicación</h2>
 
@@ -131,7 +138,7 @@ const CreatePostPage: React.FC = () => {
                 {/* Sección de Etiquetas */}
                 <div className="form-group">
                     <label className="label-bold">Etiquetas (Temas)</label>
-                    {loadingTags && <p style={{ color: 'var(--gris-texto)' }}>Cargando etiquetas...</p>}
+                    {loadingTags && <p className="text-small">Cargando etiquetas...</p>}
                     
                     <div className="tags-container"> 
                         {availableTags.map(tag => (
@@ -154,7 +161,7 @@ const CreatePostPage: React.FC = () => {
                 {/* Sección de Imágenes */}
                 <div className="form-images-group"> 
                     <h3 className="section-title">Imágenes (Máximo {MAX_IMAGES})</h3>
-                    <p className="text-small" style={{ fontSize: '0.9em', color: 'var(--gris-texto)', marginBottom: '15px' }}>
+                    <p className="text-small" style={{ fontSize: '0.9em', marginBottom: '15px' }}>
                         Introduce URLs directas a las imágenes (e.g., de un servicio de hosting).
                     </p>
                     {[...Array(MAX_IMAGES)].map((_, index) => (
@@ -174,20 +181,33 @@ const CreatePostPage: React.FC = () => {
                     ))}
                 </div>
 
-                {/* Mensajes y Botón de Envío */}
+                {/* Mensajes y Botones de Envío */}
                 {error && (
                     <div className="error-message">
                         {error}
                     </div>
                 )}
                 
-                <button
-                    type="submit"
-                    className={`btn-primary ${isSubmitting || !description.trim() ? 'btn-disabled' : ''}`}
-                    disabled={isSubmitting || !description.trim()}
-                >
-                    {isSubmitting ? 'Publicando...' : 'Publicar'}
-                </button>
+                <div className="form-submit-controls"> 
+                    
+                    {/* Botón de Cancelar */}
+                    <button
+                        type="button" 
+                        className="btn-secondary btn-cancel" 
+                        onClick={handleCancel}
+                    >
+                        Cancelar
+                    </button>
+
+                    {/* Botón de Publicar */}
+                    <button
+                        type="submit"
+                        className={`btn-primary ${isSubmitting || !description.trim() ? 'btn-disabled' : ''}`}
+                        disabled={isSubmitting || !description.trim()}
+                    >
+                        {isSubmitting ? 'Publicando...' : 'Publicar'}
+                    </button>
+                </div>
             </form>
         </div>
     );

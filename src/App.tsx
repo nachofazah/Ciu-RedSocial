@@ -4,6 +4,7 @@ import { AuthContext } from "./context/AuthContext";
 import { Link } from 'react-router-dom'; 
 import ProtectedRoute from "./components/ProtectedRoute"; 
 import Home from "./pages/Home";
+import MainLayout from './components/MainLayout';
 import { LoginPage } from "./pages/LoginPage";
 import RegistroUsuario from "./pages/RegistroUsuario"; 
 import ProfilePage from "./pages/ProfilePage";
@@ -37,52 +38,56 @@ export const App: React.FC = () => {
     return (
         <div style={{ minHeight: "100vh" }}>
             <ThemeProvider>
-            <Header /> 
+
                 
             <main className="pt-5" style={{ minHeight: '100vh' }}> {/* Contenedor principal para el resto del contenido */}
             <Routes>
                 
-                {/* 💡 RUTA DE INICIO REESTRUCTURADA: Si el usuario NO está logueado, redirigimos a /login */}
-                <Route 
-                    path="/" 
-                    element={user ? <Home /> : <Navigate to="/login" replace />} 
-                />
-                
-                {/* 🔐 Rutas de Autenticación */}
-                <Route 
-                    path="/login" 
-                    element={user ? <Navigate to="/profile" replace /> : <LoginPage />} 
-                />
-                <Route
-                    path="/register"
-                    element={<RegistroUsuario showNotification={showNotificationForRegistration} />}
-                />
+                {/* RUTAS SIN HEADER/LAYOUT: LOGIN Y REGISTRO (Acceso) */}
+                <Route 
+                    path="/login" 
+                    element={user ? <Navigate to="/profile" replace /> : <LoginPage />} 
+                />
+                <Route
+                    path="/register"
+                    element={<RegistroUsuario showNotification={showNotificationForRegistration} />}
+                />
 
-                {/* 🔍 Detalle del Post (Solo si Home funciona, lo dejamos como público) */}
-                <Route path="/post/:postId" element={<PostDetailPage />} />
+                {/* 2. RUTAS CON HEADER/LAYOUT (Rutas Internas) */}
+                <Route element={<MainLayout />}>
+
+                    {/* 💡 RUTA DE INICIO REESTRUCTURADA: Si el usuario NO está logueado, redirigimos a /login */}
+                    <Route 
+                        path="/" 
+                        element={user ? <Home /> : <Navigate to="/login" replace />} 
+                    />
+
+                    {/* 🔍 Detalle del Post (Solo si Home funciona, lo dejamos como público) */}
+                    <Route path="/post/:postId" element={<PostDetailPage />} />
 
 
-                {/* 🛡️ Rutas Protegidas (Requieren usuario logueado) */}
+                    {/* 🛡️ Rutas Protegidas (Requieren usuario logueado) */}
 
-                <Route 
-                    path="/profile" 
-                    element={<ProtectedRoute element={ProfilePage} />} 
-                />
-                <Route 
-                    path="/new-post" 
-                    element={<ProtectedRoute element={CreatePostPage} />} 
-                />
+                    <Route 
+                        path="/profile" 
+                        element={<ProtectedRoute element={ProfilePage} />} 
+                    />
+                    <Route 
+                        path="/new-post" 
+                        element={<ProtectedRoute element={CreatePostPage} />} 
+                    />
 
-                {/* 🚫 Fallback 404 */}
-                <Route 
-                    path="*" 
-                    element={
-                        <div className="text-center mt-20">
-                            <h1>404 | Página no encontrada</h1>
-                            <p>Vuelve al <Link to="/">Inicio</Link>.</p>
-                        </div>
-                    } 
-                />
+                    {/* 🚫 Fallback 404 */}
+                    <Route 
+                        path="*" 
+                        element={
+                            <div className="text-center mt-20">
+                                <h1>404 | Página no encontrada</h1>
+                                <p>Vuelve al <Link to="/">Inicio</Link>.</p>
+                            </div>
+                        } 
+                    />
+                </Route>    
 
             </Routes>
             </main>

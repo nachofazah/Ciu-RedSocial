@@ -154,13 +154,15 @@ const PostDetailPage: React.FC = () => {
                      required
                  />
                  {error && <p className="error-message">{error}</p>}
-                 <button
-                     type="submit"
-                     className="btn-comment-submit" 
-                     disabled={!user || !commentText.trim() || isSubmitting}
-                 >
-                     {isSubmitting ? 'Enviando...' : 'Enviar Comentario'}
-                 </button>
+                 <div className="comment-submit-area">
+                    <button
+                        type="submit"
+                        className="btn-comment-submit" 
+                        disabled={!user || !commentText.trim() || isSubmitting}
+                    >
+                        {isSubmitting ? 'Enviando...' : 'Enviar Comentario'}
+                    </button>
+                 </div>
              </form>
 
              {/* Lista de Comentarios */}
