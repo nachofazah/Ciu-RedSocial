@@ -63,7 +63,7 @@ export const fetchTags = async (): Promise<Tag[]> => {
 };
 
 // Crear Publicación (POST /posts)
-export const createPost = async (postData: { description: string, userId: number, tags: number[] }): Promise<{ postId: number }> => {
+export const createPost = async (postData: { description: string, userId: number, tagIds: number[] }): Promise<{ id: number }> => {
     const response = await fetch(`${BASE_URL}/posts`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },

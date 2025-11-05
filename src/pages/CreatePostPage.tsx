@@ -78,16 +78,16 @@ const CreatePostPage: React.FC = () => {
 
         try {
             // CREAR EL POST
-            const { postId } = await createPost({ 
+            const { id } = await createPost({ 
                 description: description.trim(),
                 userId: user.id, 
-                tags: selectedTags,
+                tagIds: selectedTags,
             });
 
             // ASOCIAR IMÁGENES
             if (validImageUrls.length > 0) {
                 const imagePromises = validImageUrls.map(url => 
-                    associatePostImage(url, postId)
+                    associatePostImage(url, id)
                 );
                 await Promise.all(imagePromises); 
             }
