@@ -1,0 +1,151 @@
+/* ------------------------------------------------ */
+/* 1. LAYOUT PRINCIPAL */
+/* ------------------------------------------------ */
+
+.mainLayout {
+    /* El contenedor principal debe ocupar el 100% del viewport */
+    min-height: 100vh;
+    padding: 0;
+    margin: 0;
+    background-color: var(--color-background-primary); 
+    color: var(--color-text-primary);
+    transition: background-color 0.3s, color 0.3s;
+}
+
+/* Columna de la Izquierda (Navegación/Perfil) */
+.leftColumn {
+    border-right: 1px solid var(--color-border);
+    padding: 1rem;
+    height: 100vh;
+    overflow-y: auto;
+    background-color: var(--color-background-secondary); 
+    color: var(--color-text-primary);
+    transition: background-color 0.3s, color 0.3s;
+    position: sticky;
+    top: 0;
+}
+
+/* Columna del Centro (Feed) */
+.centerColumn {
+    border-right: 1px solid var(--color-border);
+    padding: 1rem;
+    height: 100vh;
+    overflow-y: auto;
+    background-color: var(--color-background-primary); 
+    color: var(--color-text-primary);
+    transition: background-color 0.3s, color 0.3s;
+}
+
+/* Columna de la Derecha (Actividad/Sugerencias) */
+.rightColumn {
+    border-right: none;
+    padding: 1rem;
+    height: 100vh;
+    overflow-y: auto;
+    background-color: var(--color-background-secondary);
+    color: var(--color-text-primary);
+    transition: background-color 0.3s, color 0.3s;
+    position: sticky;
+    top: 0;
+}
+
+/* ------------------------------------------------ */
+/* 2. ESTILOS DE COMPONENTES SOCIALES */
+/* ------------------------------------------------ */
+
+.navButton {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 8px;
+    border: 1px solid var(--color-border);
+    border-radius: 8px;
+    background-color: var(--color-background-secondary);
+    color: var(--color-text-primary);
+    transition: background-color 0.2s, border-color 0.2s;
+    text-align: left;
+    font-weight: 600;
+}
+
+.navButton:hover {
+    background-color: var(--color-hover);
+    border-color: var(--unahur-azul);
+}
+
+.sectionTitle {
+    color: var(--color-text-primary);
+    border-bottom: 2px solid var(--color-border);
+    padding-bottom: 5px;
+    margin-bottom: 15px;
+    font-weight: bold;
+    font-size: 1.2em;
+    text-align: center;
+}
+
+.postCard {
+    background-color: var(--color-background-secondary); 
+    color: var(--color-text-primary);
+    border: 1px solid var(--color-border);
+    border-radius: 12px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+    margin-bottom: 20px;
+    width: 100%; 
+}
+
+.postImage {
+    max-height: 350px;
+    width: 100%;
+    object-fit: cover;
+    border-radius: 8px;
+}
+
+.createPostButton {
+    background-color: var(--unahur-verde);
+    border-color: var(--unahur-verde);
+    color: white;
+    font-weight: bold;
+    width: 100%;
+}
+
+.createPostButton:hover {
+    background-color: #447a2a;
+    border-color: #447a2a;
+}
+
+.activityItem {
+    background-color: var(--color-background-secondary);
+    color: var(--color-text-primary);
+    border: none;
+    border-bottom: 1px solid var(--color-border);
+    padding: 10px 0;
+    transition: background-color 0.2s;
+}
+
+.activityItem:hover {
+    background-color: var(--color-hover);
+}
+
+/* ------------------------------------------------ */
+/* 3. MEDIA QUERIES (Responsividad) */
+/* ------------------------------------------------ */
+
+@media (max-width: 992px) {
+    .leftColumn, .centerColumn, .rightColumn {
+        height: auto;
+        border-right: none;
+        border-bottom: 1px solid var(--color-border);
+        position: relative;
+    }
+    
+    .centerColumn {
+        order: 1; 
+    }
+
+    .leftColumn {
+        order: 2;
+    }
+
+    .rightColumn {
+        order: 3;
+        border-bottom: none;
+    }
+}

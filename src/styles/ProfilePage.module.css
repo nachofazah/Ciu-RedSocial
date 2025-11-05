@@ -1,0 +1,375 @@
+/* ProfilePage.module.css */
+
+/* ------------------------------------------------ */
+/* 1. LAYOUT PRINCIPAL (Estructura de 3 Columnas) */
+/* ------------------------------------------------ */
+
+.mainLayout {
+    min-height: 100vh;
+    padding: 0;
+    margin: 0;
+    background-color: var(--color-background-primary); 
+    color: var(--color-text-primary);
+    transition: background-color 0.3s, color 0.3s;
+}
+
+/* Estilos generales para las columnas (flexibilidad, padding, etc.) */
+.column {
+    padding: 1.5rem; 
+    background-color: var(--color-background-primary); 
+    border-right: 1px solid var(--color-border);
+}
+
+/* Columna de la Izquierda (Perfil del Usuario y Navegación) */
+.leftColumn {
+    composes: column; 
+    background-color: var(--color-background-secondary); 
+    border-right: 1px solid var(--color-border);
+}
+
+/* Columna del Centro (Feed Principal) */
+.centerColumn {
+    composes: column; 
+    border-right: 1px solid var(--color-border); 
+}
+
+/* Columna de la Derecha (Miembros, Hashtags, Fotos) */
+.rightColumn {
+    composes: column; 
+    background-color: var(--color-background-secondary); 
+    border-right: none; 
+}
+
+/* ------------------------------------------------ */
+/* 2. COMPONENTES ESPECÍFICOS DEL PERFIL */
+/* ------------------------------------------------ */
+
+/* Bloque del Avatar y Nombre de Usuario */
+.profileHeaderCard {
+    background-color: var(--color-background-secondary);
+    border: 1px solid var(--color-border);
+    border-radius: 12px;
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.coverImage {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100px; 
+    object-fit: cover;
+    z-index: 0;
+    filter: brightness(0.6);
+}
+
+.profileAvatarLarge {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    border: 3px solid var(--color-background-secondary); 
+    object-fit: cover;
+    margin: 10px auto;
+    display: flex; 
+    justify-content: center; 
+    align-items: center; 
+    position: relative;
+    z-index: 1;
+    background-color: var(--unahur-azul); 
+    color: white;
+    font-size: 2.5em; 
+    font-weight: bold;
+}
+
+.profileName {
+    font-size: 1.5em;
+    font-weight: bold;
+    color: var(--color-text-primary);
+    margin-bottom: 5px;
+}
+
+.profileBio {
+    font-size: 0.9em;
+    color: var(--color-text-secondary);
+    margin-bottom: 15px;
+}
+
+/* Sección de Navegación "MY PROFILE" */
+.profileNavSection {
+    background-color: var(--color-background-secondary);
+    border: 1px solid var(--color-border);
+    border-radius: 12px;
+    padding: 1rem 0;
+    margin-bottom: 1.5rem;
+}
+
+.profileNavTitle {
+    font-size: 0.9em;
+    font-weight: bold;
+    color: var(--color-text-secondary);
+    padding: 0 1.5rem 1rem 1.5rem;
+    text-transform: uppercase;
+    border-bottom: 1px solid var(--color-border);
+    margin-bottom: 1rem;
+}
+
+.profileNavItem {
+    display: flex;
+    align-items: center;
+    padding: 0.75rem 1.5rem;
+    color: var(--color-text-primary);
+    text-decoration: none;
+    transition: background-color 0.2s, color 0.2s;
+}
+
+.profileNavItem:hover {
+    background-color: var(--color-hover);
+    color: var(--unahur-azul); 
+}
+
+.profileNavItem svg {
+    margin-right: 10px;
+    font-size: 1.2em;
+}
+
+/* ------------------------------------------------ */
+/* 3. ESTILOS DEL FEED (Columna Central) */
+/* ------------------------------------------------ */
+
+.createPostInput {
+    background-color: var(--color-background-secondary);
+    border: 1px solid var(--color-border);
+    border-radius: 8px;
+    padding: 1rem;
+    margin-bottom: 1.5rem;
+    display: flex;
+    align-items: center;
+}
+
+.createPostInput input {
+    flex-grow: 1;
+    border: none;
+    background: transparent;
+    color: var(--color-text-primary);
+    padding: 0.5rem;
+}
+
+.createPostInput input::placeholder {
+    color: var(--color-text-secondary);
+}
+
+.createPostInput button {
+    background: transparent;
+    border: none;
+    color: var(--color-text-secondary);
+    margin-left: 10px;
+}
+
+/* Tarjeta de Publicación */
+.postCard {
+    background-color: var(--color-background-secondary);
+    border: 1px solid var(--color-border);
+    border-radius: 12px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+    margin-bottom: 1.5rem;
+    padding: 1.5rem;
+}
+
+.postHeader {
+    display: flex;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.postUserAvatar, .memberAvatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-right: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--unahur-azul);
+    color: white;
+    font-size: 1.2em;
+}
+
+.postUserName {
+    font-weight: bold;
+    color: var(--color-text-primary);
+}
+
+.postTime {
+    font-size: 0.8em;
+    color: var(--color-text-secondary);
+    margin-left: auto;
+}
+
+.postContent img {
+    max-width: 100%;
+    border-radius: 8px;
+    margin-top: 1rem;
+}
+
+.postActions {
+    display: flex;
+    justify-content: space-around;
+    border-top: 1px solid var(--color-border);
+    padding-top: 1rem;
+    margin-top: 1rem;
+}
+
+.postActions button {
+    background: none;
+    border: none;
+    color: var(--color-text-secondary);
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    transition: color 0.2s;
+}
+
+.postActions button:hover {
+    color: var(--unahur-azul);
+}
+
+.postActions button svg {
+    margin-right: 5px;
+}
+
+.commentInput {
+    border-top: 1px solid var(--color-border);
+    padding-top: 1rem;
+    margin-top: 1rem;
+    display: flex;
+    align-items: center;
+}
+
+.commentInput input {
+    flex-grow: 1;
+    border: 1px solid var(--color-border);
+    border-radius: 20px;
+    padding: 0.5rem 1rem;
+    background-color: var(--color-background-primary);
+    color: var(--color-text-primary);
+}
+
+.commentInput button {
+    background-color: var(--unahur-azul);
+    color: white;
+    border: none;
+    border-radius: 20px;
+    padding: 0.5rem 1rem;
+    margin-left: 10px;
+}
+
+
+/* ------------------------------------------------ */
+/* 4. ESTILOS DE WIDGETS (Columna Derecha) */
+/* ------------------------------------------------ */
+
+.widgetCard {
+    background-color: var(--color-background-secondary);
+    border: 1px solid var(--color-border);
+    border-radius: 12px;
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.widgetTitle {
+    font-size: 1.1em;
+    font-weight: bold;
+    color: var(--color-text-primary);
+    margin-bottom: 1rem;
+    border-bottom: 1px solid var(--color-border);
+    padding-bottom: 0.5rem;
+}
+
+/* Miembros Online */
+.onlineMembersList {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.memberAvatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.onlineCount {
+    font-size: 0.9em;
+    color: var(--color-text-secondary);
+    margin-top: 10px;
+}
+
+/* Hashtags */
+.hashtagCloud {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.hashtagButton {
+    background-color: var(--color-background-primary);
+    border: 1px solid var(--color-border);
+    border-radius: 20px;
+    padding: 0.5rem 1rem;
+    font-size: 0.85em;
+    color: var(--color-text-secondary);
+    text-decoration: none;
+    transition: background-color 0.2s, color 0.2s;
+}
+
+.hashtagButton:hover {
+    background-color: var(--unahur-azul);
+    color: white;
+}
+
+/* Mis Fotos */
+.myPhotosGrid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+}
+
+.photoThumbnail {
+    width: 100%;
+    height: 80px;
+    object-fit: cover;
+    border-radius: 8px;
+}
+
+
+/* ------------------------------------------------ */
+/* 5. MEDIA QUERIES (Responsividad) */
+/* ------------------------------------------------ */
+
+@media (max-width: 992px) {
+    .leftColumn, .centerColumn, .rightColumn {
+        height: auto;
+        border-right: none;
+        border-bottom: 1px solid var(--color-border);
+        position: relative;
+    }
+    
+    .centerColumn {
+        order: 1; 
+    }
+
+    .leftColumn {
+        order: 2;
+    }
+
+    .rightColumn {
+        order: 3;
+        border-bottom: none;
+    }
+}

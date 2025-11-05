@@ -22,7 +22,7 @@ function Header() {
     const buttonVariant = theme === 'dark' ? 'outline-light' : 'outline-dark';
 
     return (
-        <Navbar className="navbar" data-bs-theme={theme} expand="sm">
+        <Navbar className="navbar fixed-top bg-body-tertiary" data-bs-theme={theme} expand="sm">
             <Container fluid className="px-3">
                 {/* 1. Logo/Marca: Siempre apunta a la ruta Home */}
                 <Navbar.Brand as={Link} to="/">
@@ -66,7 +66,7 @@ function Header() {
                                 </Nav.Link>
                             </>
                         )}
-                        
+
                         <Button
                             onClick={toggleTheme}
                             variant={buttonVariant} // Variante dinámica

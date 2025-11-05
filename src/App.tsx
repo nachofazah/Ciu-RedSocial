@@ -10,6 +10,8 @@ import ProfilePage from "./pages/ProfilePage";
 import CreatePostPage from "./pages/CreatePostPage";
 import PostDetailPage from "./pages/PostDetailPage";
 import Notificacion from './components/Notificacion';
+import { ThemeProvider } from './context/ThemeContext';
+import Header from './components/Header';
 
 // Definición de tipos para el estado de la notificación
 interface NotificationState {
@@ -34,6 +36,10 @@ export const App: React.FC = () => {
 
     return (
         <div style={{ minHeight: "100vh" }}>
+            <ThemeProvider>
+            <Header /> 
+                
+            <main className="pt-5" style={{ minHeight: '100vh' }}> {/* Contenedor principal para el resto del contenido */}
             <Routes>
                 
                 {/* 💡 RUTA DE INICIO REESTRUCTURADA: Si el usuario NO está logueado, redirigimos a /login */}
@@ -79,6 +85,8 @@ export const App: React.FC = () => {
                 />
 
             </Routes>
+            </main>
+            </ThemeProvider>
 
             {/* 🔔 Renderizado Global de la Notificación */}
             {notification.message && (

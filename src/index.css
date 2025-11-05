@@ -29,9 +29,13 @@
 
 /* Aplicación al body para ver el cambio inmediato */
 body {
-    background-color: var(--color-background-primary);
-    color: var(--color-text-primary);
+    background-color: var(--color-background-primary) !important;
+    color: var(--color-text-primary) !important; 
     transition: background-color 0.3s, color 0.3s;
     font-family: Arial, Helvetica, sans-serif;
 }
 
+.navbar {
+    background-color: var(--color-background-secondary); 
+    transition: background-color 0.3s;
+}
