@@ -1,19 +1,35 @@
 import { Container, Row, Col, Card, Button, ListGroup, Nav } from "react-bootstrap";
 import { useEffect, useState } from "react";
 import type { Post } from "../types/Post";
+import type { User } from "../types/User";
 import { fetchAllPostsData } from "../api/postService"; 
 import { Link } from 'react-router-dom'; 
 import { useTheme } from '../context/ThemeContext'; 
 import style from '../styles/Home.module.css';
+import { fetchUsers } from "../api/postService";
 
 const Home = () => {
-    const { theme, toggleTheme } = useTheme(); 
 
+    const { theme, toggleTheme } = useTheme(); 
     const [posts, setPosts] = useState<Post[]>([]);
     const [commentsCount, setCommentsCount] = useState<{ [key: number]: number }>({});
     const [postImages, setPostImages] = useState<{ [key: number]: string[] }>({});
     const [isLoading, setIsLoading] = useState(true); 
     const [error, setError] = useState<string | null>(null);
+    const [users, setUsers] = useState<User[]>([]);
+
+    useEffect(() => {
+        const loadUsers = async () => {
+            try {
+                const data = await fetchUsers();
+                setUsers(data);
+            } catch (err) {
+                setError("Error al cargar usuarios");
+            }
+        };
+
+        loadUsers();
+    }, []);
 
     useEffect(() => {
         const loadAllData = async () => {
@@ -43,6 +59,12 @@ const Home = () => {
         return <Container className="py-5 text-center text-danger">Error: {error}</Container>;
     }
 
+    const lastPost = posts.length > 0 
+        ? posts.reduce((latest, post) =>
+            new Date(post.createdAt) > new Date(latest.createdAt) ? post : latest
+            )
+        : null;
+
     return (
         <>
             <div className="banner text-center">
@@ -56,7 +78,7 @@ const Home = () => {
 
                     {/* Izquierda: Navegación */}
                     <Col md={3} className={style.leftColumn}>
-                        <div className="d-flex flex-column gap-2 pt-3 p-3">
+                        <div className="navContainer">
                             
                             {/* Botón de Modo Oscuro/Claro */}
                             <Button
@@ -69,26 +91,28 @@ const Home = () => {
                             </Button>
                             
                             {/* Botones de Navegación */}
-                            <Nav.Link as={Link} to="/">
+                            <Nav.Link as={Link} to="/" className={style.navLink}>
                                 <Button size="lg" className={style.navButton}>
                                     🏠 Inicio
                                 </Button>
                             </Nav.Link>
 
-                            <Nav.Link as={Link} to="/profile"> 
+                            <Nav.Link as={Link} to="/profile" className={style.navLink}>
                                 <Button size="lg" className={style.navButton}>
                                     👤 Perfil
                                 </Button>
                             </Nav.Link>
+                            
 
                         </div>
                     </Col>
 
                     {/* Centro: Feed de Publicaciones */}
                     <Col md={6} className={style.centerColumn}>
-                        <div className="p-3">
-                            <h4 className={style.sectionTitle}>¿Qué querés compartir?</h4>
-                            
+
+                        <h4 className={style.sectionTitle}>¿Qué querés compartir?</h4>
+                        
+                        <div className={style.createPostContainer}>
                             <Nav.Link as={Link} to="/new-post">
                                 <Button variant="primary" className={style.createPostButton}>
                                     Crear nueva publicación
@@ -163,20 +187,28 @@ const Home = () => {
                     <Col md={3} className={style.rightColumn}>
                         <div className="pt-3 p-3">
                             <h4 className={style.sectionTitle}>Actividad reciente</h4>
+
                             <ListGroup className="mb-3">
-                                {[
-                                    "Juan comentó en tu publicación",
-                                    "Pedro creo una publicación"
-                                ].map((act, idx) => (
-                                    <ListGroup.Item className={style.activityItem} key={idx}>{act}</ListGroup.Item>
-                                ))}
+                                {lastPost && (
+                                    <ListGroup.Item className={style.activityItem}>
+                                        {`${lastPost.User.nickName} creó una nueva publicación`}
+                                    </ListGroup.Item>
+                                )}
                             </ListGroup>
-                            
+
                             <h4 className={style.sectionTitle}>Otros usuarios</h4>
                             <ListGroup>
-                                {["Ana", "Luis", "Carla"].map((user, idx) => (
-                                    <ListGroup.Item className={style.activityItem} key={idx}>{user}</ListGroup.Item>
-                                ))}
+                                {error ? (
+                                    <ListGroup.Item>{error}</ListGroup.Item>
+                                ) : users.length === 0 ? (
+                                    <ListGroup.Item>Cargando usuarios...</ListGroup.Item>
+                                ) : (
+                                    users.map((user) => (
+                                    <ListGroup.Item className={style.activityItem} key={user.id}>
+                                        {user.nickName || `${user.firstName} ${user.lastName}`}
+                                    </ListGroup.Item>
+                                    ))
+                                )}
                             </ListGroup>
                         </div>
                     </Col>
