@@ -152,7 +152,7 @@ export const addComment = async (postId: number, userId: number, content: string
 
 // Obtener Posts por ID de Usuario (GET /posts?userId=xxx)
 export const fetchPostsByUserId = async (userId: number): Promise<Post[]> => {
-    const response = await fetch(`${BASE_URL}/posts?UserId=${userId}`);
+    const response = await fetch(`${BASE_URL}/posts?userId=${userId}`);
     if (!response.ok) {
         throw new Error(`Error al cargar posts del usuario ${userId}.`);
     }
