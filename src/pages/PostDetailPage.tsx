@@ -74,7 +74,7 @@ const PostDetailPage: React.FC = () => {
         setIsSubmitting(true);
         try {
             // Llama a la función de API Service con los datos necesarios
-            await addComment(postId as string, user.id, commentText, user.nickName); 
+            await addComment(Number(postId), user.id, commentText); 
             setCommentText(''); 
             
             // Recargar el post para refrescar la lista de comentarios

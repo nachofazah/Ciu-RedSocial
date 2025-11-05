@@ -147,14 +147,11 @@ const Home = () => {
                                                 <p className="mb-2">
                                                     💬 **{commentsCount[post.id] ?? 0} comentarios**
                                                 </p>
-                                                <Button
-                                                    variant="outline-primary"
-                                                    size="sm"
-                                                    as={Link} 
-                                                    to={`/post/${post.id}`}
-                                                >
-                                                    Ver más
-                                                </Button>
+                                                <Link to={`/post/${post.id}`} style={{ textDecoration: 'none' }}>
+                                                    <Button variant="outline-primary" size="sm">
+                                                        Ver más
+                                                    </Button>
+                                                </Link>
                                             </Card.Body>
                                         </Card>
                                     ))

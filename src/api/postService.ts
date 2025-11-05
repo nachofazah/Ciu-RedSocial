@@ -133,11 +133,11 @@ export const fetchPostDetail = async (postId: string): Promise<PostDetailRespons
 };
 
 // Agregar un comentario (POST /comments)
-export const addComment = async (postId: string, userId: number, text: string, nickName: string): Promise<any> => {
+export const addComment = async (postId: number, userId: number, content: string): Promise<any> => {
     const response = await fetch(`${BASE_URL}/comments`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ postId: Number(postId), userId, text, nickName }),
+        body: JSON.stringify({ postId: Number(postId), userId, content }),
     });
 
     if (!response.ok) {
