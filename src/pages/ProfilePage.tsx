@@ -173,13 +173,13 @@ const ProfilePage: React.FC = () => {
                                     </div>
                                     
                                     {/* Acciones y Metadatos */}
-                                    <div className="d-flex justify-content-between text-muted mb-2">
-                                        <span>{commentsNum[post.id] ?? 0} comentarios</span>
+                                    <div className="d-flex justify-content-between text-muted mb-2">     
                                         <Link to={`/post/${post.id}`}>Ver Detalle</Link>
                                     </div>
                                     
                                     <div className={style.postActions}>
                                         <button><FaHeart /> Like</button>
+                                        <button>{commentsNum[post.id] ?? 0} 💬</button>
                                         <Link to={`/post/${post.id}`} className="btn btn-link p-0 m-0"><FaComment /> Comentar</Link>
                                     </div>
 
