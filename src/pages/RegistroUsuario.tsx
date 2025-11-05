@@ -1,10 +1,11 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, useContext } from "react";
 import style from "../styles/RegistroUsuario.module.css";
 import { Link } from "react-router-dom";
 import { registerUser } from "../api/postService"; 
 import logo from '../assets/logo-unahur.png'; 
 import rightPanelImage from '../assets/unahur-img.jpg';
 import { useTheme } from '../context/ThemeContext'; 
+import { AuthContext } from "../context/AuthContext";
 
 interface FormValues {
     nickName: string;
@@ -17,6 +18,7 @@ interface Props {
 
 export default function RegistroUsuario({ showNotification }: Props) {
     const { theme, toggleTheme } = useTheme();
+    const { login } = useContext(AuthContext);
     const timeoutRef = useRef<number | null>(null);
     const [formData, setFormData] = useState<FormValues>({
         nickName: "",
@@ -100,6 +102,8 @@ export default function RegistroUsuario({ showNotification }: Props) {
             
             setErrorApi(null);
             setFormData({ nickName: "", email: "" });
+            // Loguear al usuario automáticamente en el contexto
+            login(registeredUser);
             showNotification("Usuario registrado con éxito.");
 
         } catch (error: any) {

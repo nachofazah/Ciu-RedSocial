@@ -1,5 +1,5 @@
 import React, { useContext, useState } from "react";
-import { Routes, Route, Navigate } from "react-router-dom";
+import { Routes, Route, Navigate, useNavigate } from "react-router-dom";
 import { AuthContext } from "./context/AuthContext";
 import { Link } from 'react-router-dom'; 
 import ProtectedRoute from "./components/ProtectedRoute"; 
@@ -22,17 +22,21 @@ interface NotificationState {
 export const App: React.FC = () => {
     const { user } = useContext(AuthContext); 
     const [notification, setNotification] = useState<NotificationState>({ message: null });
-
-    // Función para cerrar la notificación (se pasa como prop a Notificacion.tsx)
+    const navigate = useNavigate();
+    // Función para cerrar la notificación al realizar el registro (se pasa como prop a Notificacion.tsx)
     const hideNotification = () => {
         setNotification({ message: null });
+        navigate("/");
     };
 
     // Función para mostrar la notificación de éxito en el Registro (cierre automático)
     const showNotificationForRegistration = (message: string) => {
         setNotification({ message });
         // Cierra automáticamente después de 4 segundos
-        setTimeout(() => setNotification({ message: null }), 4000); 
+        setTimeout(() => {
+            setNotification({ message: null })
+
+    }, 4000); 
     };
 
     return (
