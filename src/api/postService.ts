@@ -46,7 +46,7 @@ export const registerUser = async (userData: any): Promise<User> => {
 
     if (!response.ok) {
         const errorData = await response.json(); 
-        throw new Error(errorData.message || 'Error desconocido al registrar el usuario.');
+        throw new Error(errorData.error || 'Error desconocido al registrar el usuario.');
     }
     return response.json();
 };
