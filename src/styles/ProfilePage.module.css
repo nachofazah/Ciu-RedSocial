@@ -4,7 +4,6 @@
 
 :root {
     --color-primary-accent: var(--unahur-azul);
-    --color-hover-bg: var(--color-hover);
     --padding-base: 15px;
     --border-radius-base: 12px;
 }
@@ -113,7 +112,7 @@
 }
 
 .navItem:hover {
-    background-color: var(--color-hover-bg);
+    background-color: var(--color-hover);
     color: var(--color-text-primary);
 }
 
@@ -242,7 +241,7 @@
 }
 .actionItem:hover {
     color: var(--color-text-primary);
-    background-color: var(--color-hover-bg);
+    background-color: var(--color-hover);
 }
 .actionItem svg, .actionItem .hashtagIcon, .actionItem .mentionIcon {
     margin-right: 5px;
@@ -274,8 +273,9 @@
     transition: background-color 0.2s; 
     cursor: default; /* Revertimos el cursor */
 }
+
 .postCard:hover {
-    background-color: var(--color-background-secondary);
+    background-color: var(--color-hover);
 }
 
 .postHeader {
@@ -324,7 +324,7 @@
 }
 
 .postOptionsLink:hover {
-    background-color: var(--color-hover-bg);
+    background-color: var(--color-hover);
     color: var(--color-text-primary);
 }
 
@@ -386,7 +386,7 @@
 }
 
 .postActionButton:hover {
-    background-color: var(--color-hover-bg);
+    background-color: var(--color-hover);
     color: var(--color-text-primary);
 }
 
@@ -508,7 +508,7 @@
     border-radius: 4px;
 }
 .messageItem:hover {
-    background-color: var(--color-hover-bg);
+    background-color: var(--color-hover);
 }
 
 .messageAvatar {

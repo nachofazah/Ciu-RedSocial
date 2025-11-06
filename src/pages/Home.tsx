@@ -107,7 +107,7 @@ const Home: React.FC = () => {
 
                     {/* Navegación Principal */}
                     <nav className={style.mainNav}>
-                        <Link to="/profile" className={`${style.navItem} ${style.active}`}><FaHome /> Inicio</Link>
+                        <Link to="/" className={`${style.navItem} ${style.active}`}><FaHome /> Inicio</Link>
                         <Link to="/profile/friends" className={style.navItem}><FaUsers /> Amigos <span className={style.navBadge}>4</span></Link>
                         <Link to="/watch" className={style.navItem}><FaVideo /> Videos</Link>
                         <Link to="/photos" className={style.navItem}><FaImage /> Fotos</Link>
