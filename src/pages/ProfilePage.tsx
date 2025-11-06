@@ -135,11 +135,11 @@ const ProfilePage: React.FC = () => {
                             {/* Navegación Principal */}
                             <nav className={style.mainNav}>
                                 <Link to="/" className={`${style.navItem} ${style.active}`}><FaHome /> Inicio</Link>
-                                <Link to="/profile/friends" className={style.navItem}><FaUsers /> Amigos <span className={style.navBadge}>4</span></Link>
+                                <Link to="/profile/friends" className={style.navItem}><FaUsers /> Amigos</Link>
                                 <Link to="/watch" className={style.navItem}><FaVideo /> Videos</Link>
                                 <Link to="/photos" className={style.navItem}><FaImage /> Fotos</Link>
                                 <Link to="/marketplace" className={style.navItem}><FaStore /> Marketplace</Link>
-                                <Link to="/files" className={style.navItem}><FaFileAlt /> Guardado <span className={style.navBadge}>7</span></Link>
+                                <Link to="/files" className={style.navItem}><FaFileAlt /> Guardado</Link>
                             </nav>
 
                             <div className={style.footerSection}>
@@ -205,15 +205,15 @@ const ProfilePage: React.FC = () => {
                                         {/* 6. Barra de Acciones (Botones) */}
                                         <div className={style.postActionsBar}>
                                             <button className={style.postActionButton}>
-                                                <FaThumbsUp /> Like
+                                                <FaThumbsUp /> Me gusta
                                             </button>
                                             <Link to={`/post/${post.id}`} className={style.postActionButton} onClick={() => {
                                                 sessionStorage.setItem("scroll", String(window.scrollY))}
                                             }>
-                                                <FaCommentAlt /> Comment
+                                                <FaCommentAlt /> Comentar
                                             </Link>
                                             <button className={style.postActionButton}>
-                                                <FaShare /> Share
+                                                <FaShare /> Compartir
                                             </button>
                                         </div>
                                     </div>
@@ -236,7 +236,7 @@ const ProfilePage: React.FC = () => {
                                 <div className={style.messageTabs}>
                                     <span className={`${style.messageTab} ${style.messageTabActive}`}>Destacados</span>
                                     <span className={style.messageTab}>Todos</span>
-                                    <span className={style.messageTab}>Grupos<span className={style.messageBadge}>4</span></span>
+                                    <span className={style.messageTab}>Grupos</span>
                                 </div>
                                 <div className={style.messagesList}>
                                     <div className={style.messageItem}>

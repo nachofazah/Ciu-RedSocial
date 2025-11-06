@@ -25,9 +25,9 @@ function Header() {
     return (
         <Navbar className={`${styles.customNavbar} fixed-top`} data-bs-theme={theme} expand="sm">
             <Container fluid className="px-3">
-                {/* 1. Logo/Marca: Siempre apunta a la ruta Home */}
+                {/* Logo/Marca: Siempre apunta a la ruta Home */}
                 <Navbar.Brand as={Link} to="/" className={styles.logoBrand}>
-                    **Asocial**
+                    UnaHur Anti-Social Net
                 </Navbar.Brand>
                 
                 <Navbar.Toggle aria-controls="basic-navbar-nav" />
@@ -35,7 +35,7 @@ function Header() {
                 <Navbar.Collapse id="basic-navbar-nav" className="justify-content-end">
                     <Nav className="gap-2">
                         
-                        {/* 2. Navegación Condicional */}
+                        {/* Navegación Condicional */}
                         {user ? (
                             // --- Usuario Logueado (Muestra Perfil y Cerrar Sesión) ---
                             <>
@@ -71,7 +71,7 @@ function Header() {
                             onClick={toggleTheme}
                             variant={buttonVariant} // Variante dinámica
                             size="sm"
-                            className={`${styles.themeToggleButton} ms-2`} // Margen a la izquierda para separarlo
+                            className={`${styles.themeToggleButton} ms-2`} 
                         >
                             {/* Muestra el icono basado en el tema actual */}
                             {theme === 'dark' ? '☀️' : '🌙'}

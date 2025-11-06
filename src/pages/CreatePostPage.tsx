@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { AuthContext } from '../context/AuthContext'; 
-import { useTheme } from '../context/ThemeContext'; // Asumo que usas useTheme para el modo oscuro
+import { useTheme } from '../context/ThemeContext'; 
 import { fetchTags, createPost, associatePostImage } from '../api/postService';
 import type { Tag } from '../types/Tag';
 import '../styles/CreatePost.css'; 
@@ -59,7 +59,7 @@ const CreatePostPage: React.FC = () => {
     };
     
     const handleCancel = () => {
-        navigate('/profile'); // Navegar a la página de perfil (o '/')
+        navigate('/profile'); 
     };
 
 

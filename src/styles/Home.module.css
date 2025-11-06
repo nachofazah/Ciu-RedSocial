@@ -493,35 +493,129 @@
 /* --- MEDIA QUERIES (Responsividad) --- */
 /* ---------------------------------------------------- */
 
+/* 1. Monitores Medianas / Laptops Grandes (1200px) */
 @media (max-width: 1200px) { 
     .mainLayoutGrid {
         grid-template-columns: 1.2fr 3fr 1fr; 
+        gap: 15px;
+    }
+    .welcomeTitle {
+        font-size: 2.5rem;
+        padding: 60px 20px;
     }
 }
 
-/* Tabletas: Ocultar la columna derecha */
+/* 2. Tabletas (992px): Ocultar la columna derecha */
 @media (max-width: 992px) { 
     .mainLayoutGrid {
-        grid-template-columns: 1.5fr 3.5fr; 
+        /* Dos columnas: Izquierda (20%) y Centro (80%) */
+        grid-template-columns: 1fr 4fr; 
+        gap: 15px;
+        padding: 0 10px;
     }
     .rightColumn {
-        display: none;
+        display: none; 
     }
     .leftColumn {
-         padding: var(--padding-base); 
+        /* Quitamos el sticky en tabletas */
+        position: static;
+        height: auto;
+        overflow-y: visible;
+        padding: var(--padding-base) 0; 
+    }
+    .profileStats {
+        display: none; 
+    }
+    .profileHandle {
+        margin-bottom: 0px; /* Quitamos el margen inferior si las stats desaparecen */
+    }
+    .welcomeTitle {
+        font-size: 2rem;
+        padding: 50px 15px;
+    }
+    
+    .navItem {
+        padding: 8px 10px;
+        font-size: 0.95rem;
     }
 }
 
-/* Móviles: Ocultar la columna izquierda */
+/* 3. Móviles (768px): Diseño de una sola columna con reordenamiento */
 @media (max-width: 768px) { 
     .mainLayoutGrid {
-        grid-template-columns: 1fr;
-        padding: 0 10px;
+        grid-template-columns: 1fr; /* Una sola columna */
+        padding: 0 5px; 
+        gap: 10px; 
     }
+
+    /* COLUMNA IZQUIERDA: Mostrarla y ponerla en orden 1 (arriba del feed) */
     .leftColumn {
+        display: flex; 
+        order: 1; /* <-- ¡CAMBIO CLAVE! La navegación va primero */
+        position: static;
+        height: auto;
+        padding: 10px 0; 
+        /* Los elementos internos se reordenan por defecto de arriba a abajo */
+    }
+    
+    /* Perfil: lo ponemos justo arriba */
+    .profileCard {
+        order: 1;
+        margin-bottom: 10px;
+    }
+
+    .profileStats {
+        display: none; 
+    }
+
+    /* Navegación: la ponemos debajo del perfil y antes del feed */
+    .mainNav {
+        order: 2;
+        padding: 5px;
+    }
+    
+    /* Footer Section: lo ocultamos en móviles */
+    .footerSection {
         display: none;
     }
+
+    /* COLUMNA CENTRAL: Orden 2 (debajo de la izquierda) */
     .centerColumn {
+        order: 2; /* El feed va debajo del perfil/navegación */
         padding: 10px 0;
+    }
+
+    /* Columna derecha: Ocultamos */
+    .rightColumn {
+        display: none; 
+    }
+    
+    /* Ajustes visuales para móviles */
+    .welcomeTitle {
+        font-size: 1.5rem;
+        padding: 40px 10px;
+        margin: 10px auto;
+    }
+    .postCard, .createPostWidget {
+        padding: 10px;
+        margin-bottom: 10px;
+    }
+    .postAvatar {
+        width: 35px;
+        height: 35px;
+        font-size: 0.9rem;
+    }
+    .postAuthor {
+        font-size: 0.9rem;
+    }
+    .postTime {
+        font-size: 0.75rem;
+    }
+    .postActionButton {
+        font-size: 0.8rem;
+        padding: 6px 5px;
+    }
+    .postActionButton svg {
+        font-size: 0.9rem;
     }
 }

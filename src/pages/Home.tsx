@@ -92,12 +92,12 @@ const Home: React.FC = () => {
         <div className={`${style.appContainer} ${theme}-mode`}> 
             
             <div className={style.welcomeTitle}>
-                ¡Bienvenido a Asocial!
+                ¡Bienvenido a UnaHur Anti-Social Net!
             </div>
 
             <div className={style.mainLayoutGrid}> 
                 
-                {/* 1. Columna Izquierda: Información del Perfil y Navegación */}
+                {/* Columna Izquierda: Información del Perfil y Navegación */}
                 <div className={style.leftColumn}>
                     
                     {/* Tarjeta de información del perfil: solo si hay usuario logueado */}
@@ -138,7 +138,7 @@ const Home: React.FC = () => {
                     </div>
                 </div>
 
-                {/* 2. Columna Central: Feed de Publicaciones */}
+                {/* Columna Central: Feed de Publicaciones */}
                 <div className={style.centerColumn}>
                     <div className={style.centerContent}>
                         {/* Widget para crear una nueva publicación */}
@@ -170,7 +170,7 @@ const Home: React.FC = () => {
                                         className={style.postCard}
                                     >
                                         
-                                        {/* 1. Encabezado del Post */}
+                                        {/* Encabezado del Post */}
                                         <div className={style.postHeader}>
                                             <div className={style.postAvatar}>
                                                 {(post.User?.nickName || 'U')[0].toUpperCase()}
@@ -191,12 +191,12 @@ const Home: React.FC = () => {
                                             </Link>
                                         </div>
 
-                                        {/* 2. Contenido del Post */}
+                                        {/* Contenido del Post */}
                                         <div className={style.postContentText}>
                                             <p>{post.description}</p>
                                         </div>
 
-                                        {/* 3. Medios (Imágenes) */}
+                                        {/* Medios (Imágenes) */}
                                         {postImages[post.id]?.length > 0 && (
                                             <div className={style.postMediaGrid}> 
                                                 {postImages[post.id].slice(0, 1).map((imgUrl, idx) => (
@@ -211,7 +211,7 @@ const Home: React.FC = () => {
                                             </div>
                                         )}
                                         
-                                        {/* 4. Tags */}
+                                        {/* Tags */}
                                         {post.Tags && post.Tags.length > 0 && (
                                             <div className={style.tagWrapper}>
                                                 {post.Tags.map((tag) => (
@@ -222,14 +222,14 @@ const Home: React.FC = () => {
                                             </div>
                                         )}
 
-                                        {/* 5. Estadísticas de Engagement (Likes, Comments, Shares) */}
+                                        {/* Estadísticas de Engagement (Likes, Comments, Shares) */}
                                         <div className={style.postEngagementStats}>
                                             <span>X Likes</span>
                                             <span>{commentsCount[post.id] ?? 0} Comentarios</span>
                                             <span>Y Compartidos</span>
                                         </div>
 
-                                        {/* 6. Barra de Acciones (Botones) */}
+                                        {/* Barra de Acciones (Botones) */}
                                         <div className={style.postActionsBar}>
                                             <button className={style.postActionButton}>
                                                 <FaThumbsUp /> Like
@@ -249,7 +249,7 @@ const Home: React.FC = () => {
                     </div>
                 </div>
 
-                {/* 3. Columna Derecha: Actividad y Sugerencias */}
+                {/* Columna Derecha: Actividad y Sugerencias */}
                 <div className={style.rightColumn}>
                     <div className={style.rightContent}>
 
