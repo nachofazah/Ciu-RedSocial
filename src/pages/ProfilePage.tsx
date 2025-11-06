@@ -5,7 +5,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import type { Post } from '../types/Post'; 
 import { useTheme } from '../context/ThemeContext';
 import style from '../styles/ProfilePage.module.css'; 
-import { FaHome, FaUsers, FaVideo, FaImage, FaStore, FaFileAlt, FaSearch, FaEllipsisH, FaGlobe, FaThumbsUp, FaCommentDots, FaShare } from 'react-icons/fa';
+import { FaHome, FaUsers, FaVideo, FaImage, FaStore, FaFileAlt, FaSearch, FaEllipsisH, FaGlobe, FaThumbsUp, FaCommentAlt, FaShare } from 'react-icons/fa';
 
 // Definición simple del tipo de ProfileData
 interface UserProfileData {
@@ -186,10 +186,17 @@ const ProfilePage: React.FC = () => {
                                             <span>{commentsNum[post.id] ?? 0} Comentarios</span>
                                             <span>2 Compartidos</span> 
                                         </div>
+                                        {/* 6. Barra de Acciones (Botones) */}
                                         <div className={style.postActionsBar}>
-                                            <button className={style.postActionButton}><FaThumbsUp /> Me gusta</button>
-                                            <button className={style.postActionButton}><FaCommentDots /> Comentar</button>
-                                            <button className={style.postActionButton}><FaShare /> Compartir</button>
+                                            <button className={style.postActionButton}>
+                                                <FaThumbsUp /> Like
+                                            </button>
+                                            <Link to={`/post/${post.id}`} className={style.postActionButton}>
+                                                <FaCommentAlt /> Comment
+                                            </Link>
+                                            <button className={style.postActionButton}>
+                                                <FaShare /> Share
+                                            </button>
                                         </div>
                                     </div>
                                 ))

@@ -51,6 +51,7 @@ const PostDetailPage: React.FC = () => {
             setPost(null);
         } finally {
             setLoading(false);
+            window.scrollTo(0, 0);
         }
     }, [postId]);
 
@@ -87,6 +88,16 @@ const PostDetailPage: React.FC = () => {
         }
     };
 
+    const handleBack = () => {
+        // Si no hay pagina anterior, ir a la página principal
+        if (window.history.length === 0) {
+            navigate('/');
+        }
+        else{
+            navigate(-1);
+        }
+    };
+
     // Renderizado de estados
     if (loading) return <div className="message-box" style={{ margin: '30px auto' }}>Cargando publicación...</div>;
     if (error && !post) return <div className="detail-page-wrapper message-box error-box">Error: {error}</div>;
@@ -95,13 +106,13 @@ const PostDetailPage: React.FC = () => {
     return (
         <div className="detail-page-wrapper"> 
              <button 
-                onClick={() => navigate('/')} 
+                onClick={handleBack} 
                 className="back-button" 
-            >
+             >
                  <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" width="16" height="16">
                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
                  </svg>
-                 Volver al Feed
+                 Volver 
              </button>
              
              <div className="post-header"> 
