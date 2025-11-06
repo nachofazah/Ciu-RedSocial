@@ -118,7 +118,7 @@ const ProfilePage: React.FC = () => {
                 <div className="row g-0">
 
                     {/* Columna Izquierda: Información del Perfil y Navegación (Ahora se desplaza con el resto) */}
-                    <div className="col-md-3 d-none d-md-block"> 
+                    <div className="col-md-3"> 
                         <div className={style.leftColumn}>
                             {/* Tarjeta de información del perfil */}
                             <div className={style.profileCard}>
@@ -223,7 +223,7 @@ const ProfilePage: React.FC = () => {
                     </div>
 
                     {/* Columna Derecha: Mensajes y Eventos (Ahora se desplaza con el resto) */}
-                    <div className="col-md-3 d-none d-md-block">
+                    <div className="col-md-3">
                         <div className={style.rightColumn}>
                             
                             {/* Widget de Mensajes */}
