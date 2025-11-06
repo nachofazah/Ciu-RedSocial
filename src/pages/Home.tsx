@@ -1,16 +1,20 @@
-import React, { useEffect, useState } from "react";
-import { Card, Button } from "react-bootstrap"; 
+import React, { useContext, useEffect, useState } from 'react';
+import { Card } from "react-bootstrap"; 
 import type { Post } from "../types/Post";
 import type { User } from "../types/User";
 import { fetchAllPostsData } from "../api/postService"; 
-import { Link } from 'react-router-dom'; 
+import { Link, useNavigate } from 'react-router-dom';
 import { useTheme } from '../context/ThemeContext'; 
 import style from '../styles/Home.module.css';
 import { fetchUsers } from "../api/postService";
+import { AuthContext } from '../context/AuthContext'; 
+import { FaHome, FaUsers, FaVideo, FaImage, FaStore, FaFileAlt, FaEllipsisH, FaThumbsUp, FaCommentAlt, FaShare, FaGlobe } from 'react-icons/fa';
+
 
 const Home: React.FC = () => {
-
-    const { theme, toggleTheme } = useTheme(); 
+    const { user, logout } = useContext(AuthContext);
+    const navigate = useNavigate();
+    const { theme } = useTheme();
     const [posts, setPosts] = useState<Post[]>([]);
     const [commentsCount, setCommentsCount] = useState<{ [key: number]: number }>({});
     const [postImages, setPostImages] = useState<{ [key: number]: string[] }>({});
@@ -18,7 +22,7 @@ const Home: React.FC = () => {
     const [error, setError] = useState<string | null>(null);
     const [users, setUsers] = useState<User[]>([]);
 
-    // Datos simulados del usuario actual para el widget del perfil en la derecha
+    // Datos simulados del usuario actual para la COLUMNA IZQUIERDA
     const currentUserMock = {
         nickName: "luna",
         atTag: "@luna",
@@ -36,7 +40,6 @@ const Home: React.FC = () => {
                 console.error("Error al cargar usuarios:", err); 
             }
         };
-
         loadUsers();
     }, []);
 
@@ -56,9 +59,13 @@ const Home: React.FC = () => {
                 setIsLoading(false);
             }
         };
-
         loadAllData();
     }, []);
+
+    const handleLogout = () => {
+        logout(); 
+        navigate('/'); 
+    };
 
     if (isLoading) {
         return <div className={style.loadingMessage}>Cargando feed...</div>;
@@ -75,53 +82,63 @@ const Home: React.FC = () => {
         : null;
 
     return (
-        <div className={style.appContainer}>
+        <div className={`${style.appContainer} ${theme}-mode`}> 
+            
             <div className={style.welcomeTitle}>
                 ¡Bienvenido a Asocial!
             </div>
-            
-            <div className={`${style.mainLayout} ${theme}-mode`}>
-                
-                {/* Izquierda: Navegación */}
-                <div className={style.leftColumn}>
-                    <div className={style.navContainer}>
-                        
-                        <Button
-                            variant={theme === 'dark' ? "secondary" : "warning"}
-                            size="lg"
-                            className={style.navButton} 
-                            onClick={toggleTheme}
-                        >
-                            {theme === 'dark' ? "Modo claro ☀️" : "Modo oscuro 🌙"}
-                        </Button>
-                        
-                        <Link to="/" className={style.navLink}>
-                            <Button size="lg" className={style.navButton}
-                                onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}>
-                                🏠 Inicio
-                            </Button>
-                        </Link>
 
-                        <Link to="/profile" className={style.navLink}>
-                            <Button size="lg" className={style.navButton}>
-                                👤 Perfil
-                            </Button>
-                        </Link>
+            <div className={style.mainLayoutGrid}> 
+                
+                {/* 1. Columna Izquierda: Información del Perfil y Navegación */}
+                <div className={style.leftColumn}>
+                    
+                    {/* Tarjeta de información del perfil */}
+                    <div className={style.profileCard}>
+                        <div className={style.profileAvatarLarge}>{currentUserMock.nickName[0].toUpperCase()}</div>
+                        <h3 className={style.profileName}>{currentUserMock.nickName}</h3>
+                        <p className={style.profileHandle}>@{currentUserMock.nickName.toLowerCase().replace(/\s/g, '')}</p>
+                        <div className={style.profileStats}>
+                            <div className={style.statItem}><strong>2.3K</strong><span>Seguidores</span></div>
+                            <div className={style.statItem}><strong>235</strong><span>Siguiendo</span></div>
+                            <div className={style.statItem}><strong>10</strong><span>Post</span></div>
+                        </div>
+                    </div>
+
+                    {/* Navegación Principal */}
+                    <nav className={style.mainNav}>
+                        <Link to="/profile" className={`${style.navItem} ${style.active}`}><FaHome /> Inicio</Link>
+                        <Link to="/profile/friends" className={style.navItem}><FaUsers /> Amigos <span className={style.navBadge}>4</span></Link>
+                        <Link to="/watch" className={style.navItem}><FaVideo /> Videos</Link>
+                        <Link to="/photos" className={style.navItem}><FaImage /> Fotos</Link>
+                        <Link to="/marketplace" className={style.navItem}><FaStore /> Marketplace</Link>
+                        <Link to="/files" className={style.navItem}><FaFileAlt /> Guardado <span className={style.navBadge}>7</span></Link>
+                    </nav>
+
+                    <div className={style.footerSection}>
+                        <Link to="#">Privacy terms</Link> | <Link to="#">Advertising</Link> | <Link to="#">Cookies</Link>
+                        <p className={style.copyright}>Platform © 2025</p>
+                        <button className="btn btn-sm btn-outline-secondary w-100 mt-3" onClick={handleLogout}>Cerrar Sesión</button>
                     </div>
                 </div>
 
-                {/* Centro: Feed de Publicaciones */}
+                {/* 2. Columna Central: Feed de Publicaciones */}
                 <div className={style.centerColumn}>
                     <div className={style.centerContent}>
-                        <h4 className={style.sectionTitle}>¿Qué querés compartir?</h4>
-                        
-                        <div className={style.createPostContainer}>
-                            <Link to="/new-post" className={style.navLink}>
-                                <Button variant="primary" className={style.createPostButton}>
-                                    Crear nueva publicación
-                                </Button>
-                            </Link>
-                        </div>
+                        {/* Widget para crear una nueva publicación */}
+                            <div className={style.createPostWidget}>
+                                <div className={style.createPostHeader}>
+                                    <div className={style.smallAvatar}>{currentUserMock.nickName[0].toUpperCase()}</div>
+                                    <input type="text" placeholder="¿Qué estás pensando?" readOnly onClick={() => navigate('/new-post')} />
+                                    <button className={style.sharePostButton}>Postear</button>
+                                </div>
+                                <div className={style.createPostActions}>
+                                    <div className={style.actionItem}><FaImage /> Imagen/Video</div>
+                                    <div className={style.actionItem}><span className={style.hashtagIcon}>#</span> Hashtag</div>
+                                    <div className={style.actionItem}><span className={style.mentionIcon}>@</span> Mention</div>
+                                    <div className={`${style.actionItem} ${style.publicOption}`}><FaGlobe /> Publico <FaEllipsisH style={{marginLeft: '5px'}}/></div>
+                                </div>
+                            </div>
 
                         <h4 className={style.sectionTitle}>Publicaciones recientes</h4>
                         {posts.length === 0 ? (
@@ -134,80 +151,85 @@ const Home: React.FC = () => {
                                         key={post.id} 
                                         className={style.postCard}
                                     >
-                                        <Card.Body>
-                                            <Card.Title className={style.postAuthorTitle}>
-                                                Publicado por: **{post.User?.nickName || 'Usuario Desconocido'}**
-                                            </Card.Title>
-                                            <Card.Subtitle className={style.postDateSubtitle}>
-                                                {new Date(post.createdAt).toLocaleDateString()}
-                                            </Card.Subtitle>
-                                            <Card.Text>{post.description}</Card.Text>
-
-                                            {postImages[post.id]?.length > 0 && (
-                                                <div className={style.postMediaWrapper}> 
-                                                    {postImages[post.id].slice(0, 1).map((imgUrl, idx) => (
-                                                        <img 
-                                                            key={idx} 
-                                                            src={imgUrl} 
-                                                            alt={`Post ${post.id}`} 
-                                                            className={style.postImage}
-                                                            onError={(e) => (e.currentTarget.style.display = 'none')}
-                                                        />
-                                                    ))}
+                                        
+                                        {/* 1. Encabezado del Post */}
+                                        <div className={style.postHeader}>
+                                            <div className={style.postAvatar}>
+                                                {(post.User?.nickName || 'U')[0].toUpperCase()}
+                                            </div>
+                                            <div>
+                                                <div className={style.postAuthor}>
+                                                    {post.User?.nickName || 'Usuario Desconocido'}
                                                 </div>
-                                            )}
-                                            
-                                            {post.Tags && post.Tags.length > 0 && (
-                                                <div className={style.tagWrapper}>
-                                                    {post.Tags.map((tag) => (
-                                                        <span key={tag.id} className={style.badge}>
-                                                            #{tag.name}
-                                                        </span>
-                                                    ))}
+                                                <div className={style.postTime}>
+                                                    {new Date(post.createdAt).toLocaleDateString()}
                                                 </div>
-                                            )}
-
-                                            <p className={style.commentCountText}>
-                                                💬 **{commentsCount[post.id] ?? 0} comentarios**
-                                            </p>
-                                            <Link to={`/post/${post.id}`} className={style.detailLink}>
-                                                <Button variant="outline-primary" size="sm" className={style.detailButton}>
-                                                    Ver más
-                                                </Button>
+                                            </div>
+                                            {/* Opciones (FaEllipsisH) */}
+                                            <Link to={`/post/${post.id}`} className={style.postOptionsLink} title="Ver Detalle">
+                                                <FaEllipsisH className={style.postOptions} />
                                             </Link>
-                                        </Card.Body>
+                                        </div>
+
+                                        {/* 2. Contenido del Post */}
+                                        <div className={style.postContentText}>
+                                            <p>{post.description}</p>
+                                        </div>
+
+                                        {/* 3. Medios (Imágenes) */}
+                                        {postImages[post.id]?.length > 0 && (
+                                            <div className={style.postMediaGrid}> 
+                                                {postImages[post.id].slice(0, 1).map((imgUrl, idx) => (
+                                                    <img 
+                                                        key={idx} 
+                                                        src={imgUrl} 
+                                                        alt={`Post ${post.id}`} 
+                                                        className={style.postMediaItem}
+                                                        onError={(e) => (e.currentTarget.style.display = 'none')}
+                                                    />
+                                                ))}
+                                            </div>
+                                        )}
+                                        
+                                        {/* 4. Tags */}
+                                        {post.Tags && post.Tags.length > 0 && (
+                                            <div className={style.tagWrapper}>
+                                                {post.Tags.map((tag) => (
+                                                    <span key={tag.id} className={style.badge}>
+                                                        #{tag.name}
+                                                    </span>
+                                                ))}
+                                            </div>
+                                        )}
+
+                                        {/* 5. Estadísticas de Engagement (Likes, Comments, Shares) */}
+                                        <div className={style.postEngagementStats}>
+                                            <span>X Likes</span>
+                                            <span>{commentsCount[post.id] ?? 0} Comentarios</span>
+                                            <span>Y Compartidos</span>
+                                        </div>
+
+                                        {/* 6. Barra de Acciones (Botones) */}
+                                        <div className={style.postActionsBar}>
+                                            <button className={style.postActionButton}>
+                                                <FaThumbsUp /> Like
+                                            </button>
+                                            <Link to={`/post/${post.id}`} className={style.postActionButton}>
+                                                <FaCommentAlt /> Comment
+                                            </Link>
+                                            <button className={style.postActionButton}>
+                                                <FaShare /> Share
+                                            </button>
+                                        </div>
                                     </Card>
                                 ))
                         )}
                     </div>
                 </div>
 
-                {/* Derecha: Actividad y Sugerencias */}
+                {/* 3. Columna Derecha: Actividad y Sugerencias */}
                 <div className={style.rightColumn}>
                     <div className={style.rightContent}>
-                        
-                        {/* 🌟 NUEVO: Tarjeta de perfil/usuario logueado */}
-                        <div className={style.profileCard}>
-                            <div className={style.profileAvatar}>L</div>
-                            <div className={style.profileInfo}>
-                                <div className={style.profileName}>{currentUserMock.nickName}</div>
-                                <div className={style.profileAtTag}>{currentUserMock.atTag}</div>
-                            </div>
-                            <div className={style.profileStats}>
-                                <div className={style.statItem}>
-                                    <div className={style.statValue}>{currentUserMock.followers}</div>
-                                    <div className={style.statLabel}>Follower</div>
-                                </div>
-                                <div className={style.statItem}>
-                                    <div className={style.statValue}>{currentUserMock.following}</div>
-                                    <div className={style.statLabel}>Following</div>
-                                </div>
-                                <div className={style.statItem}>
-                                    <div className={style.statValue}>{currentUserMock.posts}</div>
-                                    <div className={style.statLabel}>Post</div>
-                                </div>
-                            </div>
-                        </div>
 
                         <h4 className={style.sectionTitle}>Actividad reciente</h4>
 
@@ -233,6 +255,7 @@ const Home: React.FC = () => {
                         </div>
                     </div>
                 </div>
+                
             </div>
         </div>
     );

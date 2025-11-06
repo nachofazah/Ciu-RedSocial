@@ -5,7 +5,6 @@ import { Link, useNavigate } from 'react-router-dom';
 import type { Post } from '../types/Post'; 
 import { useTheme } from '../context/ThemeContext';
 import style from '../styles/ProfilePage.module.css'; 
-// Importaciones de iconos
 import { FaHome, FaUsers, FaVideo, FaImage, FaStore, FaFileAlt, FaSearch, FaEllipsisH, FaGlobe, FaThumbsUp, FaCommentDots, FaShare } from 'react-icons/fa';
 
 // Definición simple del tipo de ProfileData
@@ -54,6 +53,7 @@ const ProfilePage: React.FC = () => {
             setIsLoading(false);
         }
     }, [user]);
+    
 
     useEffect(() => {
         loadUserPosts();
@@ -143,8 +143,8 @@ const ProfilePage: React.FC = () => {
                             <div className={style.createPostWidget}>
                                 <div className={style.createPostHeader}>
                                     <div className={style.smallAvatar}>{profileData.nickName[0].toUpperCase()}</div>
-                                    <input type="text" placeholder="What's on your mind?" readOnly onClick={() => navigate('/new-post')} />
-                                    <button className={style.sharePostButton}>Share Post</button>
+                                    <input type="text" placeholder="¿Qué estás pensando?" readOnly onClick={() => navigate('/new-post')} />
+                                    <button className={style.sharePostButton}>Postear</button>
                                 </div>
                                 <div className={style.createPostActions}>
                                     <div className={style.actionItem}><FaImage /> Imagen/Video</div>
@@ -176,7 +176,8 @@ const ProfilePage: React.FC = () => {
                                             <Link to={`/post/${post.id}`} className={style.postOptionsLink} title="Ver Detalle">
                                                 <FaEllipsisH className={style.postOptions} />
                                             </Link>
-                                        </div>
+                                            
+                                            </div>
                                         <div className={style.postContentText}>
                                             <p>{post.description}</p>
                                         </div>
