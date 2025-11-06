@@ -1,204 +1,329 @@
-/* ------------------------------------------------ */
-/* 1. LAYOUT PRINCIPAL */
-/* ------------------------------------------------ */
+/* --- Layout de la Aplicación (Contenedor General) --- */
 
-.mainLayout {
-    /* El contenedor principal debe ocupar el 100% del viewport */
+.appContainer {
+    background-color: var(--color-background-primary);
     min-height: 100vh;
-    padding: 0;
-    margin: 0;
-    background-color: var(--color-background-primary); 
-    color: var(--color-text-primary);
-    transition: background-color 0.3s, color 0.3s;
 }
 
-/* Columna de la Izquierda (Navegación/Perfil) */
+/* --- Título de Bienvenida --- */
+.welcomeTitle {
+    color: var(--color-text-primary);
+    text-align: center;
+    padding: 20px;
+    font-size: 2rem;
+    font-weight: 800;
+}
+
+.loadingMessage, .errorMessage {
+    text-align: center;
+    padding: 50px;
+    color: var(--color-text-primary);
+    background-color: var(--color-background-primary);
+    min-height: 100vh;
+}
+.errorMessage {
+    color: #ff5555;
+}
+
+
+/* --- Contenedor Principal (Reemplaza Container + Row) --- */
+.mainLayout {
+    max-width: 1400px;
+    margin: 0 auto;
+    display: grid;
+    /* Definimos el layout de 3 columnas: 1/4 (25%), 1/2 (50%), 1/4 (25%) */
+    grid-template-columns: 1fr 2fr 1fr;
+    gap: 0; /* No hay espacio entre columnas */
+    padding: 0 var(--padding-base);
+}
+
+
+/* --- Columna Izquierda (Navegación) --- */
 .leftColumn {
+    padding: var(--padding-base) 0;
     border-right: 1px solid var(--color-border);
-    padding: 1rem;
-    height: 100vh;
-    overflow-y: auto;
-    background-color: var(--color-background-secondary); 
-    color: var(--color-text-primary);
-    transition: background-color 0.3s, color 0.3s;
-    position: sticky;
-    top: 0;
-    display: flex;
-    flex-direction: column;
-    align-items: center; /* centra horizontalmente el contenido */
 }
 
-/* Columna del Centro (Feed) */
-.centerColumn {
-    border-right: 1px solid var(--color-border);
-    padding: 1rem;
-    height: 100vh;
-    overflow-y: auto;
-    background-color: var(--color-background-primary); 
-    color: var(--color-text-primary);
-    transition: background-color 0.3s, color 0.3s;
-}
-
-/* Columna de la Derecha (Actividad/Sugerencias) */
-.rightColumn {
-    border-right: none;
-    padding: 1rem;
-    height: 100vh;
-    overflow-y: auto;
-    background-color: var(--color-background-secondary);
-    color: var(--color-text-primary);
-    transition: background-color 0.3s, color 0.3s;
-    position: sticky;
-    top: 0;
-}
-
-/* ------------------------------------------------ */
-/* 2. ESTILOS DE COMPONENTES SOCIALES */
-/* ------------------------------------------------ */
-
-/* contenedor principal */
 .navContainer {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 100%;
-    box-sizing: border-box;
-}
-
-/* hijos directos (incluye el Botón ModoOscuro y los Nav.Link) -> ocuparán exactamente 50% */
-.navContainer > * {
-  flex: 0 0 50%;     /* fijo: base 50%, no se expande ni contrae */
-    max-width: 50%;
-    box-sizing: border-box;
-    display: flex;
-    justify-content: center;
-}
-
-/* el Nav.Link debe llenar su "casilla" */
-.navLink {
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    padding: 0;
-    margin: 8px 0;
-    box-sizing: border-box;
-}
-
-/* el botón dentro del Nav.Link y el botón directo del contenedor */
-.navLink > .navButton,
-.navContainer > .navButton {
-    width: 100% !important;   /* fuerza que el botón llene la celda */
-    min-width: 0;             /* evita que el contenido (emoji/texto) fuerce mayor ancho */
-    display: inline-flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-    gap: 8px;
-    box-sizing: border-box;
+    padding: 0 var(--padding-base); /* Agregamos padding interno */
 }
 
 .navButton {
-    width: 100%;                /* llena el ancho del padre (el 50% del contenedor) */
-    display: inline-flex;      /* 👈 asegura que el texto y emoji estén en una línea */
-    align-items: center;       /* centra verticalmente */
-    justify-content: center;   /* centra horizontalmente */
-    gap: 8px;                  /* espacio entre emoji y texto */
-    padding: 10px;
-    border: 1px solid var(--color-border);
-    border-radius: 50px !important;
-    background-color: var(--color-background-secondary);
-    color: var(--color-text-primary);
-    transition: background-color 0.2s, border-color 0.2s;
+    width: 100%;
+    margin-bottom: var(--padding-base);
     font-weight: 600;
-    text-align: center;
+    transition: all 0.2s;
+    border-radius: var(--border-radius-base);
+    
+    background-color: var(--color-background-secondary) !important;
+    border-color: var(--color-border) !important;
+    color: var(--color-text-primary) !important;
 }
 
 .navButton:hover {
-    background-color: var(--color-hover);
-    border-color: var(--unahur-azul);
+    background-color: var(--color-hover-bg) !important;
+    border-color: var(--color-primary-accent) !important;
+    box-shadow: 0 0 0 0.25rem rgba(0, 164, 0, 0.25); 
+}
+
+/* Estilo para los botones principales (tema/acento) */
+.navButton[variant="warning"], .navButton[variant="secondary"] {
+    background-color: var(--color-primary-accent) !important; 
+    border-color: var(--color-primary-accent) !important;
+    color: white !important;
+}
+
+.navLink {
+    text-decoration: none;
+    display: block; /* Asegura que el Link ocupe todo el ancho */
+}
+
+
+/* --- Columna Central (Feed) --- */
+.centerColumn {
+    min-height: 100vh;
+}
+
+.centerContent {
+    padding: 0 var(--padding-base); /* Padding para el contenido central */
 }
 
 .sectionTitle {
     color: var(--color-text-primary);
-    border-bottom: 2px solid var(--color-border);
-    padding-bottom: 5px;
-    margin-bottom: 15px;
-    font-weight: bold;
-    font-size: 1.2em;
-    text-align: center;
-}
-
-.postCard {
-    background-color: var(--color-background-secondary); 
-    color: var(--color-text-primary);
-    border: 1px solid var(--color-border);
-    border-radius: 12px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
-    margin-bottom: 20px;
-    width: 100%; 
-}
-
-.postImage {
-    max-height: 350px;
-    width: 100%;
-    object-fit: cover;
-    border-radius: 8px;
+    margin: var(--padding-base) 0;
+    font-size: 1.3rem;
+    font-weight: 700;
 }
 
 .createPostContainer {
-    display: flex;
-    justify-content: center; /* Centra horizontalmente */
-    width: 100%;
+    margin-bottom: var(--padding-base);
+    padding-bottom: var(--padding-base);
+    border-bottom: 1px solid var(--color-border); /* Separador visual */
 }
 
 .createPostButton {
-    background-color: var(--unahur-verde);
-    border-color: var(--unahur-verde);
-    border-radius: 50px !important;
-    color: white;
-    font-weight: bold;
-    width: 50%;
-}
-
-.createPostButton:hover {
-    background-color: #447a2a;
-    border-color: #447a2a;
-}
-
-.activityItem {
-    background-color: var(--color-background-secondary);
-    color: var(--color-text-primary);
+    width: 100%;
+    font-size: 1.1rem;
+    padding: 12px;
+    background-color: var(--color-primary-accent) !important;
     border: none;
-    border-bottom: 1px solid var(--color-border);
-    padding: 10px 0;
+    border-radius: var(--border-radius-base);
     transition: background-color 0.2s;
 }
 
-.activityItem:hover {
-    background-color: var(--color-hover);
+.createPostButton:hover {
+    background-color: #008800 !important;
 }
 
-/* ------------------------------------------------ */
-/* 3. MEDIA QUERIES (Responsividad) */
-/* ------------------------------------------------ */
+/* Tarjeta de Publicación */
+.postCard {
+    background-color: var(--color-background-secondary);
+    border: none;
+    border-radius: var(--border-radius-base);
+    margin-bottom: var(--padding-base);
+    padding: var(--padding-base);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+    transition: background-color 0.2s, box-shadow 0.2s;
+}
 
-@media (max-width: 992px) {
-    .leftColumn, .centerColumn, .rightColumn {
-        height: auto;
-        border-right: none;
-        border-bottom: 1px solid var(--color-border);
-        position: relative;
-    }
-    
-    .centerColumn {
-        order: 1; 
-    }
+.postCard:hover {
+    background-color: var(--color-hover-bg);
+}
 
-    .leftColumn {
-        order: 2;
-    }
+.postAuthorTitle {
+    color: var(--color-text-primary) !important;
+    font-weight: 600;
+    font-size: 1rem !important;
+}
 
+.postDateSubtitle {
+    color: var(--color-text-secondary) !important;
+    font-size: 0.8em !important;
+    margin-bottom: 10px;
+}
+
+.postMediaWrapper {
+    margin-bottom: 10px;
+}
+
+.postImage {
+    width: 100%;
+    max-height: 300px;
+    object-fit: cover;
+    border-radius: 8px;
+    margin-top: 10px;
+}
+
+.tagWrapper {
+    margin-bottom: 10px;
+}
+
+.badge {
+    display: inline-block;
+    background-color: var(--color-primary-accent) !important;
+    color: white !important;
+    font-size: 0.75rem;
+    font-weight: 500;
+    margin-right: 5px;
+    padding: 5px 10px;
+    border-radius: 20px;
+}
+
+.commentCountText {
+    color: var(--color-text-secondary);
+    margin-bottom: 10px;
+    font-size: 0.9em;
+}
+
+.detailLink {
+    text-decoration: none;
+    display: block; /* Asegura que el Link envuelva el botón correctamente */
+}
+
+.detailButton {
+    /* Ajustes para el botón de detalle sin clases de Bootstrap */
+    color: var(--color-primary-accent);
+    border-color: var(--color-primary-accent);
+    background: transparent;
+    padding: 5px 10px;
+    font-size: 0.85rem;
+    border-radius: 6px;
+    transition: background-color 0.2s, color 0.2s;
+}
+
+.detailButton:hover {
+    background-color: var(--color-primary-accent);
+    color: white;
+}
+
+.noPostsMessage {
+    color: var(--color-text-secondary);
+    text-align: center;
+    padding: 20px;
+    background-color: var(--color-background-secondary);
+    border-radius: var(--border-radius-base);
+}
+
+
+/* --- Columna Derecha (Widgets) --- */
+.rightColumn {
+    padding: var(--padding-base) 0;
+    border-left: 1px solid var(--color-border);
+}
+
+.rightContent {
+    padding: 0 var(--padding-base); /* Agregamos padding interno */
+}
+
+.listGroup {
+    /* Reemplazamos ListGroup de Bootstrap */
+    display: flex;
+    flex-direction: column;
+    margin-bottom: var(--padding-base);
+}
+
+.activityItem {
+    /* Reemplazamos ListGroup.Item de Bootstrap */
+    background-color: var(--color-background-secondary);
+    color: var(--color-text-primary);
+    border: none;
+    border-radius: var(--border-radius-base);
+    margin-bottom: 10px;
+    padding: 10px;
+    transition: background-color 0.2s;
+    cursor: default;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+}
+
+.activityItem:hover {
+    background-color: var(--color-hover-bg);
+}
+
+/* --- NUEVOS ESTILOS: Tarjeta de Perfil en la Columna Derecha --- */
+
+.profileCard {
+    background-color: var(--color-background-secondary);
+    border-radius: var(--border-radius-base);
+    padding: var(--padding-base);
+    margin-bottom: calc(var(--padding-base) * 2); /* Más espacio debajo de la tarjeta */
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+    text-align: center;
+}
+
+.profileAvatar {
+    width: 60px;
+    height: 60px;
+    line-height: 60px;
+    font-size: 24px;
+    font-weight: bold;
+    background-color: #20b2aa; /* Color de acento de avatar (similar al ejemplo) */
+    color: white;
+    border-radius: 50%;
+    margin: 0 auto 10px auto;
+}
+
+.profileName {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: var(--color-text-primary);
+}
+
+.profileAtTag {
+    font-size: 0.9rem;
+    color: var(--color-text-secondary);
+    margin-bottom: 15px;
+}
+
+.profileStats {
+    display: flex;
+    justify-content: space-around;
+    padding-top: 15px;
+    border-top: 1px solid var(--color-border);
+}
+
+.statItem {
+    text-align: center;
+    padding: 0 5px;
+}
+
+.statValue {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--color-text-primary);
+}
+
+.statLabel {
+    font-size: 0.8rem;
+    color: var(--color-text-secondary);
+}
+
+/* Ajuste del título para que no se pegue al widget de arriba */
+.rightContent .sectionTitle {
+    margin-top: calc(var(--padding-base) * 2); 
+    padding: 0; /* Ya tenemos padding en el .rightContent */
+}
+
+
+/* --- Media Queries (Responsividad con CSS Grid) --- */
+
+/* Por defecto, en pantallas grandes (desktop): 3 columnas */
+
+@media (max-width: 992px) { /* Tabletas grandes (sustituye a md-3, md-6, md-3) */
+    .mainLayout {
+        /* Ocultar la columna derecha, 2 columnas: 1/3, 2/3 */
+        grid-template-columns: 1fr 2fr;
+    }
     .rightColumn {
-        order: 3;
-        border-bottom: none;
+        display: none;
+    }
+}
+
+@media (max-width: 768px) { /* Tabletas y móviles (sustituye a d-none d-md-block) */
+    .mainLayout {
+        /* Ocultar ambas columnas laterales, 1 columna: 100% */
+        grid-template-columns: 1fr;
+    }
+    .leftColumn, .rightColumn {
+        display: none;
     }
 }

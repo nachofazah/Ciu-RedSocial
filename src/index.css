@@ -7,6 +7,7 @@
     --color-text-primary: #FFFFFF;           /* Texto principal blanco */
     --color-text-secondary: #A9A9A9;         /* Texto secundario/etiquetas gris claro */
     --color-border: #444444;                 /* Borde de inputs */
+    --color-hover: #353535;
 
     /* Colores fijos de UNAHUR */
     --unahur-azul: #33A3A9;
@@ -23,6 +24,7 @@
     --color-text-primary: #4D4D4D;           /* Texto principal oscuro */
     --color-text-secondary: #718096;         /* Texto secundario/etiquetas gris oscuro */
     --color-border: #E2E8F0;                 /* Borde de inputs claro */
+    --color-hover: #EAEAEA;
 
     /* Colores fijos de UNAHUR se mantienen */
 }
@@ -33,9 +35,4 @@ body {
     color: var(--color-text-primary) !important; 
     transition: background-color 0.3s, color 0.3s;
     font-family: Arial, Helvetica, sans-serif;
-}
-
-.navbar {
-    background-color: var(--color-background-secondary); 
-    transition: background-color 0.3s;
 }

@@ -1,5 +1,5 @@
-import { Container, Row, Col, Card, Button, ListGroup, Nav } from "react-bootstrap";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
+import { Card, Button } from "react-bootstrap"; 
 import type { Post } from "../types/Post";
 import type { User } from "../types/User";
 import { fetchAllPostsData } from "../api/postService"; 
@@ -8,7 +8,7 @@ import { useTheme } from '../context/ThemeContext';
 import style from '../styles/Home.module.css';
 import { fetchUsers } from "../api/postService";
 
-const Home = () => {
+const Home: React.FC = () => {
 
     const { theme, toggleTheme } = useTheme(); 
     const [posts, setPosts] = useState<Post[]>([]);
@@ -18,13 +18,22 @@ const Home = () => {
     const [error, setError] = useState<string | null>(null);
     const [users, setUsers] = useState<User[]>([]);
 
+    // Datos simulados del usuario actual para el widget del perfil en la derecha
+    const currentUserMock = {
+        nickName: "luna",
+        atTag: "@luna",
+        followers: "2.3K",
+        following: 235,
+        posts: 80,
+    };
+
     useEffect(() => {
         const loadUsers = async () => {
             try {
                 const data = await fetchUsers();
-                setUsers(data);
+                setUsers(data.slice(0, 5)); 
             } catch (err) {
-                setError("Error al cargar usuarios");
+                console.error("Error al cargar usuarios:", err); 
             }
         };
 
@@ -52,11 +61,11 @@ const Home = () => {
     }, []);
 
     if (isLoading) {
-        return <Container className="py-5 text-center">Cargando feed...</Container>;
+        return <div className={style.loadingMessage}>Cargando feed...</div>;
     }
     
     if (error && posts.length === 0) {
-        return <Container className="py-5 text-center text-danger">Error: {error}</Container>;
+        return <div className={style.errorMessage}>Error: {error}</div>;
     }
 
     const lastPost = posts.length > 0 
@@ -66,156 +75,166 @@ const Home = () => {
         : null;
 
     return (
-        <>
-            <div className="text-center mb-5">
+        <div className={style.appContainer}>
+            <div className={style.welcomeTitle}>
                 ¡Bienvenido a Asocial!
             </div>
             
-            {/* 🏆 Contenedor principal: APLICA el tema y el layout modular */}
-            <Container fluid className={style.mainLayout}>
-                {/* flex-nowrap mantiene las columnas en línea en pantallas grandes */}
-                <Row className="flex-nowrap">
-
-                    {/* Izquierda: Navegación */}
-                    <Col md={3} className={style.leftColumn}>
-                        <div className="navContainer">
-                            
-                            {/* Botón de Modo Oscuro/Claro */}
-                            <Button
-                                variant={theme === 'dark' ? "secondary" : "warning"}
-                                size="lg"
-                                className={style.navButton} 
-                                onClick={toggleTheme}
-                            >
-                                {theme === 'dark' ? "Modo claro ☀️" : "Modo oscuro 🌙"}
+            <div className={`${style.mainLayout} ${theme}-mode`}>
+                
+                {/* Izquierda: Navegación */}
+                <div className={style.leftColumn}>
+                    <div className={style.navContainer}>
+                        
+                        <Button
+                            variant={theme === 'dark' ? "secondary" : "warning"}
+                            size="lg"
+                            className={style.navButton} 
+                            onClick={toggleTheme}
+                        >
+                            {theme === 'dark' ? "Modo claro ☀️" : "Modo oscuro 🌙"}
+                        </Button>
+                        
+                        <Link to="/" className={style.navLink}>
+                            <Button size="lg" className={style.navButton}
+                                onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}>
+                                🏠 Inicio
                             </Button>
-                            
-                            {/* Botones de Navegación */}
-                            <Nav.Link as={Link} to="/" className={style.navLink}>
-                                <Button size="lg" className={style.navButton}
-                                    onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}>
-                                    🏠 Inicio
-                                </Button>
-                            </Nav.Link>
+                        </Link>
 
-                            <Nav.Link as={Link} to="/profile" className={style.navLink}>
-                                <Button size="lg" className={style.navButton}>
-                                    👤 Perfil
-                                </Button>
-                            </Nav.Link>
-                            
+                        <Link to="/profile" className={style.navLink}>
+                            <Button size="lg" className={style.navButton}>
+                                👤 Perfil
+                            </Button>
+                        </Link>
+                    </div>
+                </div>
 
-                        </div>
-                    </Col>
-
-                    {/* Centro: Feed de Publicaciones */}
-                    <Col md={6} className={style.centerColumn}>
-
+                {/* Centro: Feed de Publicaciones */}
+                <div className={style.centerColumn}>
+                    <div className={style.centerContent}>
                         <h4 className={style.sectionTitle}>¿Qué querés compartir?</h4>
                         
                         <div className={style.createPostContainer}>
-                            <Nav.Link as={Link} to="/new-post">
+                            <Link to="/new-post" className={style.navLink}>
                                 <Button variant="primary" className={style.createPostButton}>
                                     Crear nueva publicación
                                 </Button>
-                            </Nav.Link>
+                            </Link>
                         </div>
 
-                        <div className="p-3">
-                            <h4 className={style.sectionTitle}>Publicaciones recientes</h4>
-                            {posts.length === 0 ? (
-                                <p className="text-center">No hay publicaciones todavía.</p>
-                            ) : (
-                                [...posts]
-                                    .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
-                                    .map((post) => (
-                                        <Card 
-                                            key={post.id} 
-                                            className={style.postCard}
-                                        >
-                                            <Card.Body>
-                                                <Card.Title className="mb-1" style={{fontSize: '0.9em'}}>
-                                                    Publicado por: **{post.User?.nickName || 'Usuario Desconocido'}**
-                                                </Card.Title>
-                                                <Card.Subtitle className="mb-2 text-muted" style={{fontSize: '0.8em'}}>
-                                                    {new Date(post.createdAt).toLocaleDateString()}
-                                                </Card.Subtitle>
-                                                <Card.Text>{post.description}</Card.Text>
+                        <h4 className={style.sectionTitle}>Publicaciones recientes</h4>
+                        {posts.length === 0 ? (
+                            <p className={style.noPostsMessage}>No hay publicaciones todavía.</p>
+                        ) : (
+                            posts
+                                .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
+                                .map((post) => (
+                                    <Card 
+                                        key={post.id} 
+                                        className={style.postCard}
+                                    >
+                                        <Card.Body>
+                                            <Card.Title className={style.postAuthorTitle}>
+                                                Publicado por: **{post.User?.nickName || 'Usuario Desconocido'}**
+                                            </Card.Title>
+                                            <Card.Subtitle className={style.postDateSubtitle}>
+                                                {new Date(post.createdAt).toLocaleDateString()}
+                                            </Card.Subtitle>
+                                            <Card.Text>{post.description}</Card.Text>
 
-                                                {/* Imágenes */}
-                                                {postImages[post.id]?.length > 0 && (
-                                                    <div className="mb-2"> 
-                                                        {postImages[post.id].slice(0, 1).map((imgUrl, idx) => (
-                                                            <img 
-                                                                key={idx} 
-                                                                src={imgUrl} 
-                                                                alt={`Post ${post.id}`} 
-                                                                className={style.postImage}
-                                                                onError={(e) => (e.currentTarget.style.display = 'none')}
-                                                            />
-                                                        ))}
-                                                    </div>
-                                                )}
-                                                
-                                                {/* Tags */}
-                                                {post.Tags && post.Tags.length > 0 && (
-                                                    <div className="mb-2">
-                                                        {post.Tags.map((tag) => (
-                                                            <span key={tag.id} className="badge bg-info text-dark me-1">
-                                                                #{tag.name}
-                                                            </span>
-                                                        ))}
-                                                    </div>
-                                                )}
+                                            {postImages[post.id]?.length > 0 && (
+                                                <div className={style.postMediaWrapper}> 
+                                                    {postImages[post.id].slice(0, 1).map((imgUrl, idx) => (
+                                                        <img 
+                                                            key={idx} 
+                                                            src={imgUrl} 
+                                                            alt={`Post ${post.id}`} 
+                                                            className={style.postImage}
+                                                            onError={(e) => (e.currentTarget.style.display = 'none')}
+                                                        />
+                                                    ))}
+                                                </div>
+                                            )}
+                                            
+                                            {post.Tags && post.Tags.length > 0 && (
+                                                <div className={style.tagWrapper}>
+                                                    {post.Tags.map((tag) => (
+                                                        <span key={tag.id} className={style.badge}>
+                                                            #{tag.name}
+                                                        </span>
+                                                    ))}
+                                                </div>
+                                            )}
 
-                                                {/* Comentarios y Botón Ver más */}
-                                                <p className="mb-2">
-                                                    💬 **{commentsCount[post.id] ?? 0} comentarios**
-                                                </p>
-                                                <Link to={`/post/${post.id}`} style={{ textDecoration: 'none' }}>
-                                                    <Button variant="outline-primary" size="sm">
-                                                        Ver más
-                                                    </Button>
-                                                </Link>
-                                            </Card.Body>
-                                        </Card>
-                                    ))
+                                            <p className={style.commentCountText}>
+                                                💬 **{commentsCount[post.id] ?? 0} comentarios**
+                                            </p>
+                                            <Link to={`/post/${post.id}`} className={style.detailLink}>
+                                                <Button variant="outline-primary" size="sm" className={style.detailButton}>
+                                                    Ver más
+                                                </Button>
+                                            </Link>
+                                        </Card.Body>
+                                    </Card>
+                                ))
+                        )}
+                    </div>
+                </div>
+
+                {/* Derecha: Actividad y Sugerencias */}
+                <div className={style.rightColumn}>
+                    <div className={style.rightContent}>
+                        
+                        {/* 🌟 NUEVO: Tarjeta de perfil/usuario logueado */}
+                        <div className={style.profileCard}>
+                            <div className={style.profileAvatar}>L</div>
+                            <div className={style.profileInfo}>
+                                <div className={style.profileName}>{currentUserMock.nickName}</div>
+                                <div className={style.profileAtTag}>{currentUserMock.atTag}</div>
+                            </div>
+                            <div className={style.profileStats}>
+                                <div className={style.statItem}>
+                                    <div className={style.statValue}>{currentUserMock.followers}</div>
+                                    <div className={style.statLabel}>Follower</div>
+                                </div>
+                                <div className={style.statItem}>
+                                    <div className={style.statValue}>{currentUserMock.following}</div>
+                                    <div className={style.statLabel}>Following</div>
+                                </div>
+                                <div className={style.statItem}>
+                                    <div className={style.statValue}>{currentUserMock.posts}</div>
+                                    <div className={style.statLabel}>Post</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <h4 className={style.sectionTitle}>Actividad reciente</h4>
+
+                        <div className={style.listGroup}>
+                            {lastPost && (
+                                <div className={style.activityItem}>
+                                    {`${lastPost.User.nickName} creó una nueva publicación`}
+                                </div>
                             )}
                         </div>
-                    </Col>
 
-                    {/* Derecha: Actividad y Sugerencias */}
-                    <Col md={3} className={style.rightColumn}>
-                        <div className="pt-3 p-3">
-                            <h4 className={style.sectionTitle}>Actividad reciente</h4>
-
-                            <ListGroup className="mb-3">
-                                {lastPost && (
-                                    <ListGroup.Item className={style.activityItem}>
-                                        {`${lastPost.User.nickName} creó una nueva publicación`}
-                                    </ListGroup.Item>
-                                )}
-                            </ListGroup>
-
-                            <h4 className={style.sectionTitle}>Otros usuarios</h4>
-                            <ListGroup>
-                                {error ? (
-                                    <ListGroup.Item>{error}</ListGroup.Item>
-                                ) : users.length === 0 ? (
-                                    <ListGroup.Item>Cargando usuarios...</ListGroup.Item>
-                                ) : (
-                                    users.map((user) => (
-                                    <ListGroup.Item className={style.activityItem} key={user.id}>
-                                        {user.nickName || `${user.firstName} ${user.lastName}`}
-                                    </ListGroup.Item>
-                                    ))
-                                )}
-                            </ListGroup>
+                        <h4 className={style.sectionTitle}>Otros usuarios</h4>
+                        <div className={style.listGroup}>
+                            {users.length === 0 ? (
+                                <div className={style.activityItem}>Cargando usuarios...</div>
+                            ) : (
+                                users.map((user) => (
+                                <div className={style.activityItem} key={user.id}>
+                                    {user.nickName || `${user.firstName} ${user.lastName}`}
+                                </div>
+                                ))
+                            )}
                         </div>
-                    </Col>
-                </Row>
-            </Container>
-        </>
+                    </div>
+                </div>
+            </div>
+        </div>
     );
 };
 

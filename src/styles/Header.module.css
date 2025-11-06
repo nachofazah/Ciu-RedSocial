@@ -1,0 +1,103 @@
+/* ================================== */
+/* ESTRUCTURA PRINCIPAL DEL HEADER */
+/* ================================== */
+
+.customNavbar {
+    position: fixed; 
+    top: 0;
+    width: 100%;
+    z-index: 1000; 
+
+    /* Usa las variables de fondo y borde */
+    background-color: var(--color-background-secondary) !important; 
+    border-bottom: 1px solid var(--color-border);
+    transition: background-color 0.3s, border-bottom 0.3s;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Estilo para el Logo/Marca (Asocial) */
+.logoBrand {
+    font-size: 1.5em;
+    font-weight: 800; 
+    color: var(--color-text-primary) !important;
+    transition: color 0.2s;
+}
+.logoBrand:hover {
+    color: var(--unahur-azul) !important;
+}
+
+/* Estilo para los enlaces de navegación */
+.navLink {
+    color: var(--color-text-secondary) !important; 
+    font-weight: 500;
+    padding: 8px 12px;
+    border-radius: 6px;
+    transition: color 0.2s, background-color 0.2s;
+}
+
+/* Estado Activo y Hover */
+.navLink.active {
+    color: var(--unahur-azul) !important; 
+    background-color: var(--color-hover);
+    font-weight: 600;
+}
+
+.navLink:hover {
+    color: var(--color-text-primary) !important;
+    background-color: var(--color-hover) !important;
+}
+
+/* ================================== */
+/* BOTÓN CERRAR SESIÓN */
+/* ================================== */
+
+.logoutButton {
+    background-color: transparent; 
+    color: var(--color-text-secondary); 
+    border: none;
+    cursor: pointer;
+    padding: 8px 12px;
+    border-radius: 6px;
+    font-size: 1em;
+    font-weight: 500;
+    transition: color 0.2s, background-color 0.2s;
+}
+
+.logoutButton:hover {
+    background-color: var(--color-hover); 
+    color: var(--color-background-primary) !important; 
+}
+
+/* Botón de Tema (Sol/Luna) */
+.themeToggleButton {
+    border-radius: 50%;
+    width: 38px;
+    height: 38px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.2em;
+    transition: background-color 0.2s;
+}
+
+.themeToggleButton:hover {
+    background-color: var(--color-hover) !important;
+}
+
+
+/* Media Query para mejorar el colapso en móvil */
+@media (max-width: 575.98px) {
+    .navLink {
+        width: 100%;
+    }
+    .logoutButton, .themeToggleButton {
+        margin-left: 0 !important;
+        margin-top: 5px;
+        width: 100%;
+        text-align: left;
+    }
+    .themeToggleButton {
+        justify-content: flex-start;
+        padding-left: 10px;
+    }
+}

@@ -1,373 +1,635 @@
-/* ------------------------------------------------ */
-/* 1. LAYOUT PRINCIPAL (Estructura de 3 Columnas) */
-/* ------------------------------------------------ */
+/* -------------------------------------------------------------------------------- */
+/* VARIABLES DE TEMA (Mapeadas a tu index.css) */
+/* -------------------------------------------------------------------------------- */
+
+:root {
+    --color-primary-accent: var(--unahur-azul);
+    --color-hover-bg: var(--color-hover);
+    --padding-base: 15px;
+    --border-radius-base: 12px;
+}
+
+/* -------------------------------------------------------------------------------- */
 
 .mainLayout {
     min-height: 100vh;
-    padding: 0;
-    margin: 0;
-    background-color: var(--color-background-primary); 
+    background-color: var(--color-background-primary) !important;
     color: var(--color-text-primary);
     transition: background-color 0.3s, color 0.3s;
 }
 
-/* Estilos generales para las columnas (flexibilidad, padding, etc.) */
-.column {
-    padding: 1.5rem; 
-    background-color: var(--color-background-primary); 
-    border-right: 1px solid var(--color-border);
+.dark-mode {
+    /* Los colores ya están definidos en las variables :root */
 }
 
-/* Columna de la Izquierda (Perfil del Usuario y Navegación) */
+.light-mode {
+    /* Aquí se definirían los colores para el modo claro */
+}
+
+/* --- Contenedor Principal de las 3 Columnas --- */
+.contentWrapper {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: var(--padding-base) 0; /* Padding vertical, sin padding horizontal */
+}
+
+/* --- Columna Izquierda (Navegación y Perfil) --- */
 .leftColumn {
-    composes: column; 
-    background-color: var(--color-background-secondary); 
-    border-right: 1px solid var(--color-border);
-}
-
-/* Columna del Centro (Feed Principal) */
-.centerColumn {
-    composes: column; 
+    /* Se elimina position: sticky, top, height y overflow-y: auto para un scroll unificado */
+    padding: var(--padding-base);
+    background-color: var(--color-background-primary); 
     border-right: 1px solid var(--color-border); 
 }
 
-/* Columna de la Derecha (Miembros, Hashtags, Fotos) */
-.rightColumn {
-    composes: column; 
-    background-color: var(--color-background-secondary); 
-    border-right: none; 
-}
-
-/* ------------------------------------------------ */
-/* 2. COMPONENTES ESPECÍFICOS DEL PERFIL */
-/* ------------------------------------------------ */
-
-/* Bloque del Avatar y Nombre de Usuario */
-.profileHeaderCard {
+/* Tarjeta de información del perfil */
+.profileCard {
     background-color: var(--color-background-secondary);
-    border: 1px solid var(--color-border);
-    border-radius: 12px;
-    padding: 1.5rem;
-    margin-bottom: 1.5rem;
+    border-radius: var(--border-radius-base);
+    padding: var(--padding-base);
     text-align: center;
-    position: relative;
-    overflow: hidden;
-}
-
-.coverImage {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100px; 
-    object-fit: cover;
-    z-index: 0;
-    filter: brightness(0.6);
+    margin-bottom: var(--padding-base);
 }
 
 .profileAvatarLarge {
-    width: 100px;
-    height: 100px;
+    width: 80px;
+    height: 80px;
     border-radius: 50%;
-    border: 3px solid var(--color-background-secondary); 
-    object-fit: cover;
-    margin: 10px auto;
-    display: flex; 
-    justify-content: center; 
-    align-items: center; 
-    position: relative;
-    z-index: 1;
-    background-color: var(--unahur-azul); 
+    background-color: var(--color-primary-accent);
     color: white;
-    font-size: 2.5em; 
+    font-size: 3rem;
     font-weight: bold;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 auto 10px auto;
 }
 
 .profileName {
-    font-size: 1.5em;
-    font-weight: bold;
-    color: var(--color-text-primary);
+    font-size: 1.5rem;
+    font-weight: 700;
     margin-bottom: 5px;
+    color: var(--color-text-primary);
 }
 
-.profileBio {
-    font-size: 0.9em;
+.profileHandle {
     color: var(--color-text-secondary);
+    font-size: 0.9rem;
     margin-bottom: 15px;
 }
 
-/* Sección de Navegación "MY PROFILE" */
-.profileNavSection {
-    background-color: var(--color-background-secondary);
-    border: 1px solid var(--color-border);
-    border-radius: 12px;
-    padding: 1rem 0;
-    margin-bottom: 1.5rem;
+.profileStats {
+    display: flex;
+    justify-content: space-around;
+    padding-top: 10px;
+    border-top: 1px solid var(--color-border);
 }
 
-.profileNavTitle {
-    font-size: 0.9em;
-    font-weight: bold;
+.statItem strong {
+    display: block;
+    font-size: 1.1rem;
+    color: var(--color-text-primary);
+}
+
+.statItem span {
+    font-size: 0.8rem;
     color: var(--color-text-secondary);
-    padding: 0 1.5rem 1rem 1.5rem;
-    text-transform: uppercase;
-    border-bottom: 1px solid var(--color-border);
-    margin-bottom: 1rem;
 }
 
-.profileNavItem {
+/* Navegación */
+.mainNav {
+    margin-bottom: var(--padding-base);
+    background-color: var(--color-background-secondary);
+    border-radius: var(--border-radius-base);
+    padding: 5px;
+    display: flex;
+    flex-direction: column;
+}
+
+.navItem {
     display: flex;
     align-items: center;
-    padding: 0.75rem 1.5rem;
+    padding: 10px var(--padding-base);
+    margin: 3px 0;
+    border-radius: 8px;
     color: var(--color-text-primary);
     text-decoration: none;
-    transition: background-color 0.2s, color 0.2s;
+    transition: background-color 0.2s;
 }
 
-.profileNavItem:hover {
-    background-color: var(--color-hover);
-    color: var(--unahur-azul); 
-}
-
-.profileNavItem svg {
+.navItem svg {
     margin-right: 10px;
-    font-size: 1.2em;
+    font-size: 1.1rem;
 }
 
-/* ------------------------------------------------ */
-/* 3. ESTILOS DEL FEED (Columna Central) */
-/* ------------------------------------------------ */
+.navItem:hover {
+    background-color: var(--color-hover-bg);
+    color: var(--color-text-primary);
+}
 
-.createPostInput {
-    background-color: var(--color-background-secondary);
-    border: 1px solid var(--color-border);
-    border-radius: 8px;
-    padding: 1rem;
-    margin-bottom: 1.5rem;
+.active {
+    background-color: var(--color-primary-accent);
+    color: white !important;
+}
+
+.active svg {
+    color: white !important;
+}
+
+.navBadge {
+    margin-left: auto;
+    background-color: #ff5555;
+    color: white;
+    padding: 2px 8px;
+    border-radius: 12px;
+    font-size: 0.75rem;
+}
+
+/* Footer Section */
+.footerSection {
+    padding: var(--padding-base);
+    text-align: center;
+}
+.footerSection a {
+    color: var(--color-text-secondary);
+    text-decoration: none;
+    font-size: 0.75rem;
+    margin-right: 8px;
+}
+.footerSection a:hover {
+    text-decoration: underline;
+}
+.copyright {
+    color: var(--color-text-secondary);
+    font-size: 0.7rem;
+    margin-top: 10px;
+}
+
+
+/* --- Columna Central (Feed) --- */
+.centerFeed {
+    padding: var(--padding-base);
+    background-color: var(--color-background-primary); 
+}
+
+/* Stories */
+.storiesContainer {
     display: flex;
+    overflow-x: auto;
+    gap: 10px;
+    padding-bottom: 15px;
+    margin-bottom: var(--padding-base);
+    /* Ocultar barra de scroll en stories */
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+}
+.storiesContainer::-webkit-scrollbar {
+    display: none;
+}
+
+.storyTile {
+    flex-shrink: 0;
+    width: 80px;
+    text-align: center;
+    cursor: pointer;
+}
+
+.storyAvatar, .storyAvatarAdd {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    margin: 0 auto 5px auto;
+    border: 3px solid var(--color-primary-accent);
+    background-color: var(--color-background-secondary);
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    justify-content: center;
     align-items: center;
 }
 
-.createPostInput input {
+.storyAvatarAdd {
+    border: 3px dashed var(--color-text-secondary);
+    color: var(--color-text-secondary);
+    font-size: 1.5rem;
+}
+
+.storyName {
+    font-size: 0.75rem;
+    color: var(--color-text-secondary);
+    display: block;
+}
+
+/* Create Post Widget */
+.createPostWidget {
+    background-color: var(--color-background-secondary);
+    border-radius: var(--border-radius-base);
+    padding: var(--padding-base);
+    margin-bottom: var(--padding-base);
+}
+
+.createPostHeader {
+    display: flex;
+    align-items: center;
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--color-border);
+    margin-bottom: 10px;
+}
+
+.smallAvatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: var(--color-primary-accent);
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.2rem;
+    font-weight: bold;
+    margin-right: 10px;
+    flex-shrink: 0;
+}
+
+.createPostHeader input {
     flex-grow: 1;
-    border: none;
-    background: transparent;
+    padding: 10px 15px;
+    border: 1px solid var(--color-border);
+    border-radius: 20px;
+    background-color: var(--color-background-primary);
     color: var(--color-text-primary);
-    padding: 0.5rem;
+    margin-right: 10px;
+    outline: none;
+    transition: border-color 0.2s;
+}
+.createPostHeader input:focus {
+    border-color: var(--color-primary-accent);
 }
 
-.createPostInput input::placeholder {
-    color: var(--color-text-secondary);
-}
-
-.createPostInput button {
-    background: transparent;
+.sharePostButton {
+    background-color: var(--color-primary-accent);
+    color: white;
     border: none;
-    color: var(--color-text-secondary);
-    margin-left: 10px;
+    padding: 10px 15px;
+    border-radius: 20px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    flex-shrink: 0;
+}
+.sharePostButton:hover {
+    background-color: #2D949A; /* Tono más oscuro de tu color primario */
 }
 
-/* Tarjeta de Publicación */
+.createPostActions {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 5px;
+}
+
+.actionItem {
+    display: flex;
+    align-items: center;
+    color: var(--color-text-secondary);
+    font-size: 0.85rem;
+    cursor: pointer;
+    padding: 5px;
+    border-radius: 4px;
+    transition: color 0.2s, background-color 0.2s;
+}
+.actionItem:hover {
+    color: var(--color-text-primary);
+    background-color: var(--color-hover-bg);
+}
+.actionItem svg, .actionItem .hashtagIcon, .actionItem .mentionIcon {
+    margin-right: 5px;
+    color: var(--color-primary-accent);
+}
+.publicOption {
+    margin-left: auto;
+}
+.hashtagIcon, .mentionIcon {
+    font-size: 1.1rem;
+    font-weight: 900;
+}
+
+
+/* Estilo de la tarjeta de publicación (Posts) */
+.sectionTitle {
+    color: var(--color-text-primary);
+    margin-bottom: var(--padding-base);
+    font-size: 1.1rem;
+    font-weight: 600;
+}
+
 .postCard {
     background-color: var(--color-background-secondary);
-    border: 1px solid var(--color-border);
-    border-radius: 12px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
-    margin-bottom: 1.5rem;
-    padding: 1.5rem;
+    border-radius: var(--border-radius-base);
+    padding: var(--padding-base);
+    margin-bottom: var(--padding-base);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.2s; 
+    cursor: default; /* Revertimos el cursor */
+}
+.postCard:hover {
+    background-color: var(--color-background-secondary);
 }
 
 .postHeader {
     display: flex;
     align-items: center;
-    margin-bottom: 1rem;
+    margin-bottom: 10px;
 }
 
-.postUserAvatar, .memberAvatar {
-    width: 40px;
-    height: 40px;
+.postAvatar {
+    width: 45px;
+    height: 45px;
     border-radius: 50%;
-    object-fit: cover;
-    margin-right: 10px;
+    background-color: #C8A2C8; /* Placeholder color */
+    color: white;
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: var(--unahur-azul);
-    color: white;
-    font-size: 1.2em;
+    font-size: 1.1rem;
+    font-weight: bold;
+    margin-right: 10px;
 }
 
-.postUserName {
-    font-weight: bold;
+.postAuthor {
+    font-weight: 600;
+    font-size: 1rem;
     color: var(--color-text-primary);
 }
 
 .postTime {
-    font-size: 0.8em;
+    font-size: 0.8rem;
     color: var(--color-text-secondary);
+}
+
+/* --- Estilos para el nuevo Link de Opciones (el icono FaEllipsisH) --- */
+.postOptionsLink {
     margin-left: auto;
+    text-decoration: none;
+    color: var(--color-text-secondary);
+    padding: 8px;
+    border-radius: 50%;
+    transition: background-color 0.2s;
+    cursor: pointer;
+    display: flex; 
+    align-items: center;
+    justify-content: center;
 }
 
-.postContent img {
-    max-width: 100%;
-    border-radius: 8px;
-    margin-top: 1rem;
+.postOptionsLink:hover {
+    background-color: var(--color-hover-bg);
+    color: var(--color-text-primary);
 }
 
-.postActions {
+.postOptions {
+    font-size: 1rem;
+}
+
+.postContentText p {
+    margin-bottom: 10px;
+    color: var(--color-text-primary);
+}
+
+.postMediaGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 5px;
+    margin-bottom: 10px;
+}
+
+.postMediaItem {
+    width: 100%;
+    height: auto;
+    max-height: 250px;
+    object-fit: cover;
+    border-radius: 6px;
+}
+
+.postEngagementStats {
+    display: flex;
+    justify-content: space-between;
+    padding: 5px 0;
+    border-top: 1px solid var(--color-border);
+    border-bottom: 1px solid var(--color-border);
+    font-size: 0.85rem;
+    color: var(--color-text-secondary);
+    margin-bottom: 10px;
+}
+
+.postActionsBar {
     display: flex;
     justify-content: space-around;
-    border-top: 1px solid var(--color-border);
-    padding-top: 1rem;
-    margin-top: 1rem;
 }
 
-.postActions button {
+.postActionButton {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    flex-grow: 1;
+    justify-content: center;
+    padding: 8px 10px;
     background: none;
     border: none;
     color: var(--color-text-secondary);
-    display: flex;
-    align-items: center;
+    font-weight: 600;
     cursor: pointer;
-    transition: color 0.2s;
+    border-radius: 6px;
+    transition: background-color 0.2s, color 0.2s;
+    text-decoration: none; /* Para el botón de comentario que solía ser un Link */
 }
 
-.postActions button:hover {
-    color: var(--unahur-azul);
-}
-
-.postActions button svg {
-    margin-right: 5px;
-}
-
-.commentInput {
-    border-top: 1px solid var(--color-border);
-    padding-top: 1rem;
-    margin-top: 1rem;
-    display: flex;
-    align-items: center;
-}
-
-.commentInput input {
-    flex-grow: 1;
-    border: 1px solid var(--color-border);
-    border-radius: 20px;
-    padding: 0.5rem 1rem;
-    background-color: var(--color-background-primary);
+.postActionButton:hover {
+    background-color: var(--color-hover-bg);
     color: var(--color-text-primary);
 }
 
-.commentInput button {
-    background-color: var(--unahur-azul);
-    color: white;
+.postActionButton svg {
+    font-size: 1.1rem;
+}
+
+.noPostsMessage {
+    text-align: center;
+    padding: 30px;
+    background-color: var(--color-background-secondary);
+    border-radius: var(--border-radius-base);
+    color: var(--color-text-primary);
+}
+
+
+/* --- Columna Derecha (Mensajes y Eventos) --- */
+.rightColumn {
+    /* Se elimina position: sticky, top, height y overflow-y: auto para un scroll unificado */
+    padding: var(--padding-base);
+    background-color: var(--color-background-primary);
+    border-left: 1px solid var(--color-border);
+}
+
+/* Widgets */
+.widgetTitle {
+    color: var(--color-text-primary);
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin-bottom: var(--padding-base);
+}
+
+.messagesWidget, .eventsWidget {
+    background-color: var(--color-background-secondary);
+    border-radius: var(--border-radius-base);
+    padding: var(--padding-base);
+    margin-bottom: var(--padding-base);
+}
+
+/* Mensajes */
+.searchBox {
+    position: relative;
+    margin-bottom: 15px;
+}
+
+.searchIcon {
+    position: absolute;
+    left: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--color-text-secondary);
+}
+
+.searchInput {
+    width: 100%;
+    padding: 8px 10px 8px 35px;
     border: none;
     border-radius: 20px;
-    padding: 0.5rem 1rem;
-    margin-left: 10px;
-}
-
-
-/* ------------------------------------------------ */
-/* 4. ESTILOS DE WIDGETS (Columna Derecha) */
-/* ------------------------------------------------ */
-
-.widgetCard {
-    background-color: var(--color-background-secondary);
-    border: 1px solid var(--color-border);
-    border-radius: 12px;
-    padding: 1.5rem;
-    margin-bottom: 1.5rem;
-}
-
-.widgetTitle {
-    font-size: 1.1em;
-    font-weight: bold;
-    color: var(--color-text-primary);
-    margin-bottom: 1rem;
-    border-bottom: 1px solid var(--color-border);
-    padding-bottom: 0.5rem;
-}
-
-/* Miembros Online */
-.onlineMembersList {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
-}
-
-.memberAvatar {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    object-fit: cover;
-}
-
-.onlineCount {
-    font-size: 0.9em;
-    color: var(--color-text-secondary);
-    margin-top: 10px;
-}
-
-/* Hashtags */
-.hashtagCloud {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
-}
-
-.hashtagButton {
     background-color: var(--color-background-primary);
-    border: 1px solid var(--color-border);
-    border-radius: 20px;
-    padding: 0.5rem 1rem;
-    font-size: 0.85em;
+    color: var(--color-text-primary);
+    outline: none;
+}
+
+.messageTabs {
+    display: flex;
+    border-bottom: 1px solid var(--color-border);
+    margin-bottom: 15px;
+}
+
+.messageTab {
+    padding: 8px 10px;
+    font-size: 0.9rem;
+    cursor: pointer;
     color: var(--color-text-secondary);
-    text-decoration: none;
-    transition: background-color 0.2s, color 0.2s;
+    position: relative;
 }
 
-.hashtagButton:hover {
-    background-color: var(--unahur-azul);
-    color: white;
+.messageTabActive {
+    color: var(--color-text-primary);
+    font-weight: 600;
 }
-
-/* Mis Fotos */
-.myPhotosGrid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 10px;
-}
-
-.photoThumbnail {
+.messageTabActive::after {
+    content: '';
+    position: absolute;
+    bottom: -1px;
+    left: 0;
     width: 100%;
-    height: 80px;
-    object-fit: cover;
-    border-radius: 8px;
+    height: 2px;
+    background-color: var(--color-primary-accent);
 }
 
+.messageBadge {
+    background-color: #ff5555;
+    color: white;
+    padding: 1px 5px;
+    border-radius: 8px;
+    font-size: 0.7rem;
+    margin-left: 5px;
+}
 
-/* ------------------------------------------------ */
-/* 5. MEDIA QUERIES (Responsividad) */
-/* ------------------------------------------------ */
+.messagesList {
+    max-height: 400px; 
+    overflow-y: auto;
+    padding-right: 5px;
+    /* Ocultar scrollbar */
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+}
+.messagesList::-webkit-scrollbar {
+    display: none;
+}
 
-@media (max-width: 992px) {
-    .leftColumn, .centerColumn, .rightColumn {
-        height: auto;
-        border-right: none;
-        border-bottom: 1px solid var(--color-border);
-        position: relative;
-    }
-    
-    .centerColumn {
-        order: 1; 
-    }
+.messageItem {
+    display: flex;
+    align-items: center;
+    padding: 8px 0;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    border-radius: 4px;
+}
+.messageItem:hover {
+    background-color: var(--color-hover-bg);
+}
 
-    .leftColumn {
-        order: 2;
-    }
+.messageAvatar {
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1rem;
+    font-weight: bold;
+    margin-right: 10px;
+    flex-shrink: 0;
+}
+.messageItem span {
+    color: var(--color-text-primary);
+    font-size: 0.9rem;
+}
 
-    .rightColumn {
-        order: 3;
-        border-bottom: none;
-    }
+.viewAllMessages {
+    display: block;
+    text-align: center;
+    margin-top: 10px;
+    color: var(--color-primary-accent);
+    text-decoration: none;
+    font-size: 0.9rem;
+}
+
+/* Eventos */
+.eventItem {
+    display: flex;
+    gap: 15px;
+    padding: 10px 0;
+    border-bottom: 1px solid var(--color-border);
+}
+.eventItemLast {
+    display: flex;
+    gap: 15px;
+    padding: 10px 0;
+}
+
+.eventDate {
+    flex-shrink: 0;
+    text-align: center;
+}
+.eventDate strong {
+    display: block;
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--color-primary-accent);
+}
+.eventDate span {
+    display: block;
+    font-size: 0.75rem;
+    color: var(--color-text-secondary);
+}
+
+.eventName {
+    font-weight: 600;
+    color: var(--color-text-primary);
+}
+
+.eventTime {
+    font-size: 0.85rem;
+    color: var(--color-text-secondary);
 }

@@ -5,9 +5,10 @@ import { Link, useNavigate } from 'react-router-dom';
 import type { Post } from '../types/Post'; 
 import { useTheme } from '../context/ThemeContext';
 import style from '../styles/ProfilePage.module.css'; 
-import { FaHome, FaInfoCircle, FaUsers, FaImage, FaHeart, FaComment } from 'react-icons/fa';
+// Importaciones de iconos
+import { FaHome, FaUsers, FaVideo, FaImage, FaStore, FaFileAlt, FaSearch, FaEllipsisH, FaGlobe, FaThumbsUp, FaCommentDots, FaShare } from 'react-icons/fa';
 
-// Definición simple del tipo de ProfileData para evitar errores
+// Definición simple del tipo de ProfileData
 interface UserProfileData {
     id: number;
     nickName: string;
@@ -58,7 +59,7 @@ const ProfilePage: React.FC = () => {
         loadUserPosts();
     }, [loadUserPosts]);
 
-    // Lógica para cargar el número de comentarios (manteniendo tu lógica existente)
+    // Lógica para cargar el número de comentarios 
     useEffect(() => {
         userPosts.forEach(post => {
           fetch(`http://localhost:3001/comments/post/${post.id}`)
@@ -70,15 +71,16 @@ const ProfilePage: React.FC = () => {
           });
     }, [userPosts]);
 
+
     const handleLogout = () => {
         logout(); 
         navigate('/'); 
     };
 
+
     // --- Renderizado de Carga y Error ---
     if (!user) return null; 
     
-    // El contenedor principal siempre aplica el tema, incluso en la carga
     if (isLoading) {
         return (
             <div className={`${style.mainLayout} ${theme}-mode`} style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
@@ -87,147 +89,181 @@ const ProfilePage: React.FC = () => {
         );
     }
 
-    // --- Renderizado del Perfil con Diseño de Tres Columnas ---
-    
-    // Datos simulados
     const profileData: UserProfileData = {
         id: user.id,
         nickName: user.nickName,
-        email: user.email, // no hace falta verificar si tiene email porque es necesario para el registro
+        email: user.email,
         profileCompletion: 80,
     };
 
     return (
         <div className={`${style.mainLayout} ${theme}-mode`}>
-            <div className="row">
+            
+            <div className={style.contentWrapper}>
+                <div className="row g-0">
 
-                {/* Columna Izquierda: Perfil y Navegación */}
-                <div className="col-md-3">
-                    <div className={style.leftColumn}>
-                        
-                        {/* Tarjeta de información del perfil */}
-                        <div className={style.profileHeaderCard}>
-                            {/* Imagen de portada y avatar simulados */}
-                            <img src="https://via.placeholder.com/600x100/404040/FFFFFF?text=PORTADA" alt="Cover" className={style.coverImage} />
-                            <div className={style.profileAvatarLarge}>
-                                {user.nickName[0].toUpperCase()}
+                    {/* Columna Izquierda: Información del Perfil y Navegación (Ahora se desplaza con el resto) */}
+                    <div className="col-md-3 d-none d-md-block"> 
+                        <div className={style.leftColumn}>
+                            {/* Tarjeta de información del perfil */}
+                            <div className={style.profileCard}>
+                                <div className={style.profileAvatarLarge}>{profileData.nickName[0].toUpperCase()}</div>
+                                <h3 className={style.profileName}>{profileData.nickName}</h3>
+                                <p className={style.profileHandle}>@{profileData.nickName.toLowerCase().replace(/\s/g, '')}</p>
+                                <div className={style.profileStats}>
+                                    <div className={style.statItem}><strong>2.3K</strong><span>Seguidores</span></div>
+                                    <div className={style.statItem}><strong>235</strong><span>Siguiendo</span></div>
+                                    <div className={style.statItem}><strong>10</strong><span>Post</span></div>
+                                </div>
                             </div>
-                            <h3 className={style.profileName}>{profileData.nickName}</h3>
-                            <p className={style.profileBio}>Estudiante de informática | Compartiendo ideas y código.</p>
-                            
-                        </div>
 
-                        {/* Navegación del Perfil */}
-                        <div className={style.profileNavSection}>
-                            <h5 className={style.profileNavTitle}>MI PERFIL</h5>
-                            <Link to="/profile" className={style.profileNavItem}><FaHome /> Feed</Link>
-                            <Link to="/profile/about" className={style.profileNavItem}><FaInfoCircle /> About</Link>
-                            <Link to="/profile/friends" className={style.profileNavItem}><FaUsers /> Friends</Link>
-                            <Link to="/profile/photos" className={style.profileNavItem}><FaImage /> Photos</Link>
-                        </div>
+                            {/* Navegación Principal */}
+                            <nav className={style.mainNav}>
+                                <Link to="/profile" className={`${style.navItem} ${style.active}`}><FaHome /> Inicio</Link>
+                                <Link to="/profile/friends" className={style.navItem}><FaUsers /> Amigos <span className={style.navBadge}>4</span></Link>
+                                <Link to="/watch" className={style.navItem}><FaVideo /> Videos</Link>
+                                <Link to="/photos" className={style.navItem}><FaImage /> Fotos</Link>
+                                <Link to="/marketplace" className={style.navItem}><FaStore /> Marketplace</Link>
+                                <Link to="/files" className={style.navItem}><FaFileAlt /> Guardado <span className={style.navBadge}>7</span></Link>
+                            </nav>
 
-                        
-                        {/* Botón de cerrar sesión */}
-                        <button className="btn btn-danger w-100 mt-3" onClick={handleLogout}>Cerrar Sesión</button>
+                            <div className={style.footerSection}>
+                                <Link to="#">Privacy terms</Link> | <Link to="#">Advertising</Link> | <Link to="#">Cookies</Link>
+                                <p className={style.copyright}>Platform © 2025</p>
+                                <button className="btn btn-sm btn-outline-secondary w-100 mt-3" onClick={handleLogout}>Cerrar Sesión</button>
+                            </div>
+                        </div>
                     </div>
-                </div>
 
-                {/* Columna Central: Feed de Publicaciones del Usuario */}
-                <div className="col-md-6">
-                    <div className={style.centerColumn}>
-                        
-                        {/* Input para crear una nueva publicación (Enlace a la ruta /new-post) */}
-                        <div className={style.createPostInput}>
-                            <input type="text" placeholder="¿Qué estás pensando?" readOnly onClick={() => navigate('/new-post')} />
-                            <button className="btn btn-sm btn-link" onClick={() => navigate('/new-post')}><FaImage /></button>
-                        </div>
+                    {/* Columna Central: Feed de Publicaciones */}
+                    <div className="col-md-6">
+                        <div className={style.centerFeed}>
 
-                        <h5 className="mb-3" style={{ color: 'var(--color-text-primary)' }}>Mis Publicaciones</h5>
-                        
-                        {/* Mostrar mensaje de error si existe */}
-                        {error && <div className="alert alert-danger">{error}</div>}
-
-                        {/* Renderizar las publicaciones del usuario */}
-                        {userPosts.length === 0 ? (
-                            <div className="text-center mt-5">
-                                Aún no has creado ninguna publicación.
-                                <Link to="/new-post" className="btn btn-primary mt-2 d-block">¡Crear Ahora!</Link>
+                            {/* Widget para crear una nueva publicación */}
+                            <div className={style.createPostWidget}>
+                                <div className={style.createPostHeader}>
+                                    <div className={style.smallAvatar}>{profileData.nickName[0].toUpperCase()}</div>
+                                    <input type="text" placeholder="What's on your mind?" readOnly onClick={() => navigate('/new-post')} />
+                                    <button className={style.sharePostButton}>Share Post</button>
+                                </div>
+                                <div className={style.createPostActions}>
+                                    <div className={style.actionItem}><FaImage /> Imagen/Video</div>
+                                    <div className={style.actionItem}><span className={style.hashtagIcon}>#</span> Hashtag</div>
+                                    <div className={style.actionItem}><span className={style.mentionIcon}>@</span> Mention</div>
+                                    <div className={`${style.actionItem} ${style.publicOption}`}><FaGlobe /> Publico <FaEllipsisH style={{marginLeft: '5px'}}/></div>
+                                </div>
                             </div>
-                        ) : (
-                            userPosts.map((post) => (
-                                <div key={post.id} className={style.postCard}>
-                                    {/* Encabezado del Post */}
-                                    <div className={style.postHeader}>
-                                        <div className={style.postUserAvatar}>{user.nickName[0].toUpperCase()}</div>
-                                        <div>
-                                            <span className={style.postUserName}>{user.nickName}</span>
-                                            <br />
-                                            <span className={style.postTime}>{new Date(post.createdAt).toLocaleDateString()}</span>
+                            
+                            {/* Tus publicaciones */}
+                            <h5 className={style.sectionTitle}>Tus Publicaciones</h5> 
+                            {error && <div className="alert alert-danger">{error}</div>}
+
+                            {userPosts.length === 0 ? (
+                                <div className={style.noPostsMessage}>
+                                    Aún no has creado ninguna publicación.
+                                    <Link to="/new-post" className="btn btn-primary mt-2">¡Crear Ahora!</Link>
+                                </div>
+                            ) : (
+                                userPosts.map((post) => (
+                                    <div key={post.id} className={style.postCard}>
+                                        <div className={style.postHeader}>
+                                            <div className={style.postAvatar}>{user.nickName[0].toUpperCase()}</div>
+                                            <div>
+                                                <div className={style.postAuthor}>{user.nickName}</div>
+                                                <div className={style.postTime}>{new Date(post.createdAt).toLocaleDateString()}</div>
+                                            </div>
+                                            {/* Enlace de Opciones/Detalle */}
+                                            <Link to={`/post/${post.id}`} className={style.postOptionsLink} title="Ver Detalle">
+                                                <FaEllipsisH className={style.postOptions} />
+                                            </Link>
+                                        </div>
+                                        <div className={style.postContentText}>
+                                            <p>{post.description}</p>
+                                        </div>
+                                        <div className={style.postEngagementStats}>
+                                            <span>10 Me Gustas</span> 
+                                            <span>{commentsNum[post.id] ?? 0} Comentarios</span>
+                                            <span>2 Compartidos</span> 
+                                        </div>
+                                        <div className={style.postActionsBar}>
+                                            <button className={style.postActionButton}><FaThumbsUp /> Me gusta</button>
+                                            <button className={style.postActionButton}><FaCommentDots /> Comentar</button>
+                                            <button className={style.postActionButton}><FaShare /> Compartir</button>
                                         </div>
                                     </div>
-                                    
-                                    {/* Contenido del Post */}
-                                    <div className={style.postContent}>
-                                        <p>{post.description}</p>
-                                        {/* Aquí iría la imagen del post si la tuvieras */}
-                                    </div>
-                                    
-                                    {/* Acciones y Metadatos */}
-                                    <div className="d-flex justify-content-between text-muted mb-2">     
-                                        <Link to={`/post/${post.id}`}>Ver Detalle</Link>
-                                    </div>
-                                    
-                                    <div className={style.postActions}>
-                                        <button><FaHeart /> Like</button>
-                                        <button>{commentsNum[post.id] ?? 0} 💬</button>
-                                        <Link to={`/post/${post.id}`} className="btn btn-link p-0 m-0"><FaComment /> Comentar</Link>
-                                    </div>
+                                ))
+                            )}
+                        </div>
+                    </div>
 
+                    {/* Columna Derecha: Mensajes y Eventos (Ahora se desplaza con el resto) */}
+                    <div className="col-md-3 d-none d-md-block">
+                        <div className={style.rightColumn}>
+                            
+                            {/* Widget de Mensajes */}
+                            <div className={style.messagesWidget}>
+                                <h5 className={style.widgetTitle}>Mensajes</h5>
+                                <div className={style.searchBox}>
+                                    <FaSearch className={style.searchIcon} />
+                                    <input type="text" placeholder="Search" className={style.searchInput} />
                                 </div>
-                            ))
-                        )}
+                                <div className={style.messageTabs}>
+                                    <span className={`${style.messageTab} ${style.messageTabActive}`}>Destacados</span>
+                                    <span className={style.messageTab}>Todos</span>
+                                    <span className={style.messageTab}>Grupos<span className={style.messageBadge}>4</span></span>
+                                </div>
+                                <div className={style.messagesList}>
+                                    <div className={style.messageItem}>
+                                        <div className={style.messageAvatar} style={{backgroundColor: '#C8A2C8'}}>R</div> 
+                                        <span>Ignacio Martín Fazah Beiroa</span>
+                                    </div>
+                                    <div className={style.messageItem}>
+                                        <div className={style.messageAvatar} style={{backgroundColor: '#B0C4DE'}}>T</div> 
+                                        <span>Lucas Martin Avalos Lettieri</span>
+                                    </div>
+                                    <div className={style.messageItem}>
+                                        <div className={style.messageAvatar} style={{backgroundColor: '#FFD700'}}>A</div> 
+                                        <span>Matías David Torres</span>
+                                    </div>
+                                    <div className={style.messageItem}>
+                                        <div className={style.messageAvatar} style={{backgroundColor: '#ADD8E6'}}>E</div> 
+                                        <span>Mayra Giselle García</span>
+                                    </div>
+                                    <div className={style.messageItem}>
+                                        <div className={style.messageAvatar} style={{backgroundColor: '#98FB98'}}>C</div> 
+                                        <span>Nahuel Lautaro Jimenez</span>
+                                    </div>
+                                    <Link to="#" className={style.viewAllMessages}>View All</Link>
+                                </div>
+                            </div>
+
+                            {/* Widget de Eventos */}
+                            <div className={style.eventsWidget}>
+                                <h5 className={style.widgetTitle}>Eventos</h5>
+                                <div className={style.eventItem}>
+                                    <div className={style.eventDate}>
+                                        <strong>8/11</strong>
+                                    </div>
+                                    <div className={style.eventDetails}>
+                                        <div className={style.eventName}>UNAHUR TIC</div>
+                                        <div className={style.eventTime}>Sab - Unahur</div>
+                                    </div>
+                                </div>
+                                <div className={style.eventItem}>
+                                    <div className={style.eventDate}>
+                                        <strong>WD</strong>
+                                        <span>Meetup</span>
+                                    </div>
+                                    <div className={style.eventDetails}>
+                                        <div className={style.eventName}>Web Dev 2.0 Meetup</div>
+                                        <div className={style.eventTime}>Yoshkar-Ola, Russia</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
                     </div>
                 </div>
-
-                {/* Columna Derecha: Widgets (Miembros Online, Hashtags, Mis Fotos) */}
-                <div className="col-md-3">
-                    <div className={style.rightColumn}>
-                        
-                        {/* Widget de Miembros Online (Simulado) */}
-                        <div className={style.widgetCard}>
-                            <h5 className={style.widgetTitle}>Online Members</h5>
-                            <div className={style.onlineMembersList}>
-                                <div className={style.memberAvatar}>J</div>
-                                <div className={style.memberAvatar}>A</div>
-                                <div className={style.memberAvatar}>M</div>
-                            </div>
-                            <p className={style.onlineCount}>2 members online, 18 members total</p>
-                        </div>
-
-                        {/* Widget de Hashtags (Simulado) */}
-                        <div className={style.widgetCard}>
-                            <h5 className={style.widgetTitle}># Popular Tags</h5>
-                            <div className={style.hashtagCloud}>
-                                <Link to="#" className={style.hashtagButton}>#awesomeshot</Link>
-                                <Link to="#" className={style.hashtagButton}>#webdesign</Link>
-                                <Link to="#" className={style.hashtagButton}>#unahur</Link>
-                                <Link to="#" className={style.hashtagButton}>#development</Link>
-                            </div>
-                        </div>
-
-                        {/* Widget de Mis Fotos (Simulado) */}
-                        <div className={style.widgetCard}>
-                            <h5 className={style.widgetTitle}>My Photos</h5>
-                            <div className={style.myPhotosGrid}>
-                                <img src="https://via.placeholder.com/100x80" alt="Photo 1" className={style.photoThumbnail} />
-                                <img src="https://via.placeholder.com/100x80" alt="Photo 2" className={style.photoThumbnail} />
-                                <img src="https://via.placeholder.com/100x80" alt="Photo 3" className={style.photoThumbnail} />
-                            </div>
-                            <p className="text-center mt-3"><Link to="#" className="btn btn-sm btn-outline-primary">View All</Link></p>
-                        </div>
-                    </div>
-                </div>
-
             </div>
         </div>
     );
