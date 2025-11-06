@@ -22,15 +22,6 @@ const Home: React.FC = () => {
     const [error, setError] = useState<string | null>(null);
     const [users, setUsers] = useState<User[]>([]);
 
-    // Datos simulados del usuario actual para la COLUMNA IZQUIERDA
-    const currentUserMock = {
-        nickName: "luna",
-        atTag: "@luna",
-        followers: "2.3K",
-        following: 235,
-        posts: 80,
-    };
-
     useEffect(() => {
         const loadUsers = async () => {
             try {
@@ -129,17 +120,21 @@ const Home: React.FC = () => {
                     {/* Navegación Principal */}
                     <nav className={style.mainNav}>
                         <Link to="/" className={`${style.navItem} ${style.active}`}><FaHome /> Inicio</Link>
-                        <Link to="/profile/friends" className={style.navItem}><FaUsers /> Amigos <span className={style.navBadge}>4</span></Link>
+                        <Link to="/profile/friends" className={style.navItem}><FaUsers /> Amigos</Link>
                         <Link to="/watch" className={style.navItem}><FaVideo /> Videos</Link>
                         <Link to="/photos" className={style.navItem}><FaImage /> Fotos</Link>
                         <Link to="/marketplace" className={style.navItem}><FaStore /> Marketplace</Link>
-                        <Link to="/files" className={style.navItem}><FaFileAlt /> Guardado <span className={style.navBadge}>7</span></Link>
+                        <Link to="/files" className={style.navItem}><FaFileAlt /> Guardado</Link>
                     </nav>
 
                     <div className={style.footerSection}>
                         <Link to="#">Privacy terms</Link> | <Link to="#">Advertising</Link> | <Link to="#">Cookies</Link>
                         <p className={style.copyright}>Platform © 2025</p>
-                        <button className="btn btn-sm btn-outline-secondary w-100 mt-3" onClick={handleLogout}>Cerrar Sesión</button>
+                        {
+                            user ? 
+                            <button className="btn btn-sm btn-outline-secondary w-100 mt-3" onClick={handleLogout}>Cerrar Sesión</button>
+                            : null
+                        }
                     </div>
                 </div>
 

@@ -1,13 +1,7 @@
-/*
- * Archivo: Home.module.css
- * NOTA: Este archivo utiliza las variables de color definidas en index.css
- * (e.g., --color-background-primary, --unahur-verde).
-*/
-
 /* --- VARIABLES LOCALES DE LAYOUT --- */
 :root {
     --border-radius-base: 12px;
-    --padding-base: 15px; /* Define el padding estándar para tarjetas */
+    --padding-base: 15px; 
 }
 
 /* Base: Aplicación y Temas */
@@ -19,11 +13,19 @@
 }
 
 .welcomeTitle {
-    color: var(--color-text-primary);
+    color: white; 
     text-align: center;
-    padding: 20px 0;
-    font-size: 2rem;
+    padding: 80px 20px;
+    font-size: 3rem; 
     font-weight: 800;
+    background-image: url('/src/assets/fondo-bienvenida.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat; 
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+    border-radius: var(--border-radius-base); 
+    margin: 15px auto; 
+    max-width: 1400px;
 }
 
 .loadingMessage, .errorMessage {
