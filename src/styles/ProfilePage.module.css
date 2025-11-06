@@ -561,3 +561,10 @@
     font-size: 0.85rem;
     color: var(--color-text-secondary);
 }
+
+@media (max-width: 992px) {
+    .centerFeed,.leftColumn, .rightColumn {
+        padding: var(--padding-base) !important;
+        border: none !important;
+    }
+}
