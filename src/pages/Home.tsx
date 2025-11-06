@@ -147,11 +147,12 @@ const Home: React.FC = () => {
                 <div className={style.centerColumn}>
                     <div className={style.centerContent}>
                         {/* Widget para crear una nueva publicación */}
+                        {
+                            user? 
                             <div className={style.createPostWidget}>
                                 <div className={style.createPostHeader}>
-                                    <div className={style.smallAvatar}>{currentUserMock.nickName[0].toUpperCase()}</div>
+                                    <div className={style.smallAvatar}>{user.nickName[0].toUpperCase()}</div>
                                     <input type="text" placeholder="¿Qué estás pensando?" readOnly onClick={() => navigate('/new-post')} />
-                                    <button className={style.sharePostButton}>Postear</button>
                                 </div>
                                 <div className={style.createPostActions}>
                                     <div className={style.actionItem}><FaImage /> Imagen/Video</div>
@@ -159,7 +160,8 @@ const Home: React.FC = () => {
                                     <div className={style.actionItem}><span className={style.mentionIcon}>@</span> Mention</div>
                                     <div className={`${style.actionItem} ${style.publicOption}`}><FaGlobe /> Publico <FaEllipsisH style={{marginLeft: '5px'}}/></div>
                                 </div>
-                            </div>
+                            </div> : null
+                        }    
 
                         <h4 className={style.sectionTitle}>Publicaciones recientes</h4>
                         {posts.length === 0 ? (

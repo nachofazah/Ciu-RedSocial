@@ -207,21 +207,6 @@
     border-color: var(--color-primary-accent);
 }
 
-.sharePostButton {
-    background-color: var(--color-primary-accent);
-    color: white;
-    border: none;
-    padding: 10px 15px;
-    border-radius: 20px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: background-color 0.2s;
-    flex-shrink: 0;
-}
-.sharePostButton:hover {
-    background-color: #2D949A; /* Tono más oscuro de tu color primario */
-}
-
 .createPostActions {
     display: flex;
     justify-content: space-between;

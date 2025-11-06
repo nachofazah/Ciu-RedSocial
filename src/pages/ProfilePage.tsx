@@ -159,7 +159,6 @@ const ProfilePage: React.FC = () => {
                                 <div className={style.createPostHeader}>
                                     <div className={style.smallAvatar}>{profileData.nickName[0].toUpperCase()}</div>
                                     <input type="text" placeholder="¿Qué estás pensando?" readOnly onClick={() => navigate('/new-post')} />
-                                    <button className={style.sharePostButton}>Postear</button>
                                 </div>
                                 <div className={style.createPostActions}>
                                     <div className={style.actionItem}><FaImage /> Imagen/Video</div>
