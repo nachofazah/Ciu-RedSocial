@@ -71,7 +71,7 @@ function Header() {
                             onClick={toggleTheme}
                             variant={buttonVariant} // Variante dinámica
                             size="sm"
-                            className={`${styles.themeToggleButton} ms-2`} 
+                            className={styles.themeToggleButton} 
                         >
                             {/* Muestra el icono basado en el tema actual */}
                             {theme === 'dark' ? '☀️' : '🌙'}
