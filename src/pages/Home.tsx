@@ -66,23 +66,10 @@ const Home: React.FC = () => {
     useEffect(() => {
         if (isLoading) return;
         const saved = sessionStorage.getItem('scroll');
-        const savedId = sessionStorage.getItem('postId'); // si guardas también id
-        if (!saved && !savedId) return;
+        if (!saved) return;
 
         // esperar al próximo frame para asegurar renderizado
         requestAnimationFrame(() => {
-            // 1) si guardaste postId, intentar scrollIntoView (más robusto)
-            if (savedId) {
-                const el = document.querySelector<HTMLElement>(`[data-post-id="${savedId}"]`);
-                if (el) {
-                    el.scrollIntoView({ behavior: 'auto', block: 'center' });
-                    sessionStorage.removeItem('postId');
-                    sessionStorage.removeItem('scroll');
-                    return;
-                }
-            }
-
-            // 2) fallback por posición Y guardada
             if (saved) {
                 const y = Number(saved);
                 if (!Number.isNaN(y)) window.scrollTo({ top: y, behavior: 'auto' });
@@ -202,7 +189,6 @@ const Home: React.FC = () => {
                                             {/* Opciones (FaEllipsisH) */}
                                             <Link to={`/post/${post.id}`} className={style.postOptionsLink} title="Ver Detalle" onClick={() => {
                                                 sessionStorage.setItem("scroll", String(window.scrollY));
-                                                sessionStorage.setItem("postId", String(post.id));
                                             }}>
                                                 <FaEllipsisH className={style.postOptions} />
                                             </Link>
@@ -253,7 +239,6 @@ const Home: React.FC = () => {
                                             </button>
                                             <Link to={`/post/${post.id}`} className={style.postActionButton} onClick={() => {
                                                 sessionStorage.setItem("scroll", String(window.scrollY));
-                                                sessionStorage.setItem("postId", String(post.id));
                                             }}>
                                                 <FaCommentAlt /> Comment
                                             </Link>

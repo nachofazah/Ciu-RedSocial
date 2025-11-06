@@ -71,6 +71,21 @@ const ProfilePage: React.FC = () => {
           });
     }, [userPosts]);
 
+        // Restaurar scroll SOLO después de que termine la carga y los posts estén en el DOM
+        useEffect(() => {
+            if (isLoading) return;
+            const saved = sessionStorage.getItem('scroll');
+            if (!saved) return;
+    
+            // esperar al próximo frame para asegurar renderizado
+            requestAnimationFrame(() => {
+                if (saved) {
+                    const y = Number(saved);
+                    if (!Number.isNaN(y)) window.scrollTo({ top: y, behavior: 'auto' });
+                    sessionStorage.removeItem('scroll');
+                }
+            });
+        }, [isLoading, userPosts]);
 
     const handleLogout = () => {
         logout(); 
@@ -173,7 +188,9 @@ const ProfilePage: React.FC = () => {
                                                 <div className={style.postTime}>{new Date(post.createdAt).toLocaleDateString()}</div>
                                             </div>
                                             {/* Enlace de Opciones/Detalle */}
-                                            <Link to={`/post/${post.id}`} className={style.postOptionsLink} title="Ver Detalle">
+                                            <Link to={`/post/${post.id}`} className={style.postOptionsLink} title="Ver Detalle" onClick={() => {
+                                                sessionStorage.setItem("scroll", String(window.scrollY));
+                                            }}>
                                                 <FaEllipsisH className={style.postOptions} />
                                             </Link>
                                             
@@ -191,7 +208,9 @@ const ProfilePage: React.FC = () => {
                                             <button className={style.postActionButton}>
                                                 <FaThumbsUp /> Like
                                             </button>
-                                            <Link to={`/post/${post.id}`} className={style.postActionButton}>
+                                            <Link to={`/post/${post.id}`} className={style.postActionButton} onClick={() => {
+                                                sessionStorage.setItem("scroll", String(window.scrollY))}
+                                            }>
                                                 <FaCommentAlt /> Comment
                                             </Link>
                                             <button className={style.postActionButton}>
