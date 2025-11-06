@@ -273,7 +273,7 @@
     width: 45px;
     height: 45px;
     border-radius: 50%;
-    background-color: #C8A2C8; /* Placeholder color */
+    background-color: var(--color-primary-accent); /* Placeholder color */
     color: white;
     display: flex;
     justify-content: center;
