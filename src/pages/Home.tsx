@@ -22,15 +22,6 @@ const Home: React.FC = () => {
     const [error, setError] = useState<string | null>(null);
     const [users, setUsers] = useState<User[]>([]);
 
-    // Datos simulados del usuario actual para la COLUMNA IZQUIERDA
-    const currentUserMock = {
-        nickName: "luna",
-        atTag: "@luna",
-        followers: "2.3K",
-        following: 235,
-        posts: 80,
-    };
-
     useEffect(() => {
         const loadUsers = async () => {
             try {
