@@ -120,11 +120,11 @@ const Home: React.FC = () => {
                     {/* Navegación Principal */}
                     <nav className={style.mainNav}>
                         <Link to="/" className={`${style.navItem} ${style.active}`}><FaHome /> Inicio</Link>
-                        <Link to="/profile/friends" className={style.navItem}><FaUsers /> Amigos <span className={style.navBadge}>4</span></Link>
+                        <Link to="/profile/friends" className={style.navItem}><FaUsers /> Amigos</Link>
                         <Link to="/watch" className={style.navItem}><FaVideo /> Videos</Link>
                         <Link to="/photos" className={style.navItem}><FaImage /> Fotos</Link>
                         <Link to="/marketplace" className={style.navItem}><FaStore /> Marketplace</Link>
-                        <Link to="/files" className={style.navItem}><FaFileAlt /> Guardado <span className={style.navBadge}>7</span></Link>
+                        <Link to="/files" className={style.navItem}><FaFileAlt /> Guardado</Link>
                     </nav>
 
                     <div className={style.footerSection}>

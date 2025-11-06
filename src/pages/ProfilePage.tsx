@@ -240,23 +240,23 @@ const ProfilePage: React.FC = () => {
                                 </div>
                                 <div className={style.messagesList}>
                                     <div className={style.messageItem}>
-                                        <div className={style.messageAvatar} style={{backgroundColor: '#C8A2C8'}}>R</div> 
+                                        <div className={style.messageAvatar} style={{backgroundColor: '#C8A2C8'}}>I</div> 
                                         <span>Ignacio Martín Fazah Beiroa</span>
                                     </div>
                                     <div className={style.messageItem}>
-                                        <div className={style.messageAvatar} style={{backgroundColor: '#B0C4DE'}}>T</div> 
+                                        <div className={style.messageAvatar} style={{backgroundColor: '#B0C4DE'}}>L</div> 
                                         <span>Lucas Martin Avalos Lettieri</span>
                                     </div>
                                     <div className={style.messageItem}>
-                                        <div className={style.messageAvatar} style={{backgroundColor: '#FFD700'}}>A</div> 
+                                        <div className={style.messageAvatar} style={{backgroundColor: '#FFD700'}}>M</div> 
                                         <span>Matías David Torres</span>
                                     </div>
                                     <div className={style.messageItem}>
-                                        <div className={style.messageAvatar} style={{backgroundColor: '#ADD8E6'}}>E</div> 
+                                        <div className={style.messageAvatar} style={{backgroundColor: '#ADD8E6'}}>M</div> 
                                         <span>Mayra Giselle García</span>
                                     </div>
                                     <div className={style.messageItem}>
-                                        <div className={style.messageAvatar} style={{backgroundColor: '#98FB98'}}>C</div> 
+                                        <div className={style.messageAvatar} style={{backgroundColor: '#98FB98'}}>N</div> 
                                         <span>Nahuel Lautaro Jimenez</span>
                                     </div>
                                     <Link to="#" className={style.viewAllMessages}>View All</Link>
@@ -268,21 +268,20 @@ const ProfilePage: React.FC = () => {
                                 <h5 className={style.widgetTitle}>Eventos</h5>
                                 <div className={style.eventItem}>
                                     <div className={style.eventDate}>
-                                        <strong>8/11</strong>
+                                        <strong>08/11</strong>
                                     </div>
                                     <div className={style.eventDetails}>
                                         <div className={style.eventName}>UNAHUR TIC</div>
-                                        <div className={style.eventTime}>Sab - Unahur</div>
+                                        <div className={style.eventTime}>Edificio Trabajo, UNAHUR</div>
                                     </div>
                                 </div>
                                 <div className={style.eventItem}>
                                     <div className={style.eventDate}>
-                                        <strong>WD</strong>
-                                        <span>Meetup</span>
+                                        <strong>17/10</strong>
                                     </div>
                                     <div className={style.eventDetails}>
-                                        <div className={style.eventName}>Web Dev 2.0 Meetup</div>
-                                        <div className={style.eventTime}>Yoshkar-Ola, Russia</div>
+                                        <div className={style.eventName}>Game Jam +</div>
+                                        <div className={style.eventTime}>Edificio Malvinas, UNAHUR</div>
                                     </div>
                                 </div>
                             </div>
