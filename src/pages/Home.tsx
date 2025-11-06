@@ -130,7 +130,11 @@ const Home: React.FC = () => {
                     <div className={style.footerSection}>
                         <Link to="#">Privacy terms</Link> | <Link to="#">Advertising</Link> | <Link to="#">Cookies</Link>
                         <p className={style.copyright}>Platform © 2025</p>
-                        <button className="btn btn-sm btn-outline-secondary w-100 mt-3" onClick={handleLogout}>Cerrar Sesión</button>
+                        {
+                            user ? 
+                            <button className="btn btn-sm btn-outline-secondary w-100 mt-3" onClick={handleLogout}>Cerrar Sesión</button>
+                            : null
+                        }
                     </div>
                 </div>
 
