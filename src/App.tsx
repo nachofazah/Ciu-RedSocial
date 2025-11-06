@@ -61,9 +61,10 @@ export const App: React.FC = () => {
                 <Route element={<MainLayout />}>
 
                     {/* 💡 RUTA DE INICIO REESTRUCTURADA: Si el usuario NO está logueado, redirigimos a /login */}
+                    
                     <Route 
                         path="/" 
-                        element={user ? <Home /> : <Navigate to="/login" replace />} 
+                        element={<Home />} 
                     />
 
                     {/* 🔍 Detalle del Post (Solo si Home funciona, lo dejamos como público) */}

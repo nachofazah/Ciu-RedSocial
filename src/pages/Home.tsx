@@ -93,17 +93,22 @@ const Home: React.FC = () => {
                 {/* 1. Columna Izquierda: Información del Perfil y Navegación */}
                 <div className={style.leftColumn}>
                     
-                    {/* Tarjeta de información del perfil */}
-                    <div className={style.profileCard}>
-                        <div className={style.profileAvatarLarge}>{currentUserMock.nickName[0].toUpperCase()}</div>
-                        <h3 className={style.profileName}>{currentUserMock.nickName}</h3>
-                        <p className={style.profileHandle}>@{currentUserMock.nickName.toLowerCase().replace(/\s/g, '')}</p>
-                        <div className={style.profileStats}>
-                            <div className={style.statItem}><strong>2.3K</strong><span>Seguidores</span></div>
-                            <div className={style.statItem}><strong>235</strong><span>Siguiendo</span></div>
-                            <div className={style.statItem}><strong>10</strong><span>Post</span></div>
+                    {/* Tarjeta de información del perfil: solo si hay usuario logueado */}
+                    {user ? (
+                        <div className={style.profileCard}>
+                            <div className={style.profileAvatarLarge}>
+                                {(user.nickName?.[0] ?? "U").toUpperCase()}
+                            </div>
+                            <h3 className={style.profileName}>{user.nickName}</h3>
+                            <p className={style.profileHandle}>@{(user.nickName ?? "").toLowerCase().replace(/\s/g, '')}</p>
+                            <div className={style.profileStats}>
+                                {/* datos opcionales: muestra solo si existen */}
+                                <div className={style.statItem}><strong>2.3K</strong><span>Seguidores</span></div>
+                                <div className={style.statItem}><strong>235</strong><span>Siguiendo</span></div>
+                                <div className={style.statItem}><strong>10</strong><span>Post</span></div>
+                            </div>
                         </div>
-                    </div>
+                    ) : null}
 
                     {/* Navegación Principal */}
                     <nav className={style.mainNav}>

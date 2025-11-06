@@ -116,6 +116,11 @@ export function LoginPage() {
             Regístrate gratis
           </Link>
         </p>
+        <p className={style['register-link']}>
+          <Link to="/" className={style['register-highlight']}>
+            Volver al Inicio
+          </Link>
+        </p>
       </form>
     </div>
   );
